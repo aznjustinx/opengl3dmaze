@@ -12,6 +12,8 @@ public:
 	void display();
 	void specialKeyDown(int  key,  int  x,  int  y);
 	void specialKeyUp(int  key,  int  x,  int  y);
+	void keyboardDown(unsigned char key, int x, int y);
+	void keyboardUp(unsigned char key, int x, int y);
 	void moveUp();
 	void moveDown();
 	void moveLeft();

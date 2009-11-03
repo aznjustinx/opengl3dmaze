@@ -1,10 +1,11 @@
 #include "Player.h"
 #include <iostream>
 #include <math.h>
+#include "Constants.h"
 
 using namespace std;
 
-const float PI = 3.141592654f;
+//const float PI = 3.141592654f;
 
 Player::Player(void) {
 	cout<<"Player constructor";
@@ -14,39 +15,93 @@ Player::Player(void) {
 }
 
 void Player::display() {
-	glRotatef(xrot,1.0,0.0,0.0);  //rotate our camera on teh x-axis (left and right)
-    glRotatef(yrot,0.0,1.0,0.0);  //rotate our camera on the y-axis (up and down)
-    glTranslated(-xpos,-ypos,-zpos); //translate the screen to the position of our camera
+	glRotatef(xrot, 1.0, 0.0, 0.0);  //rotate our camera on teh x-axis (left and right)
+    glRotatef(yrot, 0.0, 1.0, 0.0);  //rotate our camera on the y-axis (up and down)
+    glTranslated(-xpos, 0, -zpos); //translate the screen to the position of our camera
 }
 
-void Player::specialKeyDown(int  key,  int  x,  int  y) {
-	cout<<"DOING DONG";
-	if(key == GLUT_KEY_UP)
+void Player::specialKeyDown(int  key,  int  x,  int  y)
+{
+	switch(key)
+	{
+		case GLUT_KEY_UP :
 		upKeyPressed  =  true;
-	if(key == GLUT_KEY_DOWN)
+		break;
+		case GLUT_KEY_DOWN :
 		downKeyPressed  =  true;
-	if(key == GLUT_KEY_RIGHT)
+		break;
+		case GLUT_KEY_RIGHT :
 		rightKeyPressed  =  true;
-	if(key == GLUT_KEY_LEFT)
+		break;
+		case GLUT_KEY_LEFT :
 		leftKeyPressed  =  true;
+		break;
+	}
 }
 
-void Player::specialKeyUp(int  key,  int  x,  int  y) {
-	if(key == GLUT_KEY_UP)
+void Player::specialKeyUp(int  key,  int  x,  int  y)
+{
+	switch(key)
+	{
+		case GLUT_KEY_UP :
 		upKeyPressed  =  false;
-	if(key == GLUT_KEY_DOWN)
+		break;
+		case GLUT_KEY_DOWN :
 		downKeyPressed  =  false;
-	if(key == GLUT_KEY_RIGHT)
+		break;
+		case GLUT_KEY_RIGHT :
 		rightKeyPressed  =  false;
-	if(key == GLUT_KEY_LEFT)
+		break;
+		case GLUT_KEY_LEFT :
 		leftKeyPressed  =  false;
+		break;
+	}
+}
+
+void Player::keyboardDown(unsigned char key, int x, int y)
+{
+	switch(key)
+	{
+		case 'w' :
+		upKeyPressed  =  true;
+		break;
+		case 's' :
+		downKeyPressed  =  true;
+		break;
+		case 'd' :
+		rightKeyPressed  =  true;
+		break;
+		case 'a' :
+		leftKeyPressed  =  true;
+		break;
+	}
+}
+
+void Player::keyboardUp(unsigned char key, int x, int y)
+{
+	switch(key)
+	{
+		case 'w' :
+		upKeyPressed  =  false;
+		break;
+		case 's' :
+		downKeyPressed  =  false;
+		break;
+		case 'd' :
+		rightKeyPressed  =  false;
+		break;
+		case 'a' :
+		leftKeyPressed  =  false;
+		break;
+	}
+
 }
 
 void Player::moveUp()
 {
 	float xrotrad, yrotrad;
-	yrotrad = (yrot / 180 * PI);
-	xrotrad = (xrot / 180 * PI);
+	yrotrad = yrot * RadPerDeg; //(yrot / 180 * Pi);
+	xrotrad = xrot * RadPerDeg; //(xrot / 180 * Pi);
 	xpos += float(sin(yrotrad))/2;
 	zpos -= float(cos(yrotrad))/2;
 	ypos -= float(sin(xrotrad))/2;
@@ -55,8 +110,8 @@ void Player::moveUp()
 void Player::moveDown()
 {
 	float xrotrad, yrotrad;
-	yrotrad = (yrot / 180 * PI);
-	xrotrad = (xrot / 180 * PI);
+	yrotrad = yrot * RadPerDeg; //(yrot / 180 * PI);
+	xrotrad = xrot * RadPerDeg; //(xrot / 180 * PI);
 	xpos -= float(sin(yrotrad))/2;
 	zpos += float(cos(yrotrad))/2;
 	ypos += float(sin(xrotrad))/2;	
