@@ -12,33 +12,37 @@ Tölvugrafik
 #include <GL/glut.h>
 #include "Player.h"
 #include "Maze.h"
+#include "Mesh.h"
 
 using namespace std;
 
+const int DELAY_TIME = 32;
 Player player;
 Maze maze;
+Mesh mesh;
 
-float _angle = 30.0f;
-float _cameraAngle = 0.0f;
-
-//const float PI = 3.141592654f;
-const float piover180 = 0.0174532925f; // til að skipta milli rad og deg
-
-
-
-void  specialKeyDown(int  key,  int  x,  int  y)
+void specialKeyDown(int  key,  int  x,  int  y)
 {
 	player.specialKeyDown(key, x, y);
 }
 
-void  specialKeyUp(int  key,  int  x,  int  y)
+void specialKeyUp(int  key,  int  x,  int  y)
 {
 	player.specialKeyUp(key, x, y);
 }
 
+void keyboardDown(unsigned char key, int x, int y)
+{
+	player.keyboardDown(key, x, y);
+}
+
+void keyboardUp(unsigned char key, int x, int y)
+{
+	player.keyboardUp(key, x, y);
+}
 
 //Initializes 3D rendering
-void initRendering() {
+void init() {
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_COLOR_MATERIAL);
 	glEnable(GL_LIGHTING); //Enable lighting
@@ -46,11 +50,15 @@ void initRendering() {
 	glEnable(GL_LIGHT1); //Enable light #1
 	glEnable(GL_NORMALIZE); //Automatically normalize normals
 	//glShadeModel(GL_SMOOTH); //Enable smooth shading
+	glClearColor(0., 0., 0., 0.);
+
+	mesh.readFile("BARNSIMP.3VN");
 }
 
 // þegar breyting er
-void handleResize(int width, int height)
+void resize(int width, int height)
 {
+	cout<<"handleResize";
 	glViewport(0, 0, width, height);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
@@ -65,11 +73,12 @@ void handleResize(int width, int height)
 					0.1f, 
 					100.0f);	
 	// glMatrixMode verður að vera fyrir neðan allt hér...
-	glMatrixMode(GL_MODELVIEW); //Switch to the drawing perspective
-	glLoadIdentity();
+	//glMatrixMode(GL_MODELVIEW);
+	//glLoadIdentity();
+	//gluLookAt(0.0, 0.0, 0.0, 0.0, 0.0, -1.0, 0.0, 1.0, 0.0);
 }
 
-void loadLightning()
+void displayLightning()
 {
 	//Add ambient light
 	GLfloat ambientColor[] = {0.2f, 0.2f, 0.2f, 1.0f}; //Color (0.2, 0.2, 0.2)
@@ -89,24 +98,51 @@ void loadLightning()
 	glLightfv(GL_LIGHT1, GL_POSITION, lightPos1);
 }
 
+void displayLightningBook()
+{
+	float lightArr[4];
+	lightArr[0] = 1.0;
+	lightArr[1] = 1.0;
+	lightArr[2] = 1.0;
+	lightArr[3] = 1.0f;
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, lightArr);
+	lightArr[0] = 0.0;
+	lightArr[1] = 0.0;
+	lightArr[2] = 0.0;
+	lightArr[3] = 1.0f;
+	glLightfv(GL_LIGHT0, GL_SPECULAR, lightArr);
+	lightArr[0] = 0.0;
+	lightArr[1] = 0.0;
+	lightArr[2] = 0.0;
+	lightArr[3] = 1.0f;
+	glLightfv(GL_LIGHT0, GL_AMBIENT, lightArr);
+	lightArr[0] = 0.0;
+	lightArr[1] = 0.0;
+	lightArr[2] = 1.0;
+	lightArr[3] = 0.0f;
+	glLightfv(GL_LIGHT0, GL_POSITION, lightArr);
+}
+
 // sér um að kalla á og birta objectana
 void display()
 {	
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	gluLookAt(0.0, 0.0, 0.0, 0.0, 0.0, -1.0, 0.0, 1.0, 0.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	
-	//glMatrixMode(GL_MODELVIEW);
-	//glLoadIdentity(); // Til að fara aftur að miðju
+	displayLightning();
 	player.display();
-	loadLightning();
+	
+	//mesh.draw();
 	
 	maze.drawBox();
 
 	glutSwapBuffers();
 }
 
-void updateScene(int id)
+void update(int id)
 {
-	glutTimerFunc(32,updateScene,0);
+	glutTimerFunc(DELAY_TIME, update, 0);
 	if(player.upKeyPressed)
 	{
 		player.moveUp();
@@ -136,21 +172,22 @@ void main(int argc, char** argv)
 {
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
-	
 	glutInitWindowSize(640, 480);			// stærð glugga
 	glutInitWindowPosition(100,100);		// init staðsetning glugga
-	glutCreateWindow("Skilaverkefni 3");	// nafn glugga
-	initRendering();						// inits 3D rendering
+	glutCreateWindow("3d Maze");	// nafn glugga
+	glutReshapeFunc(resize);
+	init();						// inits 3D rendering
 
 	glutDisplayFunc(display);			// Teiknar hlutina
-	glutReshapeFunc(handleResize);
-
+	glutTimerFunc(DELAY_TIME, update, 0);
+	
 	// player input
 	glutPassiveMotionFunc(mouse); //check for mouse movement
 	glutSpecialFunc(specialKeyDown);
 	glutSpecialUpFunc(specialKeyUp);
+	glutKeyboardFunc(keyboardDown);
+	glutKeyboardUpFunc(keyboardUp);
 	glutIgnoreKeyRepeat(1);
-	glutTimerFunc(32,  updateScene,  0);
-	//glutSpecialFunc(myArrowKeys);		// Virkjar örvatakkana
+	
 	glutMainLoop();    
 }
