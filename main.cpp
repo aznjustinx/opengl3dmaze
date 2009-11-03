@@ -10,8 +10,11 @@ Tölvugrafik
 #include <stdlib.h>
 #include <math.h>
 #include <GL/glut.h>
+#include "Player.h"
 
 using namespace std;
+
+Player player;
 
 float _angle = 30.0f;
 float _cameraAngle = 0.0f;
@@ -30,26 +33,12 @@ float lastx, lasty;
 
 void  specialKeyDown(int  key,  int  x,  int  y)
 {
-	if(key == GLUT_KEY_UP)
-		upKeyPressed  =  true;
-	if(key == GLUT_KEY_DOWN)
-		downKeyPressed  =  true;
-	if(key == GLUT_KEY_RIGHT)
-		rightKeyPressed  =  true;
-	if(key == GLUT_KEY_LEFT)
-		leftKeyPressed  =  true;
+	player.specialKeyDown(key, x, y);
 }
 
 void  specialKeyUp(int  key,  int  x,  int  y)
 {
-	if(key == GLUT_KEY_UP)
-		upKeyPressed  =  false;
-	if(key == GLUT_KEY_DOWN)
-		downKeyPressed  =  false;
-	if(key == GLUT_KEY_RIGHT)
-		rightKeyPressed  =  false;
-	if(key == GLUT_KEY_LEFT)
-		leftKeyPressed  =  false;
+	player.specialKeyUp(key, x, y);
 }
 
 
@@ -184,7 +173,7 @@ void drawScene()
 void updateScene(int id)
 {
 	glutTimerFunc(32,updateScene,0);
-	if(upKeyPressed)
+	if(player.upKeyPressed)
 	{
 		float xrotrad, yrotrad;
 		yrotrad = (yrot / 180 * PI);
@@ -194,7 +183,7 @@ void updateScene(int id)
 		ypos -= float(sin(xrotrad))/2;
 	}
 
-	if(downKeyPressed)
+	if(player.downKeyPressed)
 	{
 		float xrotrad, yrotrad;
 		yrotrad = (yrot / 180 * PI);
@@ -204,13 +193,13 @@ void updateScene(int id)
 		ypos += float(sin(xrotrad))/2;
 	}
 
-	if(leftKeyPressed)
+	if(player.leftKeyPressed)
 	{
 		yrot -= 5;
 		if (yrot < -360)yrot += 360;
 	}
 
-	if(rightKeyPressed)
+	if(player.rightKeyPressed)
 	{
 		yrot += 5;
 		if (yrot < -360)yrot -= 360;
@@ -227,49 +216,6 @@ void mouseMovement(int x, int y) {
 	xrot += (float) diffy/30; //set the xrot to xrot with the addition of the difference in the y position
 	yrot += (float) diffx/30;// set the xrot to yrot with the addition of the difference in the x position
 }
-
-// sér um örvatakkana
-// vantar smoothness!!!!!!****
-//void myArrowKeys (int a_keys, int x, int y )
-//{
-//
-//	switch ( a_keys ) {
-//	case GLUT_KEY_UP:					// Up
-//	{
-//		float xrotrad, yrotrad;
-//		yrotrad = (yrot / 180 * PI);
-//		xrotrad = (xrot / 180 * PI);
-//		xpos += float(sin(yrotrad));
-//		zpos -= float(cos(yrotrad));
-//		ypos -= float(sin(xrotrad));
-//		break;
-//	}
-//	case GLUT_KEY_DOWN:					// Down
-//	{
-//		float xrotrad, yrotrad;
-//		yrotrad = (yrot / 180 * PI);
-//		xrotrad = (xrot / 180 * PI);
-//		xpos -= float(sin(yrotrad));
-//		zpos += float(cos(yrotrad));
-//		ypos += float(sin(xrotrad));
-//		break;
-//	}	
-//	case GLUT_KEY_RIGHT:				// Right		
-//	{
-//		yrot += 5;
-//		if (yrot < -360)yrot -= 360;
-//		break;
-//	}
-//	case GLUT_KEY_LEFT:					// Left    
-//	{
-//		yrot -= 5;
-//    if (yrot < -360)yrot += 360;
-//		break;
-//	}
-//	default:
-//	break;
-//	}
-//}
 
 // main fallið
 void main(int argc, char** argv)
