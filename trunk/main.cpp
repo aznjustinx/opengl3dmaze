@@ -11,25 +11,20 @@ Tölvugrafik
 #include <math.h>
 #include <GL/glut.h>
 #include "Player.h"
+#include "Maze.h"
 
 using namespace std;
 
 Player player;
+Maze maze;
 
 float _angle = 30.0f;
 float _cameraAngle = 0.0f;
 
-// checkar á hvort takki er niðri
-bool    upKeyPressed  =  false;
-bool    downKeyPressed  =  false;
-bool    leftKeyPressed  =  false;
-bool    rightKeyPressed  =  false;
-
-
-const float PI = 3.141592654f;
+//const float PI = 3.141592654f;
 const float piover180 = 0.0174532925f; // til að skipta milli rad og deg
-float xpos=0,ypos=0,zpos=0,xrot = 0, yrot = 0, angle=0.0;
-float lastx, lasty;
+
+
 
 void  specialKeyDown(int  key,  int  x,  int  y)
 {
@@ -74,13 +69,6 @@ void handleResize(int width, int height)
 	glLoadIdentity();
 }
 
-void camera()
-{
-    glRotatef(xrot,1.0,0.0,0.0);  //rotate our camera on teh x-axis (left and right)
-    glRotatef(yrot,0.0,1.0,0.0);  //rotate our camera on the y-axis (up and down)
-    glTranslated(-xpos,-ypos,-zpos); //translate the screen to the position of our camera
-}
-
 void loadLightning()
 {
 	//Add ambient light
@@ -100,72 +88,18 @@ void loadLightning()
 	glLightfv(GL_LIGHT1, GL_DIFFUSE, lightColor1);
 	glLightfv(GL_LIGHT1, GL_POSITION, lightPos1);
 }
-void drawBox()
-{
-	//glTranslatef(0.0f, 0.0f, -8.0f); // zooma út
-	glRotatef(_angle, 0.0f, 1.0f, 0.0f);	
-	glColor3f(1.0f, 1.0f, 0.0f);
-	glBegin(GL_QUADS);
-	
-	//Front
-	glNormal3f(0.0f, 0.0f, 1.0f);
-	//glNormal3f(-1.0f, 0.0f, 1.0f);
-	glVertex3f(-1.5f, -1.0f, 1.5f);
-	//glNormal3f(1.0f, 0.0f, 1.0f);
-	glVertex3f(1.5f, -1.0f, 1.5f);
-	//glNormal3f(1.0f, 0.0f, 1.0f);
-	glVertex3f(1.5f, 1.0f, 1.5f);
-	//glNormal3f(-1.0f, 0.0f, 1.0f);
-	glVertex3f(-1.5f, 1.0f, 1.5f);
-	
-	//Right
-	glNormal3f(1.0f, 0.0f, 0.0f);
-	//glNormal3f(1.0f, 0.0f, -1.0f);
-	glVertex3f(1.5f, -1.0f, -1.5f);
-	//glNormal3f(1.0f, 0.0f, -1.0f);
-	glVertex3f(1.5f, 1.0f, -1.5f);
-	//glNormal3f(1.0f, 0.0f, 1.0f);
-	glVertex3f(1.5f, 1.0f, 1.5f);
-	//glNormal3f(1.0f, 0.0f, 1.0f);
-	glVertex3f(1.5f, -1.0f, 1.5f);
-	
-	//Back
-	glNormal3f(0.0f, 0.0f, -1.0f);
-	//glNormal3f(-1.0f, 0.0f, -1.0f);
-	glVertex3f(-1.5f, -1.0f, -1.5f);
-	//glNormal3f(-1.0f, 0.0f, -1.0f);
-	glVertex3f(-1.5f, 1.0f, -1.5f);
-	//glNormal3f(1.0f, 0.0f, -1.0f);
-	glVertex3f(1.5f, 1.0f, -1.5f);
-	//glNormal3f(1.0f, 0.0f, -1.0f);
-	glVertex3f(1.5f, -1.0f, -1.5f);
-	
-	//Left
-	glNormal3f(-1.0f, 0.0f, 0.0f);
-	//glNormal3f(-1.0f, 0.0f, -1.0f);
-	glVertex3f(-1.5f, -1.0f, -1.5f);
-	//glNormal3f(-1.0f, 0.0f, 1.0f);
-	glVertex3f(-1.5f, -1.0f, 1.5f);
-	//glNormal3f(-1.0f, 0.0f, 1.0f);
-	glVertex3f(-1.5f, 1.0f, 1.5f);
-	//glNormal3f(-1.0f, 0.0f, -1.0f);
-	glVertex3f(-1.5f, 1.0f, -1.5f);
-	
-	glEnd();
-	glLoadIdentity(); // Til að núlla hreyfingu á angle
-}
 
 // sér um að kalla á og birta objectana
-void drawScene()
+void display()
 {	
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
 	//glMatrixMode(GL_MODELVIEW);
 	//glLoadIdentity(); // Til að fara aftur að miðju
-	camera();
+	player.display();
 	loadLightning();
 	
-	drawBox();
+	maze.drawBox();
 
 	glutSwapBuffers();
 }
@@ -175,48 +109,28 @@ void updateScene(int id)
 	glutTimerFunc(32,updateScene,0);
 	if(player.upKeyPressed)
 	{
-		float xrotrad, yrotrad;
-		yrotrad = (yrot / 180 * PI);
-		xrotrad = (xrot / 180 * PI);
-		xpos += float(sin(yrotrad))/2;
-		zpos -= float(cos(yrotrad))/2;
-		ypos -= float(sin(xrotrad))/2;
+		player.moveUp();
 	}
-
 	if(player.downKeyPressed)
 	{
-		float xrotrad, yrotrad;
-		yrotrad = (yrot / 180 * PI);
-		xrotrad = (xrot / 180 * PI);
-		xpos -= float(sin(yrotrad))/2;
-		zpos += float(cos(yrotrad))/2;
-		ypos += float(sin(xrotrad))/2;
+		player.moveDown();
 	}
-
 	if(player.leftKeyPressed)
 	{
-		yrot -= 5;
-		if (yrot < -360)yrot += 360;
+		player.moveLeft();
 	}
-
 	if(player.rightKeyPressed)
 	{
-		yrot += 5;
-		if (yrot < -360)yrot -= 360;
+		player.moveRight();
 	}
 
 	glutPostRedisplay(); //Tell GLUT that the display has changed
 }
 
-void mouseMovement(int x, int y) {
-	int diffx=x-lastx; //check the difference between the current x and the last x position
-	int diffy=y-lasty; //check the difference between the current y and the last y position
-	lastx=x; //set lastx to the current x position
-	lasty=y; //set lasty to the current y position
-	xrot += (float) diffy/30; //set the xrot to xrot with the addition of the difference in the y position
-	yrot += (float) diffx/30;// set the xrot to yrot with the addition of the difference in the x position
+void mouse(int x, int y) {
+	player.mouse(x, y);
 }
-
+	
 // main fallið
 void main(int argc, char** argv)
 {
@@ -228,14 +142,11 @@ void main(int argc, char** argv)
 	glutCreateWindow("Skilaverkefni 3");	// nafn glugga
 	initRendering();						// inits 3D rendering
 
-	// Handlers
-	glutPassiveMotionFunc(mouseMovement); //check for mouse movement
-	
-
-	glutDisplayFunc(drawScene);			// Teiknar hlutina
+	glutDisplayFunc(display);			// Teiknar hlutina
 	glutReshapeFunc(handleResize);
 
-	// keyboard input
+	// player input
+	glutPassiveMotionFunc(mouse); //check for mouse movement
 	glutSpecialFunc(specialKeyDown);
 	glutSpecialUpFunc(specialKeyUp);
 	glutIgnoreKeyRepeat(1);
