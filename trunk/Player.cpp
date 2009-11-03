@@ -1,7 +1,8 @@
 #include "Player.h"
 #include <GL/glut.h>
+#include <iostream>
 
-
+using namespace std;
 
 Player::Player(void) {
 	Player::upKeyPressed = Player::downKeyPressed = Player::leftKeyPressed = Player::rightKeyPressed = false;
@@ -9,7 +10,7 @@ Player::Player(void) {
 }
 
 void Player::specialKeyDown(int  key,  int  x,  int  y) {
-	//cout<<"DOING DONG";
+	cout<<"DOING DONG";
 	if(key == GLUT_KEY_UP)
 		upKeyPressed  =  true;
 	if(key == GLUT_KEY_DOWN)
