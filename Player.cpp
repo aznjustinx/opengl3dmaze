@@ -1,7 +1,7 @@
-#include "Player.h"
 #include <iostream>
 #include <math.h>
 #include "Constants.h"
+#include "Player.h"
 
 using namespace std;
 
