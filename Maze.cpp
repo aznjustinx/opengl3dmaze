@@ -11,10 +11,15 @@ Tölvugrafik
 #include <math.h>
 #include <GL/glut.h>
 #include "Maze.h"
+#include "Point3.h"
+
+Point3* Maze::getPosition()
+{
+	return &wall;
+}
 
 using namespace std;
 
-int counter = 0;
 
 class Point {
 public:
