@@ -6,6 +6,7 @@ class Maze
 public:
 	Maze();
 	~Maze();	
+
 	void drawMaze();
 	void drawBox();
 	void drawWall();
@@ -13,7 +14,7 @@ public:
 	void left();
 	void right();
 	void forward();
-	void drawSolidCube();
+	void drawSolidCube(double size);
 	Point3* getPosition();
 	Point3* setPosition(double x, double y, double z, int pos);
 	

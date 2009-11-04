@@ -18,17 +18,20 @@ Point3 pMap[100];
 
 using namespace std;
 
-
 class Point {
 public:
 	double x,z;
 	Point() { x = 0.0; z = 0.0; }
 };
 
+int numberOfWalls = 0;
 
 Point P;
 
-
+int getNumberOfWalls()
+{
+	return numberOfWalls;
+}
 
 GLuint texture; //the array for our texture
 GLuint texture2; //the array for our second texture
@@ -84,6 +87,7 @@ void Maze::drawMaze()
 // draws 3D box
 void Maze::drawBox()
 {
+	numberOfWalls = 0;
 	for (int i = 0; i < 10; i++) //loop through the height of the map
 	{
 		for (int j = 0; j < 10; j++) //loop through the width of the map
@@ -124,11 +128,12 @@ void Maze::drawBox()
 
 				//cout << '(' << P.x << ',' << P.z << ')' << endl;
 				//drawWall();
-				drawSolidCube();
+				drawSolidCube(3);
 	
 				glEnd();
 				glPopMatrix(); //pop the matrix
 				//glBindTexture( GL_TEXTURE_2D, texture2 ); //bind our dirt texture to our shape
+				numberOfWalls++;
 			}
 			
 			
@@ -137,13 +142,14 @@ void Maze::drawBox()
 	/*Point3* map = getPosition();
 	cout << map[5].z << endl;
 	system("PAUSE");*/
+	cout << numberOfWalls << endl;
 }
 
-void Maze::drawSolidCube (void) 
+void Maze::drawSolidCube (double size) 
 {
     glColor3f(1.0, 0.0, 0.0); //color the cube red
     //glutWireCube(3); //draw a wired cube with side lengths of 2
-	glutSolidCube(3);
+	glutSolidCube(size);
 }
 
 void Maze::drawFloor()
@@ -151,15 +157,15 @@ void Maze::drawFloor()
 	glRotatef(-90,1,0,0);
 	glBegin(GL_POLYGON);
 	//bottom
-	glNormal3f(0.0f, 0.0f, -1.5);
+	glNormal3f(0.0f, 0.0f, -1.49);
 	//glNormal3f(-1.0f, 0.0f, -1.0f);
-	glVertex3f(-1.5f, -1.5f, -1.5);
+	glVertex3f(-1.6f, -1.6f, -1.49);
 	//glNormal3f(-1.0f, 0.0f, -1.0f);
-	glVertex3f(-1.5f, 1.5f, -1.5);
+	glVertex3f(-1.6f, 1.6f, -1.49);
 	//glNormal3f(1.0f, 0.0f, -1.0f);
-	glVertex3f(1.5f, 1.5f, -1.5);
+	glVertex3f(1.6f, 1.6f, -1.49);
 	//glNormal3f(1.0f, 0.0f, -1.0f);
-	glVertex3f(1.5f, -1.5f, -1.5);
+	glVertex3f(1.6f, -1.6f, -1.49);
 	glRotatef(90,0,1,0);
 
 	glEnd();
