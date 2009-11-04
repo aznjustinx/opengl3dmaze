@@ -14,7 +14,7 @@ public:
 	void left();
 	void right();
 	void forward();
-	void drawSolidCube(double size);
+	void drawSolidCube();
 	Point3* getPosition();
 	Point3* setPosition(double x, double y, double z, int pos);
 	
