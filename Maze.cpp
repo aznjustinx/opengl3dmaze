@@ -13,10 +13,8 @@ Tölvugrafik
 #include "Maze.h"
 #include "Point3.h"
 
-Point3* Maze::getPosition()
-{
-	return &wall;
-}
+Point3 wall;
+Point3 pMap[100];
 
 using namespace std;
 
@@ -30,7 +28,7 @@ public:
 
 Point P;
 
-Point pMap[10][10];
+
 
 GLuint texture; //the array for our texture
 GLuint texture2; //the array for our second texture
@@ -45,7 +43,7 @@ int cMap[10][10] = { //our map
 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
 	{1, 0, 1, 1, 1, 1, 1, 1, 0, 1},
 	{1, 0, 0, 1, 0, 0, 0, 0, 0, 1},
-	{1, 1, 1, 1, 0, 1, 1, 1, 1, 1},
+	{1, 1, 1, 1, 'G', 1, 1, 1, 1, 1},
 };
 
 Maze::Maze()
@@ -57,6 +55,18 @@ Maze::~Maze()
 {
 }
 
+Point3* Maze::getPosition()
+{
+	//return &wall;
+	return pMap;
+}
+
+Point3* Maze::setPosition(double x, double y, double z, int pos)
+{
+	pMap[pos] = Point3(x,y,z);
+	//cout << pMap[10].x << ',' << pMap[10].y << ',' << pMap[10].z << endl;
+	return false;
+}
 
 // draws 3D box
 void Maze::drawMaze()
@@ -90,15 +100,27 @@ void Maze::drawBox()
 				glEnd();
 				glPopMatrix(); //pop the matrix
 			}
+			else if (cMap[i][j] == 'G')
+			{
+				glColor3f(1,1,1);
+				glPushMatrix(); //push the matrix so that our translations only affect this tile
+			
+				glTranslatef(j*3, 0, -i*3); //translate the tile to where it should belong				
+				drawFloor();
+	
+				glEnd();
+				glPopMatrix(); //pop the matrix
+			}
 			else //otherwise
 			{
 				glColor3f(0,1,0);
 				glPushMatrix(); //push the matrix so that our translations only affect this tile
 			
 				glTranslatef(j*3, 0, -i*3); //translate the tile to where it should belong
-				P.x = j*3;
-				P.z = -i*3;
-				pMap[j][i] = P;	
+		/*		P.x = j*3;
+				P.z = -i*3;*/
+				
+				setPosition(j*3,0,-i*3,j+i);
 
 				//cout << '(' << P.x << ',' << P.z << ')' << endl;
 				//drawWall();
@@ -112,7 +134,9 @@ void Maze::drawBox()
 			
 		} //end first loop
 	} //end second loop
-	//system("PAUSE");
+	/*Point3* map = getPosition();
+	cout << map[5].z << endl;
+	system("PAUSE");*/
 }
 
 void Maze::drawSolidCube (void) 
