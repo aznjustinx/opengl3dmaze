@@ -8,6 +8,7 @@ public:
 	void drawMaze();
 	void drawBox();
 	void drawWall();
+	void drawFloor();
 	void left();
 	void right();
 	void forward();

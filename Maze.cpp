@@ -63,6 +63,15 @@ void Maze::drawBox()
 			if (cMap[i][j] == 0) //if the map at this position contains a 0
 			{				
 				//glBindTexture( GL_TEXTURE_2D, texture ); //bind our grass texture to our shape
+				glColor3f(0,1,1);
+				glPushMatrix(); //push the matrix so that our translations only affect this tile
+			
+				glTranslatef(j*3, 0, -i*3); //translate the tile to where it should belong
+
+				drawFloor();
+	
+				glEnd();
+				glPopMatrix(); //pop the matrix
 			}
 			else //otherwise
 			{
@@ -74,13 +83,34 @@ void Maze::drawBox()
 				drawWall();
 	
 				glEnd();
-			glPopMatrix(); //pop the matrix
+				glPopMatrix(); //pop the matrix
 				//glBindTexture( GL_TEXTURE_2D, texture2 ); //bind our dirt texture to our shape
 			}
 			
 			
 		} //end first loop
 	} //end second loop
+}
+
+void Maze::drawFloor()
+{
+	glRotatef(-90,1,0,0);
+	glBegin(GL_POLYGON);
+	//bottom
+	glNormal3f(0.0f, 0.0f, -1);
+	//glNormal3f(-1.0f, 0.0f, -1.0f);
+	glVertex3f(-1.5f, -1.5f, -1);
+	//glNormal3f(-1.0f, 0.0f, -1.0f);
+	glVertex3f(-1.5f, 1.5f, -1);
+	//glNormal3f(1.0f, 0.0f, -1.0f);
+	glVertex3f(1.5f, 1.5f, -1);
+	//glNormal3f(1.0f, 0.0f, -1.0f);
+	glVertex3f(1.5f, -1.5f, -1);
+	glRotatef(90,0,1,0);
+
+	glEnd();
+
+	glLoadIdentity();
 }
 
 void Maze::drawWall()
@@ -113,13 +143,9 @@ void Maze::drawWall()
 	
 	//Back
 	glNormal3f(0.0f, 0.0f, -1.0f);
-	//glNormal3f(-1.0f, 0.0f, -1.0f);
 	glVertex3f(-1.5f, -1.0f, -1.5f);
-	//glNormal3f(-1.0f, 0.0f, -1.0f);
 	glVertex3f(-1.5f, 1.0f, -1.5f);
-	//glNormal3f(1.0f, 0.0f, -1.0f);
 	glVertex3f(1.5f, 1.0f, -1.5f);
-	//glNormal3f(1.0f, 0.0f, -1.0f);
 	glVertex3f(1.5f, -1.0f, -1.5f);
 	
 	//Left
@@ -132,6 +158,25 @@ void Maze::drawWall()
 	glVertex3f(-1.5f, 1.0f, 1.5f);
 	//glNormal3f(-1.0f, 0.0f, -1.0f);
 	glVertex3f(-1.5f, 1.0f, -1.5f);
+
+	glEnd();
+
+	glRotatef(-90,1,0,0);
+	// ceiling
+	glBegin(GL_POLYGON);
+	//bottom
+	glNormal3f(0.0f, 0.0f, 1);
+	//glNormal3f(-1.0f, 0.0f, -1.0f);
+	glVertex3f(-1.5f, -1.5f, 1);
+	//glNormal3f(-1.0f, 0.0f, -1.0f);
+	glVertex3f(-1.5f, 1.5f, 1);
+	//glNormal3f(1.0f, 0.0f, -1.0f);
+	glVertex3f(1.5f, 1.5f, 1);
+	//glNormal3f(1.0f, 0.0f, -1.0f);
+	glVertex3f(1.5f, -1.5f, 1);
+	//glRotatef(90,0,1,0);
+	glRotatef(90,1,0,0);
+	glEnd();
 	
 	glEnd();
 	glLoadIdentity(); // Til að núlla hreyfingu á angle
