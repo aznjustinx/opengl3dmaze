@@ -31,7 +31,7 @@ GLuint texture; //the array for our texture
 GLuint texture2; //the array for our second texture
 
 int cMap[10][10] = { //our map
-	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+	{1, 1, 1, 1, 0, 1, 1, 1, 1, 1},
 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
 	{1, 0, 0, 1, 0, 1, 0, 0, 0, 1},
@@ -122,19 +122,18 @@ void Maze::drawFloor()
 	glRotatef(-90,1,0,0);
 	glBegin(GL_POLYGON);
 	//bottom
-	glNormal3f(0.0f, 0.0f, -1);
+	glNormal3f(0.0f, 0.0f, -1.5);
 	//glNormal3f(-1.0f, 0.0f, -1.0f);
-	glVertex3f(-1.5f, -1.5f, -1);
+	glVertex3f(-1.5f, -1.5f, -1.5);
 	//glNormal3f(-1.0f, 0.0f, -1.0f);
-	glVertex3f(-1.5f, 1.5f, -1);
+	glVertex3f(-1.5f, 1.5f, -1.5);
 	//glNormal3f(1.0f, 0.0f, -1.0f);
-	glVertex3f(1.5f, 1.5f, -1);
+	glVertex3f(1.5f, 1.5f, -1.5);
 	//glNormal3f(1.0f, 0.0f, -1.0f);
-	glVertex3f(1.5f, -1.5f, -1);
+	glVertex3f(1.5f, -1.5f, -1.5);
 	glRotatef(90,0,1,0);
 
 	glEnd();
-
 	glLoadIdentity();
 }
 
