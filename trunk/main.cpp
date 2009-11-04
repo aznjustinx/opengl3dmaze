@@ -13,13 +13,16 @@ Tölvugrafik
 #include "Player.h"
 #include "Maze.h"
 #include "Mesh.h"
+#include "main.h"
+#include "Collision.h"
 
 using namespace std;
 
 const int DELAY_TIME = 32;
 Player player;
 Maze maze;
-Mesh mesh;
+Collision collision;
+
 
 void specialKeyDown(int  key,  int  x,  int  y)
 {
@@ -55,12 +58,13 @@ void init() {
 	glEnable(GL_NORMALIZE); //Automatically normalize normals
 	//glShadeModel(GL_SMOOTH); //Enable smooth shading
 	glClearColor(0., 0., 0., 0.);
-	player.set(Point3(0, 0., 0.), Point3(0., 0., -1.), Vector3(0., 1., 0.));
+	player.set(Point3(12., 0., 2.5), Point3(0., 0., -1.), Vector3(0., 1., 0.));
+
+	collision.init(&player, &maze);
 }
 
 void resize(int width, int height)
 {
-	cout<<"handleResize";
 	glViewport(0, 0, width, height);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
@@ -120,7 +124,7 @@ void display()
 	player.setModelViewMatrix();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	displayLightning();
-	maze.drawBox();
+	maze.drawMaze();
 
 	glutSwapBuffers();
 }
@@ -128,28 +132,37 @@ void display()
 void update(int id)
 {
 	glutTimerFunc(DELAY_TIME, update, 0);
-	if(player.upKeyPressed)
+	if (player.upKeyPressed || player.downKeyPressed || player.leftKeyPressed || player.rightKeyPressed)
 	{
-		player.slide(0.0f, 0.0f, -0.5f);
-	}
-	if(player.downKeyPressed)
-	{
-		player.slide(0.0f, 0.0f, 0.5f);
-	}
-	if(player.leftKeyPressed)
-	{
-		player.yaw(-5.0f);
-	}
-	if(player.rightKeyPressed)
-	{
-		player.yaw(5.0f);
-	}
+		
+		
 
-	glutPostRedisplay(); //Tell GLUT that the display has changed
+		if(player.upKeyPressed)
+		{
+			player.slide(0.0f, 0.0f, -0.5f);
+		}
+		if(player.downKeyPressed)
+		{
+			player.slide(0.0f, 0.0f, 0.5f);
+		}
+		if(player.leftKeyPressed)
+		{
+			player.yaw(-5.0f);
+		}
+		if(player.rightKeyPressed)
+		{
+			player.yaw(5.0f);
+		}
+		glutPostRedisplay(); //Tell GLUT that the display has changed
+
+		Point3* pos = player.getPosition();
+		cout<<"eye: x: "<<pos->getX()<<" y: "<<pos->getY()<<" z: "<<pos->getZ()<<"\n";
+		if (collision.check()) {
+			cout<<"COLLISION!!!";
+		}
+	}
 }
 
-
-	
 // main fallið
 void main(int argc, char** argv)
 {
