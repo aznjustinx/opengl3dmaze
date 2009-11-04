@@ -12,6 +12,7 @@ public:
 	void left();
 	void right();
 	void forward();
+	void drawSolidCube();
 	
 };
 #endif maze_h
