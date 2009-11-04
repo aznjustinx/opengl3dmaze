@@ -14,6 +14,19 @@ Tölvugrafik
 
 using namespace std;
 
+int counter = 0;
+
+class Point {
+public:
+	double x,z;
+	Point() { x = 0.0; z = 0.0; }
+};
+
+
+Point P;
+
+Point pMap[10][10];
+
 GLuint texture; //the array for our texture
 GLuint texture2; //the array for our second texture
 
@@ -66,8 +79,7 @@ void Maze::drawBox()
 				glColor3f(0,1,1);
 				glPushMatrix(); //push the matrix so that our translations only affect this tile
 			
-				glTranslatef(j*3, 0, -i*3); //translate the tile to where it should belong
-
+				glTranslatef(j*3, 0, -i*3); //translate the tile to where it should belong				
 				drawFloor();
 	
 				glEnd();
@@ -79,8 +91,13 @@ void Maze::drawBox()
 				glPushMatrix(); //push the matrix so that our translations only affect this tile
 			
 				glTranslatef(j*3, 0, -i*3); //translate the tile to where it should belong
+				P.x = j*3;
+				P.z = -i*3;
+				pMap[j][i] = P;	
 
-				drawWall();
+				cout << '(' << P.x << ',' << P.z << ')' << endl;
+				//drawWall();
+				drawSolidCube();
 	
 				glEnd();
 				glPopMatrix(); //pop the matrix
@@ -90,6 +107,14 @@ void Maze::drawBox()
 			
 		} //end first loop
 	} //end second loop
+	//system("PAUSE");
+}
+
+void Maze::drawSolidCube (void) 
+{
+    glColor3f(1.0, 0.0, 0.0); //color the cube red
+    //glutWireCube(3); //draw a wired cube with side lengths of 2
+	glutSolidCube(3);
 }
 
 void Maze::drawFloor()
