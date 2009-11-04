@@ -72,7 +72,7 @@ Point3* Maze::setPosition(double x, double y, double z, int pos)
 void Maze::drawMaze()
 {
 	
-	glTranslatef(0, 0, 0); //translate back a bit to view the map correctly
+	glTranslatef(-12, 0, -20); //translate back a bit to view the map correctly
 	drawBox();
 		
 	glLoadIdentity(); // Til að núlla hreyfingu á angle
