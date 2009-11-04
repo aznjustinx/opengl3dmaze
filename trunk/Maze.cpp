@@ -15,7 +15,7 @@ Tölvugrafik
 
 Point3 wall;
 Point3 pMap[100];
-double size = 0.0;
+double size = 3.0;
 
 using namespace std;
 
@@ -129,8 +129,8 @@ void Maze::drawBox()
 				setPosition(j*3,0,-i*3,j+i);
 
 				//cout << '(' << P.x << ',' << P.z << ')' << endl;
-				//drawWall();
-				drawSolidCube(3);
+				//drawWall();				
+				drawSolidCube();
 	
 				glEnd();
 				glPopMatrix(); //pop the matrix
