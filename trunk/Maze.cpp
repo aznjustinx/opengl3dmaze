@@ -15,6 +15,7 @@ Tölvugrafik
 
 Point3 wall;
 Point3 pMap[100];
+double size = 0.0;
 
 using namespace std;
 
@@ -75,7 +76,8 @@ Point3* Maze::setPosition(double x, double y, double z, int pos)
 void Maze::drawMaze()
 {
 	
-	glTranslatef(-12, 0, -20); //translate back a bit to view the map correctly
+//	glTranslatef(-12, 0, -20); //translate back a bit to view the map correctly
+	//glTranslatef(0, 0, 0); //translate back a bit to view the map correctly
 	drawBox();
 		
 	glLoadIdentity(); // Til að núlla hreyfingu á angle
@@ -145,7 +147,7 @@ void Maze::drawBox()
 	cout << numberOfWalls << endl;
 }
 
-void Maze::drawSolidCube (double size) 
+void Maze::drawSolidCube () 
 {
     glColor3f(1.0, 0.0, 0.0); //color the cube red
     //glutWireCube(3); //draw a wired cube with side lengths of 2
