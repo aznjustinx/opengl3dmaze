@@ -5,10 +5,7 @@
 
 using namespace std;
 
-//const float PI = 3.141592654f;
-
 Player::Player(void) {
-	cout<<"Player constructor";
 	upKeyPressed = downKeyPressed = leftKeyPressed = rightKeyPressed = false;
 	xpos=0, ypos=0, zpos=0, xrot=0, yrot=0, angle=0.0;
 

@@ -95,7 +95,7 @@ void Maze::drawBox()
 				P.z = -i*3;
 				pMap[j][i] = P;	
 
-				cout << '(' << P.x << ',' << P.z << ')' << endl;
+				//cout << '(' << P.x << ',' << P.z << ')' << endl;
 				//drawWall();
 				drawSolidCube();
 	

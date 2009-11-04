@@ -41,6 +41,10 @@ void keyboardUp(unsigned char key, int x, int y)
 	player.keyboardUp(key, x, y);
 }
 
+void mouse(int x, int y) {
+	//player.mouse(x, y);
+}
+
 //Initializes 3D rendering
 void init() {
 	glEnable(GL_DEPTH_TEST);
@@ -51,31 +55,18 @@ void init() {
 	glEnable(GL_NORMALIZE); //Automatically normalize normals
 	//glShadeModel(GL_SMOOTH); //Enable smooth shading
 	glClearColor(0., 0., 0., 0.);
-
-	mesh.readFile("BARNSIMP.3VN");
+	player.set(Point3(0, 0., 0.), Point3(0., 0., -1.), Vector3(0., 1., 0.));
 }
 
-// þegar breyting er
 void resize(int width, int height)
 {
 	cout<<"handleResize";
 	glViewport(0, 0, width, height);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	/*
-	void gluPerspective(	GLdouble  	fovy, 
- 							GLdouble  	aspect, 
- 							GLdouble  	zNear, 
- 							GLdouble  	zFar);
-	*/
-	gluPerspective(	45.0f, 
-					(double)width / (double)height, 
-					0.1f, 
-					100.0f);	
-	// glMatrixMode verður að vera fyrir neðan allt hér...
-	//glMatrixMode(GL_MODELVIEW);
-	//glLoadIdentity();
-	//gluLookAt(0.0, 0.0, 0.0, 0.0, 0.0, -1.0, 0.0, 1.0, 0.0);
+	
+	player.setPerspective( 45.0f, (double)width / (double)height, 0.1f, 100.0f);
+	
 }
 
 void displayLightning()
@@ -98,7 +89,7 @@ void displayLightning()
 	glLightfv(GL_LIGHT1, GL_POSITION, lightPos1);
 }
 
-void displayLightningBook()
+void displayLightningByBook()
 {
 	float lightArr[4];
 	lightArr[0] = 1.0;
@@ -126,15 +117,9 @@ void displayLightningBook()
 // sér um að kalla á og birta objectana
 void display()
 {	
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	gluLookAt(0.0, 0.0, 0.0, 0.0, 0.0, -1.0, 0.0, 1.0, 0.0);
+	player.setModelViewMatrix();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	displayLightning();
-	player.display();
-	
-	//mesh.draw();
-	
 	maze.drawBox();
 
 	glutSwapBuffers();
@@ -145,27 +130,25 @@ void update(int id)
 	glutTimerFunc(DELAY_TIME, update, 0);
 	if(player.upKeyPressed)
 	{
-		player.moveUp();
+		player.slide(0.0f, 0.0f, -0.5f);
 	}
 	if(player.downKeyPressed)
 	{
-		player.moveDown();
+		player.slide(0.0f, 0.0f, 0.5f);
 	}
 	if(player.leftKeyPressed)
 	{
-		player.moveLeft();
+		player.yaw(-5.0f);
 	}
 	if(player.rightKeyPressed)
 	{
-		player.moveRight();
+		player.yaw(5.0f);
 	}
 
 	glutPostRedisplay(); //Tell GLUT that the display has changed
 }
 
-void mouse(int x, int y) {
-	player.mouse(x, y);
-}
+
 	
 // main fallið
 void main(int argc, char** argv)
