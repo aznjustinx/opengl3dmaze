@@ -18,7 +18,12 @@ Tölvugrafik
 
 using namespace std;
 
+// enums
+const int Z_N_AXIS = 0;
+// constants
 const int DELAY_TIME = 32;
+const float SLIDE_INCREMENT = 0.5;
+// globals
 Player player;
 Maze maze;
 Collision collision;
@@ -134,16 +139,17 @@ void update(int id)
 	glutTimerFunc(DELAY_TIME, update, 0);
 	if (player.upKeyPressed || player.downKeyPressed || player.leftKeyPressed || player.rightKeyPressed)
 	{
-		
-		
-
 		if(player.upKeyPressed)
 		{
-			player.slide(0.0f, 0.0f, -0.5f);
+			if ( !collision.check()) {
+				player.slide(0.0f, 0.0f, -SLIDE_INCREMENT);
+			}
 		}
 		if(player.downKeyPressed)
 		{
-			player.slide(0.0f, 0.0f, 0.5f);
+			if ( !collision.check()) {
+				player.slide(0.0f, 0.0f, SLIDE_INCREMENT);
+			}
 		}
 		if(player.leftKeyPressed)
 		{
@@ -157,9 +163,7 @@ void update(int id)
 
 		Point3* pos = player.getPosition();
 		//cout<<"eye: x: "<<pos->getX()<<" y: "<<pos->getY()<<" z: "<<pos->getZ()<<"\n";
-		if (collision.check()) {
-			cout<<"COLLISION!!!";
-		}
+		
 	}
 }
 
