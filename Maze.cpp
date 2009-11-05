@@ -148,8 +148,8 @@ void Maze::drawBox()
 
 void Maze::drawSolidCube () 
 {
-    glutWireCube(size); //draw a wired cube with side lengths of 2
-	//glutSolidCube(size);
+    //glutWireCube(size); //draw a wired cube with side lengths of 2
+	glutSolidCube(size);
 }
 
 void Maze::drawFloor()
