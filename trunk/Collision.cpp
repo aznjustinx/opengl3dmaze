@@ -24,17 +24,35 @@ bool Collision::check()
 	//cout<<"Collision wall: x: "<<ma[3].getX()<<" y: "<<ma[3].getY()<<" z: "<<ma[3].getZ()<<"\n";
 	for (int i = 0; i < maze->getNumberOfWalls(); ++i) {
 		float xx =  ma[i].getX() + 1.5;
+		float offset = 1.5;
 		
 		//cout<<"Collision wall:"<<i<<": x: "<<ma[i].getX()<<" y: "<<ma[i].getY()<<" z: "<<ma[i].getZ()<<"\n";
 
 		/*if (ma[i].getX() + 10.5 == player->getPosition()->getX() ||  ma[i].getX() - 1.5 == player->getPosition()->getX() ||
 			ma[i].getZ() + 1.5 == player->getPosition()->getZ() ||  ma[i].getZ() - 1.5 == player->getPosition()->getZ()) 
 		{*/
-		if (	fabs(ma[i].getX() + 1.5 -(pos->getX())) < 0.1
-			||  fabs(ma[i].getX() - 1.5 -(pos->getX())) < 0.1
-			||	fabs(ma[i].getZ() + 1.5 -(pos->getZ())) < 0.1
-			||  fabs(ma[i].getZ() - 1.5 -(pos->getZ())) < 0.1 ) 
+		if (	fabs(ma[i].getX() + offset -(pos->getX())) < 1 
+			&&  fabs(ma[i].getZ() + offset -(pos->getZ())) < 1)			
 		{
+			cout<<"Collision wall:"<<i<<": x: "<<ma[i].getX()<<" y: "<<ma[i].getY()<<" z: "<<ma[i].getZ()<<"\n";
+			return true;
+		}
+		else if (fabs(ma[i].getX() - offset -(pos->getX())) < 1
+			&&  fabs(ma[i].getZ() + offset -(pos->getZ())) < 1 ) 
+		{
+			cout<<"Collision wall:"<<i<<": x: "<<ma[i].getX()<<" y: "<<ma[i].getY()<<" z: "<<ma[i].getZ()<<"\n";
+			return true;
+		}
+		else if (fabs(ma[i].getX() + offset -(pos->getX())) < 1
+			&&  fabs(ma[i].getZ() - offset -(pos->getZ())) < 1 ) 
+		{
+			cout<<"Collision wall:"<<i<<": x: "<<ma[i].getX()<<" y: "<<ma[i].getY()<<" z: "<<ma[i].getZ()<<"\n";
+			return true;
+		}
+		else if (fabs(ma[i].getX() - offset -(pos->getX())) < 1
+			&&  fabs(ma[i].getZ() - offset -(pos->getZ())) < 1 ) 
+		{
+			cout<<"Collision wall:"<<i<<": x: "<<ma[i].getX()<<" y: "<<ma[i].getY()<<" z: "<<ma[i].getZ()<<"\n";
 			return true;
 		}
 
