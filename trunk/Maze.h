@@ -6,7 +6,7 @@ class Maze
 public:
 	Maze();
 	~Maze();	
-
+	int getNumberOfWalls();
 	void drawMaze();
 	void drawBox();
 	void drawWall();

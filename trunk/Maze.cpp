@@ -29,7 +29,7 @@ int numberOfWalls = 0;
 
 Point P;
 
-int getNumberOfWalls()
+int Maze::getNumberOfWalls()
 {
 	return numberOfWalls;
 }
@@ -119,16 +119,19 @@ void Maze::drawBox()
 			}
 			else //otherwise
 			{
-				glColor3f(0,1,0);
+				if(numberOfWalls == 3)
+				{
+					glColor3f(1,1,0);
+				}
+				else
+				{
+					glColor3f(1,0,0);
+				}
 				glPushMatrix(); //push the matrix so that our translations only affect this tile
 			
 				glTranslatef(j*3, 0, -i*3); //translate the tile to where it should belong
-		/*		P.x = j*3;
-				P.z = -i*3;*/
-				
-				setPosition(j*3,0,-i*3,j+i);
+				setPosition(j*3,0,-i*3,numberOfWalls);				
 
-				//cout << '(' << P.x << ',' << P.z << ')' << endl;
 				//drawWall();				
 				drawSolidCube();
 	
@@ -141,16 +144,11 @@ void Maze::drawBox()
 			
 		} //end first loop
 	} //end second loop
-	/*Point3* map = getPosition();
-	cout << map[5].z << endl;
-	system("PAUSE");*/
-	cout << numberOfWalls << endl;
 }
 
 void Maze::drawSolidCube () 
 {
-    glColor3f(1.0, 0.0, 0.0); //color the cube red
-    //glutWireCube(3); //draw a wired cube with side lengths of 2
+    //glutWireCube(size); //draw a wired cube with side lengths of 2
 	glutSolidCube(size);
 }
 
