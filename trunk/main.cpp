@@ -23,6 +23,7 @@ const int Z_N_AXIS = 0;
 // constants
 const int DELAY_TIME = 32;
 const float SLIDE_INCREMENT = 0.5;
+bool collisionLoop = false;
 // globals
 Player player;
 Maze maze;
@@ -135,17 +136,35 @@ void display()
 }
 
 void update(int id)
-{
+{	
 	glutTimerFunc(DELAY_TIME, update, 0);
 	if (player.upKeyPressed || player.downKeyPressed || player.leftKeyPressed || player.rightKeyPressed)
 	{
 		if(player.upKeyPressed)
 		{
-			player.slide(0.0f, 0.0f, -SLIDE_INCREMENT);
-			if ( collision.check()) {
-				player.slide(0.0f, 0.0f, SLIDE_INCREMENT);
+			if ( collision.check()) {	
+				// taka einungis eitt skref til baka á z ás
+				if(!collisionLoop)
+					player.slide(0.0f, 0.0f, SLIDE_INCREMENT);
+
+				if(collision.getWallFace() == 2)
+				{				
+					player.slideWallFrontBack(0.0f, 0.0f, -SLIDE_INCREMENT);
+					collisionLoop = true;
+				}
+				else
+				{					
+					player.slideWallSide(0.0f, 0.0f, -SLIDE_INCREMENT);
+					collisionLoop = true;
+				}
+			}
+			else
+			{
+				player.slide(0.0f, 0.0f, -SLIDE_INCREMENT);
+				collisionLoop = false;
 			}
 		}
+
 		if(player.downKeyPressed)
 		{
 			player.slide(0.0f, 0.0f, SLIDE_INCREMENT);
@@ -164,7 +183,7 @@ void update(int id)
 		glutPostRedisplay(); //Tell GLUT that the display has changed
 
 		Point3* pos = player.getPosition();
-		//cout<<"eye: x: "<<pos->getX()<<" y: "<<pos->getY()<<" z: "<<pos->getZ()<<"\n";
+		cout<<"eye: x: "<<pos->getX()<<" y: "<<pos->getY()<<" z: "<<pos->getZ()<<"\n";
 		
 	}
 }

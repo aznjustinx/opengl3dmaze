@@ -93,49 +93,49 @@ void Player::keyboardUp(unsigned char key, int x, int y)
 	}
 
 }
-
-void Player::moveUp()
-{
-	float xrotrad, yrotrad;
-	yrotrad = yrot * RadPerDeg; //(yrot / 180 * Pi);
-	xrotrad = xrot * RadPerDeg; //(xrot / 180 * Pi);
-	xpos += float(sin(yrotrad))/2;
-	zpos -= float(cos(yrotrad))/2;
-	ypos -= float(sin(xrotrad))/2;
-}
-
-void Player::moveDown()
-{
-	float xrotrad, yrotrad;
-	yrotrad = yrot * RadPerDeg; //(yrot / 180 * PI);
-	xrotrad = xrot * RadPerDeg; //(xrot / 180 * PI);
-	xpos -= float(sin(yrotrad))/2;
-	zpos += float(cos(yrotrad))/2;
-	ypos += float(sin(xrotrad))/2;	
-}
-
-void Player::moveLeft()
-{
-	yrot -= 5;
-	if (yrot < -360)
-		yrot += 360;
-}
-
-void Player::moveRight()
-{
-	yrot += 5;
-	if (yrot < -360)
-		yrot -= 360;
-}
-
-void Player::mouse(int x, int y) {
-	int diffx=x-lastx; //check the difference between the current x and the last x position
-	int diffy=y-lasty; //check the difference between the current y and the last y position
-	lastx=x; //set lastx to the current x position
-	lasty=y; //set lasty to the current y position
-	xrot += (float) diffy/30; //set the xrot to xrot with the addition of the difference in the y position
-	yrot += (float) diffx/30;// set the xrot to yrot with the addition of the difference in the x position
-}
+//
+//void Player::moveUp()
+//{
+//	float xrotrad, yrotrad;
+//	yrotrad = yrot * RadPerDeg; //(yrot / 180 * Pi);
+//	xrotrad = xrot * RadPerDeg; //(xrot / 180 * Pi);
+//	xpos += float(sin(yrotrad))/2;
+//	zpos -= float(cos(yrotrad))/2;
+//	ypos -= float(sin(xrotrad))/2;
+//}
+//
+//void Player::moveDown()
+//{
+//	float xrotrad, yrotrad;
+//	yrotrad = yrot * RadPerDeg; //(yrot / 180 * PI);
+//	xrotrad = xrot * RadPerDeg; //(xrot / 180 * PI);
+//	xpos -= float(sin(yrotrad))/2;
+//	zpos += float(cos(yrotrad))/2;
+//	ypos += float(sin(xrotrad))/2;	
+//}
+//
+//void Player::moveLeft()
+//{
+//	yrot -= 5;
+//	if (yrot < -360)
+//		yrot += 360;
+//}
+//
+//void Player::moveRight()
+//{
+//	yrot += 5;
+//	if (yrot < -360)
+//		yrot -= 360;
+//}
+//
+//void Player::mouse(int x, int y) {
+//	int diffx=x-lastx; //check the difference between the current x and the last x position
+//	int diffy=y-lasty; //check the difference between the current y and the last y position
+//	lastx=x; //set lastx to the current x position
+//	lasty=y; //set lasty to the current y position
+//	xrot += (float) diffy/30; //set the xrot to xrot with the addition of the difference in the y position
+//	yrot += (float) diffx/30;// set the xrot to yrot with the addition of the difference in the x position
+//}
 
 Player::~Player(void)
 {
