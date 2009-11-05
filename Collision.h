@@ -12,5 +12,6 @@ public:
 	Collision(void);
 	void init(Player* pl, Maze* ma);
 	bool check();
+	
 	~Collision(void);
 };

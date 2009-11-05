@@ -23,8 +23,7 @@ bool Collision::check()
 	Point3* ma = maze->getPosition();
 	//cout<<"Collision wall: x: "<<ma[3].getX()<<" y: "<<ma[3].getY()<<" z: "<<ma[3].getZ()<<"\n";
 	for (int i = 0; i < maze->getNumberOfWalls(); ++i) {
-		float xx =  ma[i].getX() + 1.5;
-		float offset = 1.5;
+		float offset = 1.5 + ;
 		
 		//cout<<"Collision wall:"<<i<<": x: "<<ma[i].getX()<<" y: "<<ma[i].getY()<<" z: "<<ma[i].getZ()<<"\n";
 
