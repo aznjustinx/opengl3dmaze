@@ -31,7 +31,34 @@ bool Collision::check()
 		/*if (ma[i].getX() + 10.5 == player->getPosition()->getX() ||  ma[i].getX() - 1.5 == player->getPosition()->getX() ||
 			ma[i].getZ() + 1.5 == player->getPosition()->getZ() ||  ma[i].getZ() - 1.5 == player->getPosition()->getZ()) 
 		{*/
-		if (	fabs(ma[i].getX() + offset -(pos->getX())) < 1 
+		// hliðar
+		if (	fabs(ma[i].getX()  -(pos->getX())) < 1 
+			&&  fabs(ma[i].getZ() + offset -(pos->getZ())) < 1)			
+		{
+			cout<<"Collision wall:"<<i<<": x: "<<ma[i].getX()<<" y: "<<ma[i].getY()<<" z: "<<ma[i].getZ()<<"\n";
+			return true;
+		}
+		else if (	fabs(ma[i].getX() -(pos->getX())) < 1 
+			&&  fabs(ma[i].getZ() - offset -(pos->getZ())) < 1)			
+		{
+			cout<<"Collision wall:"<<i<<": x: "<<ma[i].getX()<<" y: "<<ma[i].getY()<<" z: "<<ma[i].getZ()<<"\n";
+			return true;
+		}
+		else if (	fabs(ma[i].getX() +offset -(pos->getX())) < 1 
+			&&  fabs(ma[i].getZ() -(pos->getZ())) < 1)			
+		{
+			cout<<"Collision wall:"<<i<<": x: "<<ma[i].getX()<<" y: "<<ma[i].getY()<<" z: "<<ma[i].getZ()<<"\n";
+			return true;
+		}
+		else if (	fabs(ma[i].getX() -offset -(pos->getX())) < 1 
+			&&  fabs(ma[i].getZ() -(pos->getZ())) < 1)			
+		{
+			cout<<"Collision wall:"<<i<<": x: "<<ma[i].getX()<<" y: "<<ma[i].getY()<<" z: "<<ma[i].getZ()<<"\n";
+			return true;
+		}
+
+		// hornin
+		else if (	fabs(ma[i].getX() + offset -(pos->getX())) < 1 
 			&&  fabs(ma[i].getZ() + offset -(pos->getZ())) < 1)			
 		{
 			cout<<"Collision wall:"<<i<<": x: "<<ma[i].getX()<<" y: "<<ma[i].getY()<<" z: "<<ma[i].getZ()<<"\n";
