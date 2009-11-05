@@ -38,7 +38,7 @@ GLuint texture; //the array for our texture
 GLuint texture2; //the array for our second texture
 
 int cMap[10][10] = { //our map
-	{1, 1, 1, 1, 0, 1, 1, 1, 1, 1},
+	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
 	{1, 0, 0, 1, 0, 1, 0, 0, 0, 1},
@@ -148,8 +148,8 @@ void Maze::drawBox()
 
 void Maze::drawSolidCube () 
 {
-    //glutWireCube(size); //draw a wired cube with side lengths of 2
-	glutSolidCube(size);
+    glutWireCube(size); //draw a wired cube with side lengths of 2
+	//glutSolidCube(size);
 }
 
 void Maze::drawFloor()

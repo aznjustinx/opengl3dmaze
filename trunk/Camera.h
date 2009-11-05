@@ -16,6 +16,8 @@ public:
 	void yaw(float angle);							// yaw it
 	void pitch(float angle);						// pitch it
 	void slide(float delU, float delV, float delN);	// slide it
+	void slideWallFrontBack(float delU, float delV, float delN);	// slide against wall
+	void slideWallSide(float delU, float delV, float delN);	// slide against wall
 	// get ready for perspective projection
 	void setPerspective(float vAng, float asp, float nearD, float farD);
 	// get ready for parallel projection
