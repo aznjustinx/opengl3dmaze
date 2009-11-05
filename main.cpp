@@ -156,7 +156,7 @@ void update(int id)
 		glutPostRedisplay(); //Tell GLUT that the display has changed
 
 		Point3* pos = player.getPosition();
-		cout<<"eye: x: "<<pos->getX()<<" y: "<<pos->getY()<<" z: "<<pos->getZ()<<"\n";
+		//cout<<"eye: x: "<<pos->getX()<<" y: "<<pos->getY()<<" z: "<<pos->getZ()<<"\n";
 		if (collision.check()) {
 			cout<<"COLLISION!!!";
 		}
@@ -169,7 +169,7 @@ void main(int argc, char** argv)
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 	glutInitWindowSize(640, 480);			// stærð glugga
-	glutInitWindowPosition(100,100);		// init staðsetning glugga
+	glutInitWindowPosition(600,100);		// init staðsetning glugga
 	glutCreateWindow("3d Maze");	// nafn glugga
 	glutReshapeFunc(resize);
 	init();						// inits 3D rendering
