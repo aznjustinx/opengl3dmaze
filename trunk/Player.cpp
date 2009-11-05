@@ -11,12 +11,6 @@ Player::Player(void) {
 
 }
 
-void Player::display() {
-	glRotatef(xrot, 1.0, 0.0, 0.0);  //rotate our camera on teh x-axis (left and right)
-    glRotatef(yrot, 0.0, 1.0, 0.0);  //rotate our camera on the y-axis (up and down)
-    glTranslated(-xpos, 0, -zpos); //translate the screen to the position of our camera
-}
-
 void Player::specialKeyDown(int  key,  int  x,  int  y)
 {
 	switch(key)

@@ -1,8 +1,12 @@
 #ifndef maze_h
 #define maze_h
 #include "Point3.h"
+#include "Mesh.h"
+
 class Maze
 {
+private:
+	Mesh* finishSign;
 public:
 	Maze();
 	~Maze();	
@@ -16,7 +20,8 @@ public:
 	void forward();
 	void drawSolidCube();
 	Point3* getPosition();
-	Point3* setPosition(double x, double y, double z, int pos);
+	void setPosition(float x, float y, float z, int pos);
+	void init();
 	
 };
 #endif maze_h
