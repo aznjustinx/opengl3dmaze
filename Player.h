@@ -9,7 +9,6 @@ public:
 	bool upKeyPressed, downKeyPressed, leftKeyPressed, rightKeyPressed;
 	float lastx, lasty, xpos, ypos, zpos, xrot, yrot, angle;
 	Player(void);
-	void display();
 	void specialKeyDown(int  key,  int  x,  int  y);
 	void specialKeyUp(int  key,  int  x,  int  y);
 	void keyboardDown(unsigned char key, int x, int y);

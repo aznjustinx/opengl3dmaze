@@ -67,6 +67,7 @@ void init() {
 	player.set(Point3(12., 0., 2.5), Point3(0., 0., -1.), Vector3(0., 1., 0.));
 
 	collision.init(&player, &maze);
+	maze.init();
 }
 
 void resize(int width, int height)
