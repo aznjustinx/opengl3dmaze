@@ -141,14 +141,16 @@ void update(int id)
 	{
 		if(player.upKeyPressed)
 		{
-			if ( !collision.check()) {
-				player.slide(0.0f, 0.0f, -SLIDE_INCREMENT);
+			player.slide(0.0f, 0.0f, -SLIDE_INCREMENT);
+			if ( collision.check()) {
+				player.slide(0.0f, 0.0f, SLIDE_INCREMENT);
 			}
 		}
 		if(player.downKeyPressed)
 		{
-			if ( !collision.check()) {
-				player.slide(0.0f, 0.0f, SLIDE_INCREMENT);
+			player.slide(0.0f, 0.0f, SLIDE_INCREMENT);
+			if ( collision.check()) {
+				player.slide(0.0f, 0.0f, -SLIDE_INCREMENT);
 			}
 		}
 		if(player.leftKeyPressed)
