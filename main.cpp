@@ -67,6 +67,7 @@ void init() {
 
 	collision.init(&player, &maze);
 	maze.init();
+	Point3 point = maze.getFinishPos();
 }
 
 void resize(int width, int height)
@@ -74,31 +75,7 @@ void resize(int width, int height)
 	glViewport(0, 0, width, height);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	
 	player.setPerspective( 45.0f, (double)width / (double)height, 0.1f, 100.0f);
-	
-}
-
-void displayLightningB()
-{
-	//Add ambient light
-	GLfloat ambientColor[] = {0.2f, 0.2f, 0.2f, 1.0f}; //Color (0.2, 0.2, 0.2)
-	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambientColor);
-	
-	//Add positioned light
-	GLfloat lightColor0[] = {0.5f, 0.5f, 0.5f, 1.0f}; //Color (0.5, 0.5, 0.5)
-	GLfloat lightPos0[] = {4.0f, 0.0f, 8.0f, 1.0f}; //Positioned at (4, 0, 8)
-	glLightfv(GL_LIGHT0, GL_DIFFUSE, lightColor0);
-	glLightfv(GL_LIGHT0, GL_POSITION, lightPos0);
-	
-	//Add directed light
-	GLfloat lightColor1[] = {0.5f, 0.2f, 0.2f, 1.0f}; //Color (0.5, 0.2, 0.2)
-	//Coming from the direction (-1, 0.5, 0.5)
-	GLfloat lightPos1[] = {-1.0f, 0.5f, 0.5f, 0.0f};
-	glLightfv(GL_LIGHT1, GL_DIFFUSE, lightColor1);
-	glLightfv(GL_LIGHT1, GL_POSITION, lightPos1);
-
-
 }
 
 void displayLightning()
