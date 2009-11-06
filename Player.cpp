@@ -6,7 +6,9 @@
 using namespace std;
 
 Player::Player(void) {
-	upKeyPressed = downKeyPressed = leftKeyPressed = rightKeyPressed = false;
+	keyPressed = upKeyPressed = downKeyPressed = leftKeyPressed = rightKeyPressed = false;
+	// debug
+	floatUpPressed = floatDownPressed = false;
 	xpos=0, ypos=0, zpos=0, xrot=0, yrot=0, angle=0.0;
 
 }
@@ -28,6 +30,7 @@ void Player::specialKeyDown(int  key,  int  x,  int  y)
 		leftKeyPressed  =  true;
 		break;
 	}
+	keyPressed = true;
 }
 
 void Player::specialKeyUp(int  key,  int  x,  int  y)
@@ -47,6 +50,7 @@ void Player::specialKeyUp(int  key,  int  x,  int  y)
 		leftKeyPressed  =  false;
 		break;
 	}
+	keyPressed = false;
 }
 
 void Player::keyboardDown(unsigned char key, int x, int y)
@@ -65,7 +69,22 @@ void Player::keyboardDown(unsigned char key, int x, int y)
 		case 'a' :
 		leftKeyPressed  =  true;
 		break;
+
+		//debug
+		case 'r' :
+		floatUpPressed = true;
+		break;
+		case 'f' :
+		floatDownPressed = true;
+		break;
+		case 'l' :
+		glShadeModel(GL_FLAT);
+		break;
+		case 'm' :
+		glShadeModel(GL_SMOOTH);
+		break;
 	}
+	keyPressed = true;
 }
 
 void Player::keyboardUp(unsigned char key, int x, int y)
@@ -84,7 +103,16 @@ void Player::keyboardUp(unsigned char key, int x, int y)
 		case 'a' :
 		leftKeyPressed  =  false;
 		break;
+
+		//debug
+		case 'r' :
+		floatUpPressed = false;
+		break;
+		case 'f' :
+		floatDownPressed = false;
+		break;
 	}
+	keyPressed = false;
 
 }
 //
