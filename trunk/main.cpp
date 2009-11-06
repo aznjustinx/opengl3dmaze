@@ -184,59 +184,56 @@ void display()
 void update(int id)
 {	
 	glutTimerFunc(DELAY_TIME, update, 0);
-	if (player.keyPressed)
+	if(player.upKeyPressed)
 	{
-		if(player.upKeyPressed)
-		{
-			if ( collision.check()) {	
-				// taka einungis eitt skref til baka á z ás
-				if(!collisionLoop)
-					player.slide(0.0f, 0.0f, SLIDE_INCREMENT);
+		if ( collision.check()) {	
+			// taka einungis eitt skref til baka á z ás
+			if(!collisionLoop)
+				player.slide(0.0f, 0.0f, SLIDE_INCREMENT);
 
-				if(collision.getWallFace() == 2)
-				{				
-					player.slideWallFrontBack(0.0f, 0.0f, -SLIDE_INCREMENT);
-					collisionLoop = true;
-				}
-				else
-				{					
-					player.slideWallSide(0.0f, 0.0f, -SLIDE_INCREMENT);
-					collisionLoop = true;
-				}
+			if(collision.getWallFace() == 2)
+			{				
+				player.slideWallFrontBack(0.0f, 0.0f, -SLIDE_INCREMENT);
+				collisionLoop = true;
 			}
 			else
-			{
-				player.slide(0.0f, 0.0f, -SLIDE_INCREMENT);
-				collisionLoop = false;
+			{					
+				player.slideWallSide(0.0f, 0.0f, -SLIDE_INCREMENT);
+				collisionLoop = true;
 			}
 		}
-
-		if(player.downKeyPressed)
+		else
 		{
-			player.slide(0.0f, 0.0f, SLIDE_INCREMENT);
-			if ( collision.check()) {
-				player.slide(0.0f, 0.0f, -SLIDE_INCREMENT);
-			}
+			player.slide(0.0f, 0.0f, -SLIDE_INCREMENT);
+			collisionLoop = false;
 		}
-		if(player.leftKeyPressed)
-		{
-			player.yaw(-5.0f);
-		}
-		if(player.rightKeyPressed)
-		{
-			player.yaw(5.0f);
-		}
-		if (player.floatUpPressed)
-		{
-			player.slide(0., SLIDE_INCREMENT, 0.);
-		}
-		if (player.floatDownPressed)
-		{
-			player.slide(0., -SLIDE_INCREMENT, 0.);
-		}
-		Point3* pos = player.getPosition();
-		cout<<"eye: x: "<<pos->getX()<<" y: "<<pos->getY()<<" z: "<<pos->getZ()<<"\n";
 	}
+
+	if(player.downKeyPressed)
+	{
+		player.slide(0.0f, 0.0f, SLIDE_INCREMENT);
+		if ( collision.check()) {
+			player.slide(0.0f, 0.0f, -SLIDE_INCREMENT);
+		}
+	}
+	if(player.leftKeyPressed)
+	{
+		player.yaw(-5.0f);
+	}
+	if(player.rightKeyPressed)
+	{
+		player.yaw(5.0f);
+	}
+	if (player.floatUpPressed)
+	{
+		player.slide(0., SLIDE_INCREMENT, 0.);
+	}
+	if (player.floatDownPressed)
+	{
+		player.slide(0., -SLIDE_INCREMENT, 0.);
+	}
+	//Point3* pos = player.getPosition();
+	//cout<<"eye: x: "<<pos->getX()<<" y: "<<pos->getY()<<" z: "<<pos->getZ()<<"\n";
 	maze.updateObjects();
 	glutPostRedisplay(); //Tell GLUT that the display has change
 }

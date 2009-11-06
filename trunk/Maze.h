@@ -13,6 +13,7 @@ private:
 	float finishRotAngle;
 	int nrOfCubes;
 	Point3 cubesPos[MAP_SIZE*MAP_SIZE];
+	Point3 finishPos;
 public:	
 	Maze();
 	~Maze();	

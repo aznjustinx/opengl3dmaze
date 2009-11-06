@@ -61,6 +61,11 @@ void Maze::init()
 				cubesPos[i+j] = Point3(j*TILE_SIZE, 0, -i*TILE_SIZE);
 				nrOfCubes++;
 			}
+
+			if (cMap[i][j] == 9)
+			{
+				finishPos = Point3(j*TILE_SIZE, 0, -i*TILE_SIZE);
+			}
 		}
 	}
 }
@@ -77,7 +82,7 @@ int Maze::getNrOfCubes()
 
 /*Point3* Maze::getFinishPos()
 {
-	return
+	return finishPos;
 }*/
 
 void Maze::updateObjects()

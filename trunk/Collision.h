@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "Maze.h"
 
+const float cubeOffset = 1.5;
 
 class Collision
 {
@@ -14,4 +15,5 @@ public:
 	bool check();
 	int getWallFace();
 	~Collision(void);
+	bool checkFinish();
 };
