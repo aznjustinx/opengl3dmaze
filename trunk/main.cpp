@@ -186,7 +186,7 @@ void update(int id)
 	if(player.upKeyPressed)
 	{
 		if ( collision.check() != 0) {	
-			cout << collision.check() << endl;
+			//cout << collision.check() << endl;
 			if(collision.check() == 1 || collision.check() == 3 )
 			{				
 				player.slideWallFrontBack(0.0f, 0.0f, -SLIDE_INCREMENT);
