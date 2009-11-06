@@ -6,7 +6,9 @@ class Player :
 {
 public:
 	// checkar á hvort takki er niðri
-	bool upKeyPressed, downKeyPressed, leftKeyPressed, rightKeyPressed;
+	bool keyPressed, upKeyPressed, downKeyPressed, leftKeyPressed, rightKeyPressed;
+	//debug
+	bool floatUpPressed, floatDownPressed;
 	float lastx, lasty, xpos, ypos, zpos, xrot, yrot, angle;
 	Player(void);
 	void specialKeyDown(int  key,  int  x,  int  y);

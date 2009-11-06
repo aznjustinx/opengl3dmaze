@@ -27,10 +27,10 @@ bool Collision::check()
 	Point3* pos = player->getPosition();
 	//cout<<"Collision eye: x: "<<int(pos->getX())<<" y: "<<int(pos->getY())<<" z: "<<int(pos->getZ())<<"\n";
 	
-	Point3* ma = maze->getPosition();
+	Point3* ma = maze->getCubesPos();
 	bool collision = false;
 	//cout<<"Collision wall: x: "<<ma[3].getX()<<" y: "<<ma[3].getY()<<" z: "<<ma[3].getZ()<<"\n";
-	for (int i = 0; i < maze->getNumberOfWalls(); ++i) {
+	for (int i = 0; i < maze->getNrOfCubes(); ++i) {
 		//float xx =  ma[i].getX() + 1.5;
 		// offset er radius á vegg (1.5) + auka pláss til að stoppa player áður en hann snertir vegginn.
 		float offset = 1.5;		
