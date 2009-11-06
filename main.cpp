@@ -23,7 +23,6 @@ const int Z_N_AXIS = 0;
 // constants
 const int DELAY_TIME = 32;
 const float SLIDE_INCREMENT = 0.5;
-bool collisionLoop = false;
 // globals
 Player player;
 Maze maze;
@@ -187,32 +186,26 @@ void update(int id)
 	if(player.upKeyPressed)
 	{
 		if ( collision.check()) {	
-			// taka einungis eitt skref til baka á z ás
-			if(!collisionLoop)
-				player.slide(0.0f, 0.0f, SLIDE_INCREMENT);
 
-			if(collision.getWallFace() == 2)
+			if(collision.check() == 1)
 			{				
 				player.slideWallFrontBack(0.0f, 0.0f, -SLIDE_INCREMENT);
-				collisionLoop = true;
 			}
 			else
 			{					
 				player.slideWallSide(0.0f, 0.0f, -SLIDE_INCREMENT);
-				collisionLoop = true;
 			}
 		}
 		else
 		{
 			player.slide(0.0f, 0.0f, -SLIDE_INCREMENT);
-			collisionLoop = false;
 		}
 	}
 
 	if(player.downKeyPressed)
 	{
 		player.slide(0.0f, 0.0f, SLIDE_INCREMENT);
-		if ( collision.check()) {
+		if ( collision.check() != 0) {
 			player.slide(0.0f, 0.0f, -SLIDE_INCREMENT);
 		}
 	}

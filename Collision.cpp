@@ -14,77 +14,64 @@ void Collision::init(Player* pl, Maze* ma)
 {
 	player = pl;
 	maze = ma;
-	value = 0;
 }
 
-int Collision::getWallFace()
-{
-	return value;
-}
-
-bool Collision::check()
+int Collision::check()
 {
 	Point3* pos = player->getPosition();
 	//cout<<"Collision eye: x: "<<int(pos->getX())<<" y: "<<int(pos->getY())<<" z: "<<int(pos->getZ())<<"\n";
 	
 	Point3* ma = maze->getCubesPos();
-	bool collision = false;
+	int collision = 0;
 	cout<<"Collision wall: x: "<<ma[3].getX()<<" y: "<<ma[3].getY()<<" z: "<<ma[3].getZ()<<"\n";
 	for (int i = 0; i < maze->getNrOfCubes(); ++i) {
 		//float xx =  ma[i].getX() + 1.5;
 		// offset er radius á vegg (1.5) + auka pláss til að stoppa player áður en hann snertir vegginn.
 		float offset = 1.5;		
+		float lesserThan = 1;
 		
 		// hliðar
-		if (	fabs(ma[i].getX() - (pos->getX())) < 1 
-			&&  fabs(ma[i].getZ() + offset -(pos->getZ())) < 1)			
+		if (	fabs(ma[i].getX() - (pos->getX())) < lesserThan 
+			&&  fabs(ma[i].getZ() + offset -(pos->getZ())) < lesserThan)			
 		{
-			value = 2;
-			collision = true;
+			collision = 1;
 		}
-		if (	fabs(ma[i].getX() -(pos->getX())) < 1 
-			&&  fabs(ma[i].getZ() - offset -(pos->getZ())) < 1)			
+		if (	fabs(ma[i].getX() -(pos->getX())) < lesserThan 
+			&&  fabs(ma[i].getZ() - offset -(pos->getZ())) < lesserThan)			
 		{	
-			value = 1;
-			collision = true;
+			collision = 2;
 		}
-		else if (	fabs(ma[i].getX() +offset -(pos->getX())) < 1 
-			&&  fabs(ma[i].getZ() -(pos->getZ())) < 1)			
+		else if (	fabs(ma[i].getX() +offset -(pos->getX())) < lesserThan
+			&&  fabs(ma[i].getZ() -(pos->getZ())) < lesserThan)			
 		{
-			value = 2;
-			collision = true;
+			collision = 3;
 		}
-		else if (	fabs(ma[i].getX() -offset -(pos->getX())) < 1 
-			&&  fabs(ma[i].getZ() -(pos->getZ())) < 1)			
+		else if (	fabs(ma[i].getX() -offset -(pos->getX())) < lesserThan
+			&&  fabs(ma[i].getZ() -(pos->getZ())) < lesserThan)			
 		{
-			value = 2;
-			collision = true;
+			collision = 4;
 		}
 
 		// hornin
-		else if (	fabs(ma[i].getX() + offset -(pos->getX())) < 1 
-			&&  fabs(ma[i].getZ() + offset -(pos->getZ())) < 1)			
+		else if (	fabs(ma[i].getX() + offset -(pos->getX())) < lesserThan 
+			&&  fabs(ma[i].getZ() + offset -(pos->getZ())) < lesserThan)			
 		{
-			value = 1;
-			collision = true;
+			collision = 5;
 		}
-		else if (fabs(ma[i].getX() - offset -(pos->getX())) < 1
-			&&  fabs(ma[i].getZ() + offset -(pos->getZ())) < 1 ) 
+		else if (fabs(ma[i].getX() - offset -(pos->getX())) < lesserThan
+			&&  fabs(ma[i].getZ() + offset -(pos->getZ())) < lesserThan ) 
 		{
-			value = 1;
-			collision = true;
+			collision = 6;
 		}
-		else if (fabs(ma[i].getX() + offset -(pos->getX())) < 1
-			&&  fabs(ma[i].getZ() - offset -(pos->getZ())) < 1 ) 
+		else if (fabs(ma[i].getX() + offset -(pos->getX())) < lesserThan
+			&&  fabs(ma[i].getZ() - offset -(pos->getZ())) < lesserThan ) 
 		{
-			value = 1;
-			collision = true;
+			collision = 7;
 		}
-		else if (fabs(ma[i].getX() - offset -(pos->getX())) < 1
-			&&  fabs(ma[i].getZ() - offset -(pos->getZ())) < 1 ) 
+		else if (fabs(ma[i].getX() - offset -(pos->getX())) < lesserThan
+			&&  fabs(ma[i].getZ() - offset -(pos->getZ())) < lesserThan ) 
 		{
-			value = 1;
-			collision = true;
+			collision = 8;
 		}				
 	}
 		
