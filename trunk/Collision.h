@@ -12,8 +12,7 @@ private:
 public:
 	Collision(void);
 	void init(Player* pl, Maze* ma);
-	bool check();
-	int getWallFace();
+	int check();
 	~Collision(void);
 	bool checkFinish();
 };

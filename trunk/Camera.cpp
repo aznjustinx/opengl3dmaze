@@ -67,15 +67,13 @@ void Camera::slideWallFrontBack(float delU, float delV, float delN)
 {	
 	float x = eye.getX() + delU*u.getX() + delV*v.getX() + delN*n.getX();
 	float y = eye.getY() + delU*u.getY() + delV*v.getY() + delN*n.getY();
-	float z = eye.getZ();// + delU*u.getZ() + delV*v.getZ() + delN*n.getZ();
-	cout << "z:   " << z << endl;
-	cout << "del: " << -delN*n.getZ() << endl;
+	float z = eye.getZ();// + delU*u.getZ() + delV*v.getZ() + delN*n.getZ();	
 	eye.set(x, y, z);
 }
 
 void Camera::slideWallSide(float delU, float delV, float delN)
 {
-	float x = eye.getX() + 1;// + delU*u.getX() + delV*v.getX() + delN*n.getX();
+	float x = eye.getX();// + delU*u.getX() + delV*v.getX() + delN*n.getX();
 	float y = eye.getY() + delU*u.getY() + delV*v.getY() + delN*n.getY();
 	float z = eye.getZ() + delU*u.getZ() + delV*v.getZ() + delN*n.getZ();
 	eye.set(x, y, z);

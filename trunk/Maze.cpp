@@ -17,7 +17,7 @@ Tölvugrafik
 using namespace std;
 
 int cMap[MAP_SIZE][MAP_SIZE] = {
-	{1, 1, 1, 1, 0, 1, 1, 1, 1, 1},
+	{1, 1, 1, 0, 1, 0, 1, 1, 1, 1},
 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
 	{1, 0, 0, 1, 0, 1, 0, 0, 0, 1},
@@ -108,18 +108,18 @@ void Maze::displayMaze()
 			glTranslatef(point->getX(), point->getY(), point->getZ()); //translates to where it should belong	
 			switch (cMap[i][j])
 			{
-				case 0 :
+				case 0:
 				displayFloor();
 				//displayFinishSign();
 				break;
 
-				case 1 :
+				case 1:
 				materialColor(.75164, .60648, .22648, 1., .75164, .60648, .22648, 1., .75164, .60648, .22648, 1., 51.2);
-				//glutWireCube(TILE_SIZE);
-				glutSolidCube(TILE_SIZE);
+				//glutSolidCube(TILE_SIZE);
+				glutWireCube(TILE_SIZE);
 				break;
 
-				case 9 :
+				case 9:
 				displayFloor();
 				displayFinishSign();
 				//finishSign->draw();
