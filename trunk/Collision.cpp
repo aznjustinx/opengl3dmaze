@@ -23,55 +23,55 @@ int Collision::check()
 	
 	Point3* ma = maze->getCubesPos();
 	int collision = 0;
-	cout<<"Collision wall: x: "<<ma[3].getX()<<" y: "<<ma[3].getY()<<" z: "<<ma[3].getZ()<<"\n";
+	//cout<<"Collision wall: x: "<<ma[3].getX()<<" y: "<<ma[3].getY()<<" z: "<<ma[3].getZ()<<"\n";
 	for (int i = 0; i < maze->getNrOfCubes(); ++i) {
 		//float xx =  ma[i].getX() + 1.5;
 		// offset er radius á vegg (1.5) + auka pláss til að stoppa player áður en hann snertir vegginn.
+		//cout<<"Collision wall: "<<i<<" x: "<<ma[i].getX()<<" y: "<<ma[i].getY()<<" z: "<<ma[i].getZ()<<"\n";
 		float offset = 1.5;		
-		float lesserThan = 1;
-		
+		float lesserThan = 1;		
 		// hliðar
 		if (	fabs(ma[i].getX() - (pos->getX())) < lesserThan 
 			&&  fabs(ma[i].getZ() + offset -(pos->getZ())) < lesserThan)			
 		{
 			collision = 1;
 		}
-		if (	fabs(ma[i].getX() -(pos->getX())) < lesserThan 
+		else if (	fabs(ma[i].getX() -(pos->getX())) < lesserThan 
 			&&  fabs(ma[i].getZ() - offset -(pos->getZ())) < lesserThan)			
 		{	
-			collision = 2;
+			collision = 3;
 		}
 		else if (	fabs(ma[i].getX() +offset -(pos->getX())) < lesserThan
 			&&  fabs(ma[i].getZ() -(pos->getZ())) < lesserThan)			
 		{
-			collision = 3;
+			collision = 2;
 		}
 		else if (	fabs(ma[i].getX() -offset -(pos->getX())) < lesserThan
 			&&  fabs(ma[i].getZ() -(pos->getZ())) < lesserThan)			
 		{
-			collision = 4;
+			collision = 2;
 		}
 
 		// hornin
 		else if (	fabs(ma[i].getX() + offset -(pos->getX())) < lesserThan 
 			&&  fabs(ma[i].getZ() + offset -(pos->getZ())) < lesserThan)			
 		{
-			collision = 5;
+			collision = 1;
 		}
 		else if (fabs(ma[i].getX() - offset -(pos->getX())) < lesserThan
 			&&  fabs(ma[i].getZ() + offset -(pos->getZ())) < lesserThan ) 
 		{
-			collision = 6;
+			collision = 1;
 		}
 		else if (fabs(ma[i].getX() + offset -(pos->getX())) < lesserThan
 			&&  fabs(ma[i].getZ() - offset -(pos->getZ())) < lesserThan ) 
 		{
-			collision = 7;
+			collision = 3;
 		}
 		else if (fabs(ma[i].getX() - offset -(pos->getX())) < lesserThan
 			&&  fabs(ma[i].getZ() - offset -(pos->getZ())) < lesserThan ) 
 		{
-			collision = 8;
+			collision = 3;
 		}				
 	}
 		
