@@ -25,6 +25,7 @@ public:
 	void right();
 	void forward();
 	Point3* getCubesPos();
+	Point3 getFinishPos();
 	int getNrOfCubes();
 	void setPosition(float x, float y, float z, int pos);
 	void init();
