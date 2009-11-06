@@ -58,7 +58,7 @@ void Maze::init()
 		{
 			if (cMap[i][j] == 1)
 			{
-				cubesPos[i+j] = Point3(j*TILE_SIZE, 0, -i*TILE_SIZE);
+				cubesPos[nrOfCubes] = Point3(j*TILE_SIZE, 0, -i*TILE_SIZE);
 				nrOfCubes++;
 			}
 

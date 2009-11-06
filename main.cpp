@@ -185,14 +185,15 @@ void update(int id)
 	glutTimerFunc(DELAY_TIME, update, 0);
 	if(player.upKeyPressed)
 	{
-		if ( collision.check()) {	
-
-			if(collision.check() == 1)
+		if ( collision.check() != 0) {	
+			cout << collision.check() << endl;
+			if(collision.check() == 1 || collision.check() == 3 )
 			{				
 				player.slideWallFrontBack(0.0f, 0.0f, -SLIDE_INCREMENT);
 			}
-			else
-			{					
+			else if(collision.check() == 2)
+			{	
+				//player.slideWallFrontBack(0.0f, 0.0f, -SLIDE_INCREMENT);
 				player.slideWallSide(0.0f, 0.0f, -SLIDE_INCREMENT);
 			}
 		}
@@ -228,7 +229,7 @@ void update(int id)
 	//Point3* pos = player.getPosition();
 	//cout<<"eye: x: "<<pos->getX()<<" y: "<<pos->getY()<<" z: "<<pos->getZ()<<"\n";
 	maze.updateObjects();
-	glutPostRedisplay(); //Tell GLUT that the display has change
+	glutPostRedisplay(); //Tell GLUT that the display has change	
 }
 
 // main fallið
