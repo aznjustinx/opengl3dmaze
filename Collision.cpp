@@ -28,51 +28,91 @@ int Collision::check()
 		//float xx =  ma[i].getX() + 1.5;
 		// offset er radius á vegg (1.5) + auka pláss til að stoppa player áður en hann snertir vegginn.
 		//cout<<"Collision wall: "<<i<<" x: "<<ma[i].getX()<<" y: "<<ma[i].getY()<<" z: "<<ma[i].getZ()<<"\n";
-		float offset = 1.5;		
-		float lesserThan = 1;		
-		// hliðar
+		float offset = 1.5;			// út að ytri hlið kubbs
+		float lesserThan = 1;		// stærð á kalli
+		float side_offset = 0.3;	// frá horni 
+
+		// 678
+		// 4 5
+		// 123
+
+		// niðri vinstra 1
+		if (fabs(ma[i].getX() - offset +side_offset -(pos->getX())) < lesserThan
+			&&  fabs(ma[i].getZ() + offset -(pos->getZ())) < lesserThan ) 
+		{
+			collision = 1; // 1
+		}
+		// niðri miðja 2
 		if (	fabs(ma[i].getX() - (pos->getX())) < lesserThan 
 			&&  fabs(ma[i].getZ() + offset -(pos->getZ())) < lesserThan)			
 		{
-			collision = 1;
+			collision = 1; // 2
 		}
-		else if (	fabs(ma[i].getX() -(pos->getX())) < lesserThan 
-			&&  fabs(ma[i].getZ() - offset -(pos->getZ())) < lesserThan)			
-		{	
-			collision = 3;
-		}
-		else if (	fabs(ma[i].getX() +offset -(pos->getX())) < lesserThan
-			&&  fabs(ma[i].getZ() -(pos->getZ())) < lesserThan)			
-		{
-			collision = 2;
-		}
-		else if (	fabs(ma[i].getX() -offset -(pos->getX())) < lesserThan
-			&&  fabs(ma[i].getZ() -(pos->getZ())) < lesserThan)			
-		{
-			collision = 2;
-		}
-
-		// hornin
-		else if (	fabs(ma[i].getX() + offset -(pos->getX())) < lesserThan 
+		// niðri hægri 3
+		if (	fabs(ma[i].getX() + offset -side_offset -(pos->getX())) < lesserThan 
 			&&  fabs(ma[i].getZ() + offset -(pos->getZ())) < lesserThan)			
 		{
-			collision = 1;
+			collision = 1; // 3
 		}
-		else if (fabs(ma[i].getX() - offset -(pos->getX())) < lesserThan
-			&&  fabs(ma[i].getZ() + offset -(pos->getZ())) < lesserThan ) 
+
+
+		// niðri vinstra HLIÐ 12
+		if (fabs(ma[i].getX() - offset -(pos->getX())) < lesserThan
+			&&  fabs(ma[i].getZ() + offset - side_offset -(pos->getZ())) < lesserThan ) 
 		{
-			collision = 1;
+			collision = 2;
 		}
-		else if (fabs(ma[i].getX() + offset -(pos->getX())) < lesserThan
+		// niðri hægra HLIÐ 13
+		if (	fabs(ma[i].getX() + offset -(pos->getX())) < lesserThan 
+			&&  fabs(ma[i].getZ() + offset -side_offset -(pos->getZ())) < lesserThan)			
+		{
+			collision = 2;
+		}
+		// miðja vinstri 4
+		if (	fabs(ma[i].getX() -offset -(pos->getX())) < lesserThan
+			&&  fabs(ma[i].getZ() -(pos->getZ())) < lesserThan)			
+		{
+			collision = 2;
+		}
+		// miðja hægri 5
+		if (	fabs(ma[i].getX() +offset -(pos->getX())) < lesserThan
+			&&  fabs(ma[i].getZ() -(pos->getZ())) < lesserThan)			
+		{
+			collision = 2;
+		}
+		// efri vinstri HLIÐ 36
+		if (fabs(ma[i].getX() - offset -(pos->getX())) < lesserThan
+			&&  fabs(ma[i].getZ() - offset + side_offset -(pos->getZ())) < lesserThan ) 
+		{
+			collision = 2;
+		}	
+		// efri hægri HLIÐ 38
+		if (fabs(ma[i].getX() + offset -(pos->getX())) < lesserThan
+			&&  fabs(ma[i].getZ() - offset +side_offset-(pos->getZ())) < lesserThan ) 
+		{
+			collision = 2;
+		}					
+
+		
+		
+		// efri vinstra 6
+		if (fabs(ma[i].getX() - offset + side_offset -(pos->getX())) < lesserThan
 			&&  fabs(ma[i].getZ() - offset -(pos->getZ())) < lesserThan ) 
 		{
-			collision = 3;
+			collision = 3; // 6
+		}	
+		// efri miðja 7
+		if (	fabs(ma[i].getX() -(pos->getX())) < lesserThan 
+			&&  fabs(ma[i].getZ() - offset -(pos->getZ())) < lesserThan)			
+		{	
+			collision = 3; // 7
 		}
-		else if (fabs(ma[i].getX() - offset -(pos->getX())) < lesserThan
+		// efri hægra 8
+		if (fabs(ma[i].getX() + offset - side_offset-(pos->getX())) < lesserThan
 			&&  fabs(ma[i].getZ() - offset -(pos->getZ())) < lesserThan ) 
 		{
-			collision = 3;
-		}				
+			collision = 3; // 8
+		}					
 	}
 		
 	return collision;
