@@ -162,6 +162,8 @@ void update(int id)
 	glutTimerFunc(DELAY_TIME, update, 0);
 	if(player.upKeyPressed)
 	{
+		//Point3* pos = player.getPosition();
+		//cout<<"eye: x: "<<pos->getX()<<" y: "<<pos->getY()<<" z: "<<pos->getZ()<<"\n";
 		if ( collision.check() != 0) {	
 			//cout << collision.check() << endl;
 			if(collision.check() == 1 || collision.check() == 3 )
@@ -203,8 +205,7 @@ void update(int id)
 	{
 		player.slide(0., -SLIDE_INCREMENT, 0.);
 	}
-	//Point3* pos = player.getPosition();
-	//cout<<"eye: x: "<<pos->getX()<<" y: "<<pos->getY()<<" z: "<<pos->getZ()<<"\n";
+	
 	maze.updateObjects();
 	glutPostRedisplay(); //Tell GLUT that the display has change	
 }
