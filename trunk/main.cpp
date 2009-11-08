@@ -172,8 +172,11 @@ void update(int id)
 			}
 			else if(collision.check() == 2)
 			{	
-				//player.slideWallFrontBack(0.0f, 0.0f, -SLIDE_INCREMENT);
 				player.slideWallSide(0.0f, 0.0f, -SLIDE_INCREMENT);
+			}
+			else if(collision.check() == 4)
+			{
+				player.slide(0.0f, 0.0f, 0.0f);
 			}
 		}
 		else

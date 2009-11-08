@@ -4,7 +4,7 @@
 #include "Mesh.h"
 
 const float TILE_SIZE = 3.0;
-const int MAP_SIZE = 10;
+const int MAP_SIZE = 3;
 
 class Maze
 {

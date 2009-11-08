@@ -36,46 +36,6 @@ int Collision::check()
 		// 678
 		// 4 5
 		// 123
-		
-		// HLIÐAR *********+
-		// niðri vinstra HLIÐ 12
-		if (fabs(ma[i].getX() - offset -(pos->getX())) < lesserThan
-			&&  fabs(ma[i].getZ() + offset - side_offset - (pos->getZ())) < lesserThan ) 
-		{
-			collision = 2;
-		}
-		// niðri hægra HLIÐ 13
-		else if (	fabs(ma[i].getX() + offset -(pos->getX())) < lesserThan 
-			&&  fabs(ma[i].getZ() + offset -side_offset -(pos->getZ())) < lesserThan)			
-		{
-			collision = 2;
-		}
-		// miðja vinstri 4
-		else if (	fabs(ma[i].getX() -offset -(pos->getX())) < lesserThan
-			&&  fabs(ma[i].getZ() -(pos->getZ())) < lesserThan)			
-		{
-			collision = 2;
-		}
-		// miðja hægri 5
-		else if (	fabs(ma[i].getX() +offset -(pos->getX())) < lesserThan
-			&&  fabs(ma[i].getZ() -(pos->getZ())) < lesserThan)			
-		{
-			collision = 2;
-		}
-		// efri vinstri HLIÐ 36
-		else if (fabs(ma[i].getX() - offset -(pos->getX())) < lesserThan
-			&&  fabs(ma[i].getZ() - offset + side_offset -(pos->getZ())) < lesserThan ) 
-		{
-			collision = 2;
-		}	
-		// efri hægri HLIÐ 38
-		else if (fabs(ma[i].getX() + offset -(pos->getX())) < lesserThan
-			&&  fabs(ma[i].getZ() - offset +side_offset-(pos->getZ())) < lesserThan ) 
-		{
-			collision = 2;
-		}					
-
-
 		// NIÐRI************
 		// niðri vinstra 1
 		if (fabs(ma[i].getX() - offset +side_offset -(pos->getX())) < lesserThan
@@ -115,7 +75,61 @@ int Collision::check()
 			&&  fabs(ma[i].getZ() - offset -(pos->getZ())) < lesserThan ) 
 		{
 			collision = 3; // 8
+		}	
+		
+		// HLIÐAR *********+
+		// niðri vinstra HLIÐ 12
+		if (fabs(ma[i].getX() - offset -(pos->getX())) < lesserThan
+			&&  fabs(ma[i].getZ() + offset - side_offset - (pos->getZ())) < lesserThan ) 
+		{
+			collision = 2;
+		}
+		// niðri hægra HLIÐ 13
+		else if (	fabs(ma[i].getX() + offset -(pos->getX())) < lesserThan 
+			&&  fabs(ma[i].getZ() + offset -side_offset -(pos->getZ())) < lesserThan)			
+		{
+			collision = 2;
+		}
+		// miðja vinstri 4
+		else if (	fabs(ma[i].getX() -offset -(pos->getX())) < lesserThan
+			&&  fabs(ma[i].getZ() -(pos->getZ())) < lesserThan)			
+		{
+			collision = 2;
+		}
+		// miðja hægri 5
+		else if (	fabs(ma[i].getX() +offset -(pos->getX())) < lesserThan
+			&&  fabs(ma[i].getZ() -(pos->getZ())) < lesserThan)			
+		{
+			collision = 2;
+		}
+		// efri vinstri HLIÐ 36
+		else if (fabs(ma[i].getX() - offset -(pos->getX())) < lesserThan
+			&&  fabs(ma[i].getZ() - offset + side_offset -(pos->getZ())) < lesserThan ) 
+		{
+			collision = 2;
+		}	
+		// efri hægri HLIÐ 38
+		else if (fabs(ma[i].getX() + offset -(pos->getX())) < lesserThan
+			&&  fabs(ma[i].getZ() - offset +side_offset-(pos->getZ())) < lesserThan ) 
+		{
+			collision = 2;
 		}					
+
+		// horn i horn
+		// niðri hlid vinstri og efra hægra
+		if (
+			fabs(ma[i].getX() - offset -(pos->getX())) < lesserThan
+			&&  fabs(ma[i].getZ() + offset - side_offset - (pos->getZ())) < lesserThan
+			&&
+			fabs(ma[i-3].getX() + offset - side_offset-(pos->getX())) < lesserThan
+			&&  fabs(ma[i-3].getZ() - offset -(pos->getZ())) < lesserThan
+			)
+		{
+			cout << "horn" << endl;
+			collision = 4;
+		}
+
+						
 	}
 	Point3 finish =  maze->getFinishPos();
 	//cout << finish.getX() << ", " << finish.getZ() << endl;
