@@ -4,7 +4,7 @@
 #include "Mesh.h"
 
 const float TILE_SIZE = 3.0;
-const int MAP_SIZE = 3;
+const int MAP_SIZE = 10;
 
 class Maze
 {
@@ -12,11 +12,12 @@ private:
 	Mesh* finishSign;
 	float finishRotAngle;
 	int nrOfCubes;
-	Point3 cubesPos[MAP_SIZE*MAP_SIZE];
 	Point3 finishPos;
+	
 public:	
+	Point3 cubesPos[MAP_SIZE][MAP_SIZE];
 	Maze();
-	~Maze();	
+	~Maze();		
 	void displayMaze();
 	void displayBox();
 	void displayWall();
@@ -24,8 +25,8 @@ public:
 	void left();
 	void right();
 	void forward();
-	Point3* getCubesPos();
 	Point3 getFinishPos();
+	Point3 getCubesPos(int i, int j);
 	int getNrOfCubes();
 	void setPosition(float x, float y, float z, int pos);
 	void init();

@@ -16,22 +16,25 @@ Tölvugrafik
 
 using namespace std;
 //   0  1  2  3  4  5  6  7  8  9
-//int cMap[MAP_SIZE][MAP_SIZE] = {
-//	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-//	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-//	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-//	{1, 0, 0, 1, 0, 1, 0, 0, 0, 1},
-//	{1, 0, 0, 1, 0, 1, 0, 0, 0, 1},
-//	{1, 0, 1, 1, 1, 1, 1, 1, 1, 1},
-//	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-//	{1, 0, 1, 1, 1, 1, 1, 1, 0, 1},
-//	{1, 0, 0, 1, 0, 0, 0, 0, 0, 1},
-//	{1, 1, 1, 1, 9, 1, 1, 1, 1, 1},};
-
 int cMap[MAP_SIZE][MAP_SIZE] = {
-	{0, 1, 0},
-	{1, 1, 1},
-	{0, 1, 0},};
+	{1, 1, 1, 1, 0, 1, 1, 1, 1, 1},
+	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+	{1, 1, 1, 1, 0, 1, 0, 1, 1, 1},
+	{1, 0, 0, 1, 0, 1, 0, 0, 0, 1},
+	{1, 0, 1, 1, 1, 1, 1, 1, 1, 1},
+	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+	{1, 0, 1, 1, 1, 1, 1, 1, 0, 1},
+	{1, 0, 0, 1, 0, 0, 0, 0, 0, 1},
+	{1, 1, 1, 1, 9, 1, 1, 1, 1, 1},};
+
+//int cMap[MAP_SIZE][MAP_SIZE] = {
+//	{0, 1, 0},
+//	{1, 1, 1},
+//	{0, 1, 0},};
+
+Point3 cubesPos[MAP_SIZE][MAP_SIZE];
+
 Maze::Maze()
 {	
 }
@@ -57,7 +60,7 @@ void Maze::init()
 		{
 			if (cMap[i][j] == 1)
 			{
-				cubesPos[nrOfCubes] = Point3(j*TILE_SIZE, 0, -i*TILE_SIZE);
+				cubesPos[i][j] = Point3(j*TILE_SIZE, 0, -i*TILE_SIZE);
 				nrOfCubes++;
 			}
 
@@ -69,9 +72,16 @@ void Maze::init()
 	}
 }
 
-Point3* Maze::getCubesPos()
+//Point3 Maze::getCubesPos()
+//{
+//	cout << "maze: "<< cubesPos[1][1].getZ() << endl;
+//	return cubesPos[MAP_SIZE][MAP_SIZE];
+//}
+
+Point3 Maze::getCubesPos(int i, int j)
 {
-	return cubesPos;
+	//cout << "maze: "<< cubesPos[1][1].getZ() << endl;
+	return cubesPos[i][j];
 }
 
 int Maze::getNrOfCubes()
