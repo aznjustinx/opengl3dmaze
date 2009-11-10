@@ -22,7 +22,7 @@ public:
 	void setPerspective(float vAng, float asp, float nearD, float farD);
 	// get ready for parallel projection
 	void setParallel(float left, float right, float bottom, float top, float nearD, float farD);
-
+	Vector3* getYaw();
 	Point3* getPosition();
 };
 

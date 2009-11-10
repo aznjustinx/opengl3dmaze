@@ -63,6 +63,7 @@ void Camera::slide(float delU, float delV, float delN)
 	//setModelViewMatrix();
 }
 
+// Getur einungis farið í x y stefnu
 void Camera::slideWallFrontBack(float delU, float delV, float delN)
 {	
 	float x = eye.getX() + delU*u.getX() + delV*v.getX() + delN*n.getX();
@@ -71,6 +72,7 @@ void Camera::slideWallFrontBack(float delU, float delV, float delN)
 	eye.set(x, y, z);
 }
 
+// Getur einungis farið í z y stefnu
 void Camera::slideWallSide(float delU, float delV, float delN)
 {
 	float x = eye.getX();// + delU*u.getX() + delV*v.getX() + delN*n.getX();
@@ -106,6 +108,8 @@ void Camera::yaw(float angle)
 	n.set(	-sn*t.getX() + cs*n.getX(),
 			-sn*t.getY() + cs*n.getY(),
 			-sn*t.getZ() + cs*n.getZ());
+	//cout << "n.x: "<< n.getX() << endl;
+	//cout << "n.z: "<< n.getZ() << endl;
 	//setModelViewMatrix();
 }
 
@@ -127,4 +131,9 @@ void Camera::pitch(float angle)
 Point3* Camera::getPosition()
 {
 	return &eye;
+}
+
+Vector3* Camera::getYaw()
+{
+	return &n;
 }

@@ -24,7 +24,7 @@ int cMap[MAP_SIZE][MAP_SIZE] = {
 	{1, 1, 1, 1, 0, 1, 1, 1, 1, 1},
 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	{1, 1, 1, 1, 0, 1, 0, 1, 1, 1},
+	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
 	{1, 0, 0, 1, 0, 1, 0, 0, 0, 1},
 	{1, 0, 1, 1, 1, 1, 1, 1, 1, 1},
 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
@@ -222,8 +222,8 @@ void Maze::displayMaze()
 
 				case 1:
 				//materialColor(.75164, .60648, .22648, 1., .75164, .60648, .22648, 1., .75164, .60648, .22648, 1., 51.2);
-				glutSolidCube(TILE_SIZE);
-				//glutWireCube(TILE_SIZE);
+				//glutSolidCube(TILE_SIZE);
+				glutWireCube(TILE_SIZE);
 				//displayCube();
 				break;
 
