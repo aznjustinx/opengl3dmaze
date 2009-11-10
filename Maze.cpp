@@ -13,6 +13,10 @@ Tölvugrafik
 #include <GL/glut.h>
 #include "Maze.h"
 #include "Point3.h"
+#include <gl/gl.h>
+#include <FreeImage.h>
+
+
 
 using namespace std;
 //   0  1  2  3  4  5  6  7  8  9
@@ -34,6 +38,9 @@ int cMap[MAP_SIZE][MAP_SIZE] = {
 //	{0, 1, 0},};
 
 Point3 cubesPos[MAP_SIZE][MAP_SIZE];
+// Holds all texture objects
+GLuint g_textures[MAX_TEXTURES];
+enum { TEX_FLOOR, TEX_ROAD, TEX_ASPHALT, TEX_TILES, TEX_BRICKS };
 
 Maze::Maze()
 {	
@@ -41,6 +48,47 @@ Maze::Maze()
 
 Maze::~Maze()
 {
+}
+
+// loadImage
+// Create a new texture object and bind it to a valid textureID
+// Load the image data from the given file
+void Maze::loadImage(GLuint textureID, char* filename) {
+	FREE_IMAGE_FORMAT fifmt = FreeImage_GetFileType(filename, 0);
+	FIBITMAP *dib = FreeImage_Load(fifmt, filename,0);
+    dib = FreeImage_ConvertTo32Bits(dib);
+    if( dib != NULL ) {
+		// Create a new texture object, bound to the name 'textureID'
+		// Initially only default values fill the new texture object.
+		// It does not contain texture data yet.
+		glBindTexture( GL_TEXTURE_2D, textureID );
+		glTexParameteri( GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+		glTexParameteri( GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+		// On some platforms, the data gets read in the 
+// BGR format instead of RGB
+		// This has to be "normalized" by reading the 
+// correct bits into a definite RGB format
+		int bytespp = FreeImage_GetLine(dib) / FreeImage_GetWidth(dib);
+		BYTE *bits = new BYTE[FreeImage_GetWidth(dib) * FreeImage_GetHeight(dib) * bytespp];
+		// get a pointer to FreeImage's data.
+		BYTE *pixels = (BYTE*)FreeImage_GetBits(dib);
+		// Iterate through the pixels, copying the data
+		// from 'pixels' to 'bits' except in RGBA format.
+		for(int pix=0; pix<FreeImage_GetWidth(dib) * FreeImage_GetHeight(dib)*bytespp; pix+=bytespp) {
+			bits[pix+0]=pixels[pix+FI_RGBA_RED];
+			bits[pix+1]=pixels[pix+FI_RGBA_GREEN];
+			bits[pix+2]=pixels[pix+FI_RGBA_BLUE];
+			bits[pix+3]=pixels[pix+FI_RGBA_ALPHA];
+		}
+        // Fill the current texture object with texture data
+		glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, FreeImage_GetWidth(dib), FreeImage_GetHeight(dib), 0,
+				GL_RGBA, GL_UNSIGNED_BYTE, bits );
+		// Unload the source image.
+		// and free the bit data.
+		FreeImage_Unload(dib);
+		delete bits;
+	}
+	//return textureID;
 }
 
 void Maze::init()
@@ -70,7 +118,57 @@ void Maze::init()
 			}
 		}
 	}
+	materialColor(1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 100);
+
+	// Generate valid texture IDs
+	glGenTextures( MAX_TEXTURES, g_textures );
+	loadImage(g_textures[TEX_FLOOR], ".\\TilesOrnate.jpg");         //".\\MixedPurple.jpg");   // ".\\Roads0059_4_S.jpg");
 }
+
+// Structure used in makePlate
+struct Vertex {
+    // GL_T2F_V3F
+    float tu, tv;
+    float x, y, z;
+};
+
+// makePlate
+// Create a flat polygonal mesh of the given dimensions in the x/y plane
+// 'dw' and 'dh' specify the number of vertices across the width and height 
+void Maze::makePlate(float width, float height, int dw, int dh, float texWidth, float texHeight) {
+	float widthRatio = width / texWidth;
+	float heightRadio = height / texHeight;
+
+
+	Vertex *v = new Vertex[dw*dh];
+	float stepw = (width/(float)(dw-1));
+	float steph = (height/(float)(dh-1));
+	// Create Our Plate Verticies
+	for (int i = 0; i < dw; i++) {
+		for (int j = 0; j < dh; j++) {
+			v[i*dh+j].x = i*stepw;				
+			v[i*dh+j].y = j*steph;						
+			v[i*dh+j].z = 0;				
+			v[i*dh+j].tu = ((float)i/ (float)(dw-1) * widthRatio);
+			v[i*dh+j].tv = ((float)j/ (float)(dh-1) * heightRadio);
+		}
+	}
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);	
+	for (int i = 0; i < dw - 1; i++) {
+		// Draw A Triangle Strip For Each Column Of Our Mesh
+		glBegin(GL_TRIANGLE_STRIP);
+		for (int j = 0; j < dh; j++) {
+			glTexCoord2f(v[i*dh+j].tu, v[i*dh+j].tv);
+			glVertex3f(v[i*dh+j].x, v[i*dh+j].y, v[i*dh+j].z);	// Draw Vertex
+			glTexCoord2f(v[(i+1)*dh+j].tu, v[(i+1)*dh+j].tv);
+			glVertex3f(v[(i+1)*dh+j].x, v[(i+1)*dh+j].y, v[(i+1)*dh+j].z);// Draw Vertex
+		}
+		glEnd();
+	}
+	delete v;
+}
+
+
 
 //Point3 Maze::getCubesPos()
 //{
@@ -118,20 +216,20 @@ void Maze::displayMaze()
 			switch (cMap[i][j])
 			{
 				case 0:
+				
 				displayFloor();
-				//displayFinishSign();
 				break;
 
 				case 1:
-				materialColor(.75164, .60648, .22648, 1., .75164, .60648, .22648, 1., .75164, .60648, .22648, 1., 51.2);
-				//glutSolidCube(TILE_SIZE);
-				glutWireCube(TILE_SIZE);
+				//materialColor(.75164, .60648, .22648, 1., .75164, .60648, .22648, 1., .75164, .60648, .22648, 1., 51.2);
+				glutSolidCube(TILE_SIZE);
+				//glutWireCube(TILE_SIZE);
+				//displayCube();
 				break;
 
 				case 9:
 				displayFloor();
 				displayFinishSign();
-				//finishSign->draw();
 				break;
 			}
 			glPopMatrix();
@@ -164,9 +262,10 @@ void Maze::materialColor(float dif0, float dif1, float dif2, float dif3
 }
 
 
+
 void Maze::displayFinishSign()
 {	
-	materialColor(.4, .4, .4, 1., .774597, .774597, .774597, 1., .25, .25, .25, 1., 76.8);
+	//materialColor(.4, .4, .4, 1., .774597, .774597, .774597, 1., .25, .25, .25, 1., 76.8);
 	glPushMatrix();	
 	glTranslatef(0., -TILE_SIZE/2 + .1, 0.);
 	glRotatef(finishRotAngle, 0., 1., 0.);
@@ -175,43 +274,44 @@ void Maze::displayFinishSign()
 }
 
 void Maze::displayFloor()
-{
-	materialColor(.2775, .2775, .2775, 1., .773911, .773911, .773911, 1., .23135, .23135, .23135, 1., 89.6);
-	glBegin(GL_POLYGON);
+{	
+	//materialColor(.2775, .2775, .2775, 1., .773911, .773911, .773911, 1., .23135, .23135, .23135, 1., 189.6);
+	/*glBegin(GL_POLYGON);
 	glNormal3f(0.0f, 1.0f, 0.0f);
 	glVertex3f(-TILE_SIZE/2, -TILE_SIZE/2, -TILE_SIZE/2);
 	glVertex3f(TILE_SIZE/2, -TILE_SIZE/2, -TILE_SIZE/2);
 	glVertex3f(TILE_SIZE/2, -TILE_SIZE/2, TILE_SIZE/2);
 	glVertex3f(-TILE_SIZE/2, -TILE_SIZE/2, TILE_SIZE/2);
-	glEnd();
+	glEnd();*/
+	
+	//materialColor(.2775, .2775, .2775, 1., .773911, .773911, .773911, 1., .23135, .23135, .23135, 1., 189.6);
+	materialColor(1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1000);
+	glBindTexture( GL_TEXTURE_2D, g_textures[TEX_FLOOR] );
+	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+	glPushMatrix();		
+	glTranslatef(-TILE_SIZE/2, -TILE_SIZE/2, -TILE_SIZE/2);
+	glRotatef(90., 1., 0., 0.);
+	
+	makePlate(TILE_SIZE, TILE_SIZE, 50, 50, TILE_SIZE, TILE_SIZE);
+	glPopMatrix();
 }
 
-void Maze::displayWall()
+void Maze::displayCube()
 {
-	//glTranslatef(0.0f, 0.0f, -8.0f); // zooma út
-	//glColor3f(1.0f, 1.0f, 0.0f);
 	glBegin(GL_QUADS);
 	
 	//Front
 	glNormal3f(0.0f, 0.0f, 1.0f);
-	//glNormal3f(-1.0f, 0.0f, 1.0f);
-	glVertex3f(-1.5f, -1.0f, 1.5f);
-	//glNormal3f(1.0f, 0.0f, 1.0f);
+	glVertex3f(-TILE_SIZE, -1.0f, 1.5f);
 	glVertex3f(1.5f, -1.0f, 1.5f);
-	//glNormal3f(1.0f, 0.0f, 1.0f);
 	glVertex3f(1.5f, 1.0f, 1.5f);
-	//glNormal3f(-1.0f, 0.0f, 1.0f);
 	glVertex3f(-1.5f, 1.0f, 1.5f);
 	
 	//Right
 	glNormal3f(1.0f, 0.0f, 0.0f);
-	//glNormal3f(1.0f, 0.0f, -1.0f);
 	glVertex3f(1.5f, -1.0f, -1.5f);
-	//glNormal3f(1.0f, 0.0f, -1.0f);
 	glVertex3f(1.5f, 1.0f, -1.5f);
-	//glNormal3f(1.0f, 0.0f, 1.0f);
 	glVertex3f(1.5f, 1.0f, 1.5f);
-	//glNormal3f(1.0f, 0.0f, 1.0f);
 	glVertex3f(1.5f, -1.0f, 1.5f);
 	
 	//Back
@@ -223,34 +323,19 @@ void Maze::displayWall()
 	
 	//Left
 	glNormal3f(-1.0f, 0.0f, 0.0f);
-	//glNormal3f(-1.0f, 0.0f, -1.0f);
 	glVertex3f(-1.5f, -1.0f, -1.5f);
-	//glNormal3f(-1.0f, 0.0f, 1.0f);
 	glVertex3f(-1.5f, -1.0f, 1.5f);
-	//glNormal3f(-1.0f, 0.0f, 1.0f);
 	glVertex3f(-1.5f, 1.0f, 1.5f);
-	//glNormal3f(-1.0f, 0.0f, -1.0f);
 	glVertex3f(-1.5f, 1.0f, -1.5f);
-
 	glEnd();
 
+	//ceiling
 	glRotatef(-90,1,0,0);
-	// ceiling
 	glBegin(GL_POLYGON);
-	//bottom
 	glNormal3f(0.0f, 0.0f, 1);
-	//glNormal3f(-1.0f, 0.0f, -1.0f);
 	glVertex3f(-1.5f, -1.5f, 1);
-	//glNormal3f(-5.0f, 0.0f, -1.0f);
 	glVertex3f(-1.5f, 1.5f, 1);
-	//glNormal3f(1.0f, 0.0f, -1.0f);
 	glVertex3f(1.5f, 1.5f, 1);
-	//glNormal3f(1.0f, 0.0f, -1.0f);
 	glVertex3f(1.5f, -1.5f, 1);
-	//glRotatef(90,0,1,0);
-	glRotatef(90,1,0,0);
 	glEnd();
-	
-	glEnd();
-	glLoadIdentity(); // Til að núlla hreyfingu á angle
 }

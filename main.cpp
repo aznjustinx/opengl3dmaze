@@ -23,6 +23,7 @@ const int Z_N_AXIS = 0;
 // constants
 const int DELAY_TIME = 32;
 const float SLIDE_INCREMENT = 0.5;
+const float ROT_INCREMENT = 5.0;
 // globals
 Player player;
 Maze maze;
@@ -62,8 +63,10 @@ void init() {
 	glEnable(GL_LIGHT2);
 	glEnable(GL_NORMALIZE); //Automatically normalize normals
 	glShadeModel(GL_FLAT);
+	glEnable(GL_TEXTURE_2D);
 	glClearColor(0., 0., 0., 0.);
 	player.set(Point3(12., 0., 2.5), Point3(0., 0., -1.), Vector3(0., 1., 0.));
+	player.yaw(ROT_INCREMENT * 15);
 
 	collision.init(&player, &maze);
 	maze.init();
@@ -155,6 +158,7 @@ void display()
 	maze.displayMaze();
 
 	glutSwapBuffers();
+	glFlush();
 }
 
 void update(int id)
@@ -194,11 +198,11 @@ void update(int id)
 	}
 	if(player.leftKeyPressed)
 	{
-		player.yaw(-5.0f);
+		player.yaw(-ROT_INCREMENT);
 	}
 	if(player.rightKeyPressed)
 	{
-		player.yaw(5.0f);
+		player.yaw(ROT_INCREMENT);
 	}
 	if (player.floatUpPressed)
 	{
