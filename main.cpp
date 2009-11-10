@@ -65,6 +65,7 @@ void init() {
 	glShadeModel(GL_FLAT);
 	glEnable(GL_TEXTURE_2D);
 	glClearColor(0., 0., 0., 0.);
+	
 	player.set(Point3(12., 0., 2.5), Point3(0., 0., -1.), Vector3(0., 1., 0.));
 	player.yaw(ROT_INCREMENT * 15);
 
@@ -169,7 +170,6 @@ void update(int id)
 		//Point3* pos = player.getPosition();
 		//cout<<"eye: x: "<<pos->getX()<<" y: "<<pos->getY()<<" z: "<<pos->getZ()<<"\n";
 		if ( collision.check() != 0) {	
-			//cout << collision.check() << endl;
 			if(collision.check() == 1 || collision.check() == 3 )
 			{				
 				player.slideWallFrontBack(0.0f, 0.0f, -SLIDE_INCREMENT);
