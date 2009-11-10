@@ -22,15 +22,15 @@ using namespace std;
 //   0  1  2  3  4  5  6  7  8  9
 int cMap[MAP_SIZE][MAP_SIZE] = {
 	{1, 1, 1, 1, 0, 1, 1, 1, 1, 1},
+	{1, 0, 0, 0, 9, 0, 0, 0, 0, 1},
 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+	{1, 1, 1, 1, 0, 1, 0, 1, 1, 1},
 	{1, 0, 0, 1, 0, 1, 0, 0, 0, 1},
 	{1, 0, 1, 1, 1, 1, 1, 1, 1, 1},
 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
 	{1, 0, 1, 1, 1, 1, 1, 1, 0, 1},
 	{1, 0, 0, 1, 0, 0, 0, 0, 0, 1},
-	{1, 1, 1, 1, 9, 1, 1, 1, 1, 1},};
+	{1, 1, 1, 1, 0, 1, 1, 1, 1, 1},};
 
 //int cMap[MAP_SIZE][MAP_SIZE] = {
 //	{0, 1, 0},
@@ -40,7 +40,7 @@ int cMap[MAP_SIZE][MAP_SIZE] = {
 Point3 cubesPos[MAP_SIZE][MAP_SIZE];
 // Holds all texture objects
 GLuint g_textures[MAX_TEXTURES];
-enum { TEX_FLOOR, TEX_ROAD, TEX_ASPHALT, TEX_TILES, TEX_BRICKS };
+enum { TEX_FLOOR, TEX_WALL, TEX_ASPHALT, TEX_TILES, TEX_BRICKS };
 
 Maze::Maze()
 {	
@@ -94,6 +94,7 @@ void Maze::loadImage(GLuint textureID, char* filename) {
 void Maze::init()
 {
 	cout<<"MAZE INIT";
+	finished = false;
 	finishSign = new Mesh();
 	if (finishSign->readFile("FINISH_SIGN.3VN") == -1)
 	{
@@ -122,7 +123,8 @@ void Maze::init()
 
 	// Generate valid texture IDs
 	glGenTextures( MAX_TEXTURES, g_textures );
-	loadImage(g_textures[TEX_FLOOR], ".\\TilesOrnate.jpg");         //".\\MixedPurple.jpg");   // ".\\Roads0059_4_S.jpg");
+	loadImage(g_textures[TEX_FLOOR], ".\\TilesOrnate.jpg"); //".\\MixedPurple.jpg");   // ".\\Roads0059_4_S.jpg");
+	loadImage(g_textures[TEX_WALL], ".\\BrickLargeBare.jpg");
 }
 
 // Structure used in makePlate
@@ -167,14 +169,6 @@ void Maze::makePlate(float width, float height, int dw, int dh, float texWidth, 
 	}
 	delete v;
 }
-
-
-
-//Point3 Maze::getCubesPos()
-//{
-//	cout << "maze: "<< cubesPos[1][1].getZ() << endl;
-//	return cubesPos[MAP_SIZE][MAP_SIZE];
-//}
 
 Point3 Maze::getCubesPos(int i, int j)
 {
@@ -223,8 +217,8 @@ void Maze::displayMaze()
 				case 1:
 				//materialColor(.75164, .60648, .22648, 1., .75164, .60648, .22648, 1., .75164, .60648, .22648, 1., 51.2);
 				//glutSolidCube(TILE_SIZE);
-				glutWireCube(TILE_SIZE);
-				//displayCube();
+				//glutWireCube(TILE_SIZE);
+				displayCube();
 				break;
 
 				case 9:
@@ -285,57 +279,47 @@ void Maze::displayFloor()
 	glEnd();*/
 	
 	//materialColor(.2775, .2775, .2775, 1., .773911, .773911, .773911, 1., .23135, .23135, .23135, 1., 189.6);
-	materialColor(1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1000);
+	materialColor(.4, .4, .4, 1., .1, .1, .1, 1., .4, .4, .4, 1., 25);
 	glBindTexture( GL_TEXTURE_2D, g_textures[TEX_FLOOR] );
 	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 	glPushMatrix();		
 	glTranslatef(-TILE_SIZE/2, -TILE_SIZE/2, -TILE_SIZE/2);
 	glRotatef(90., 1., 0., 0.);
 	
-	makePlate(TILE_SIZE, TILE_SIZE, 50, 50, TILE_SIZE, TILE_SIZE);
+	makePlate(TILE_SIZE, TILE_SIZE, 25, 25, TILE_SIZE, TILE_SIZE);
 	glPopMatrix();
 }
 
 void Maze::displayCube()
 {
-	glBegin(GL_QUADS);
-	
-	//Front
-	glNormal3f(0.0f, 0.0f, 1.0f);
-	glVertex3f(-TILE_SIZE, -1.0f, 1.5f);
-	glVertex3f(1.5f, -1.0f, 1.5f);
-	glVertex3f(1.5f, 1.0f, 1.5f);
-	glVertex3f(-1.5f, 1.0f, 1.5f);
-	
-	//Right
-	glNormal3f(1.0f, 0.0f, 0.0f);
-	glVertex3f(1.5f, -1.0f, -1.5f);
-	glVertex3f(1.5f, 1.0f, -1.5f);
-	glVertex3f(1.5f, 1.0f, 1.5f);
-	glVertex3f(1.5f, -1.0f, 1.5f);
-	
-	//Back
-	glNormal3f(0.0f, 0.0f, -1.0f);
-	glVertex3f(-1.5f, -1.0f, -1.5f);
-	glVertex3f(-1.5f, 1.0f, -1.5f);
-	glVertex3f(1.5f, 1.0f, -1.5f);
-	glVertex3f(1.5f, -1.0f, -1.5f);
-	
-	//Left
-	glNormal3f(-1.0f, 0.0f, 0.0f);
-	glVertex3f(-1.5f, -1.0f, -1.5f);
-	glVertex3f(-1.5f, -1.0f, 1.5f);
-	glVertex3f(-1.5f, 1.0f, 1.5f);
-	glVertex3f(-1.5f, 1.0f, -1.5f);
-	glEnd();
+	materialColor(1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1000);
+	glBindTexture( GL_TEXTURE_2D, g_textures[TEX_WALL] );
+	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+	glPushMatrix();		
+	glTranslatef(-TILE_SIZE/2, -TILE_SIZE/2, -TILE_SIZE/2);
+	makePlate(TILE_SIZE, TILE_SIZE, 25, 25, TILE_SIZE, TILE_SIZE);
+	glPopMatrix();
 
-	//ceiling
-	glRotatef(-90,1,0,0);
-	glBegin(GL_POLYGON);
-	glNormal3f(0.0f, 0.0f, 1);
-	glVertex3f(-1.5f, -1.5f, 1);
-	glVertex3f(-1.5f, 1.5f, 1);
-	glVertex3f(1.5f, 1.5f, 1);
-	glVertex3f(1.5f, -1.5f, 1);
-	glEnd();
+	glPushMatrix();		
+	glTranslatef(-TILE_SIZE/2, -TILE_SIZE/2, TILE_SIZE/2);
+	makePlate(TILE_SIZE, TILE_SIZE, 25, 25, TILE_SIZE, TILE_SIZE);
+	glPopMatrix();
+
+	glPushMatrix();		
+	glTranslatef(-TILE_SIZE/2, -TILE_SIZE/2, -TILE_SIZE/2);
+	glRotatef(-90., 0., 1., 0.);
+	makePlate(TILE_SIZE, TILE_SIZE, 25, 25, TILE_SIZE, TILE_SIZE);
+	glPopMatrix();
+
+	glPushMatrix();		
+	glTranslatef(TILE_SIZE/2, -TILE_SIZE/2, -TILE_SIZE/2);
+	glRotatef(-90., 0., 1., 0.);
+	makePlate(TILE_SIZE, TILE_SIZE, 25, 25, TILE_SIZE, TILE_SIZE);
+	glPopMatrix();
+
+	glPushMatrix();		
+	glTranslatef(-TILE_SIZE/2, TILE_SIZE/2, -TILE_SIZE/2);
+	glRotatef(90., 1., 0., 0.);
+	makePlate(TILE_SIZE, TILE_SIZE, 25, 25, TILE_SIZE, TILE_SIZE);
+	glPopMatrix();
 }
