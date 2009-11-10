@@ -16,7 +16,8 @@ private:
 	int nrOfCubes;
 	Point3 finishPos;
 	
-public:	
+public:
+	bool finished;
 	Point3 cubesPos[MAP_SIZE][MAP_SIZE];
 	Maze();
 	~Maze();		
@@ -24,9 +25,6 @@ public:
 	void displayBox();
 	void displayWall();
 	void displayFloor();
-	void left();
-	void right();
-	void forward();
 	Point3 getFinishPos();
 	Point3 getCubesPos(int i, int j);
 	int getNrOfCubes();

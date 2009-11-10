@@ -233,16 +233,6 @@ int Collision::check()
 			}
 		}					
 	}
-	Point3 finish =  maze->getFinishPos();
-	//cout << finish.getX() << ", " << finish.getZ() << endl;
-
-	if (
-		(fabs(finish.getX() - pos->getX())  < lesserThan)
-		&& 
-		(fabs(finish.getZ() - pos->getZ()) < lesserThan)
-		)
-		cout << "You Won" << endl;
-
 	return collision;
 }
 
@@ -250,7 +240,16 @@ Collision::~Collision(void)
 {
 }
 
-/*bool Collision::checkFinish()
+bool Collision::checkFinish()
 {
-
-}*/
+	float lesserThan = 1;
+	Point3* pos = player->getPosition();
+	Point3 finish =  maze->getFinishPos();
+	if ((fabs(finish.getX() - pos->getX())  < lesserThan) && 
+		(fabs(finish.getZ() - pos->getZ()) < lesserThan))
+	{
+		maze->finished = true;
+		return true;
+	}
+	return false;
+}
