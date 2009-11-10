@@ -225,7 +225,7 @@ void update(int id)
 	glutTimerFunc(DELAY_TIME, update, 0);
 	if (collision.checkFinish())
 	{
-		cout<<"if inUpdate";
+		//cout<<"if inUpdate";
 		if(player.restartPressed)
 		{
 			newGame();
@@ -237,23 +237,23 @@ void update(int id)
 
 	}
 	else {
-		cout<<"else inUpdate";
+		//cout<<"else inUpdate";
 	
 
 	if(player.upKeyPressed)
 	{
 		//Point3* pos = player.getPosition();
 		//cout<<"eye: x: "<<pos->getX()<<" y: "<<pos->getY()<<" z: "<<pos->getZ()<<"\n";
-		if ( collision.check() != 0) {	
-			if(collision.check() == 1 || collision.check() == 3 )
+		if ( collision.check(1) != 0) {	
+			if(collision.check(1) == 1 || collision.check(1) == 3 )
 			{				
 				player.slideWallFrontBack(0.0f, 0.0f, -SLIDE_INCREMENT);
 			}
-			else if(collision.check() == 2)
+			else if(collision.check(1) == 2)
 			{	
 				player.slideWallSide(0.0f, 0.0f, -SLIDE_INCREMENT);
 			}
-			else if(collision.check() == 4)
+			else if(collision.check(1) == 4)
 			{
 				player.slide(0.0f, 0.0f, 0.0f);
 			}
@@ -265,11 +265,25 @@ void update(int id)
 	}
 
 	if(player.downKeyPressed)
-	{
-		player.slide(0.0f, 0.0f, SLIDE_INCREMENT);
-		if ( collision.check() != 0) {
-			player.slide(0.0f, 0.0f, -SLIDE_INCREMENT);
+	{		
+		if ( collision.check(0) != 0) {
+			//player.slide(0.0f, 0.0f, -SLIDE_INCREMENT);
+
+			if(collision.check(0) == 1 || collision.check(0) == 3 )
+			{				
+				player.slideWallFrontBack(0.0f, 0.0f,SLIDE_INCREMENT);
+			}
+			else if(collision.check(0) == 2)
+			{	
+				player.slideWallSide(0.0f, 0.0f, SLIDE_INCREMENT);
+			}
+			else if(collision.check(0) == 4)
+			{
+				player.slide(0.0f, 0.0f, 0.0f);
+			}
 		}
+		else
+			player.slide(0.0f, 0.0f, SLIDE_INCREMENT);
 	}
 	if(player.leftKeyPressed)
 	{
