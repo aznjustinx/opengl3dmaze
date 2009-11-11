@@ -22,9 +22,9 @@ using namespace std;
 //   0  1  2  3  4  5  6  7  8  9
 int cMap[MAP_SIZE][MAP_SIZE] = {
 	{1, 1, 1, 1, 0, 1, 1, 1, 1, 1},
-	{1, 0, 0, 0, 9, 0, 0, 0, 0, 1},
 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	{1, 1, 1, 1, 0, 1, 0, 1, 1, 1},
+	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
 	{1, 0, 0, 1, 0, 1, 0, 0, 0, 1},
 	{1, 0, 1, 1, 1, 1, 1, 1, 1, 1},
 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
@@ -176,10 +176,10 @@ Point3 Maze::getCubesPos(int i, int j)
 	return cubesPos[i][j];
 }
 
-int Maze::getNrOfCubes()
-{
-	return nrOfCubes;
-}
+//int Maze::getNrOfCubes()
+//{
+//	return nrOfCubes;
+//}
 
 Point3 Maze::getFinishPos()
 {
@@ -217,8 +217,8 @@ void Maze::displayMaze()
 				case 1:
 				//materialColor(.75164, .60648, .22648, 1., .75164, .60648, .22648, 1., .75164, .60648, .22648, 1., 51.2);
 				//glutSolidCube(TILE_SIZE);
-				//glutWireCube(TILE_SIZE);
-				displayCube();
+				glutWireCube(TILE_SIZE);
+				//displayCube();
 				break;
 
 				case 9:

@@ -26,7 +26,7 @@ public:
 	void displayWall();
 	void displayFloor();
 	Point3 getFinishPos();
-	Point3 getCubesPos(int i, int j);
+	Point3 getCubesPos(int i, int j);	
 	int getNrOfCubes();
 	void setPosition(float x, float y, float z, int pos);
 	void init();
