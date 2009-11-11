@@ -15,7 +15,6 @@ class Maze
 private:
 	Mesh* finishSign;
 	float finishRotAngle;
-	//int nrOfCubes;
 	Point3 finishPos;
 	
 public:
@@ -29,8 +28,6 @@ public:
 	void displayFloor();
 	Point3 getFinishPos();
 	Point3 getCubesPos(int i, int j);
-	//Point3 getCubesPos();
-//	int getNrOfCubes();
 	void setPosition(float x, float y, float z, int pos);
 	void init();
 	void displayFinishSign();
