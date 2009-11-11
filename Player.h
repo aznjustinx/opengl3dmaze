@@ -6,7 +6,7 @@ class Player :
 {
 public:
 	// checkar á hvort takki er niðri
-	bool keyPressed, upKeyPressed, downKeyPressed, leftKeyPressed, rightKeyPressed, restartPressed, quitPressed;
+	bool keyPressed, upKeyPressed, downKeyPressed, leftKeyPressed, rightKeyPressed, quitPressed;
 	//debug
 	bool floatUpPressed, floatDownPressed;
 	float lastx, lasty, xpos, ypos, zpos, xrot, yrot, angle;

@@ -23,14 +23,15 @@ const int Z_N_AXIS = 0;
 // constants
 const int WINDOW_WIDTH = 640;
 const int WINDOW_HEIGHT = 480;
-const int DELAY_TIME = 32;
-const float SLIDE_INCREMENT = 0.5;
-const float ROT_INCREMENT = 5.0;
+const int DELAY_TIME = 24;
+const float SLIDE_INCREMENT = 0.3;
+const float ROT_INCREMENT = 3.;
 GLfloat COL_GREEN[3] = { 0., 1., 0. };
 // globals
 Player player;
 Maze maze;
 Collision collision;
+bool mazeFinished;
 
 
 void specialKeyDown(int  key,  int  x,  int  y)
@@ -55,43 +56,6 @@ void keyboardUp(unsigned char key, int x, int y)
 
 void mouse(int x, int y) {
 	//player.mouse(x, y);
-}
-
-void newGame()
-{
-	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
-	glMatrixMode(GL_MODELVIEW); 
-	glLoadIdentity(); 
-	glMatrixMode(GL_PROJECTION); 
-	glLoadIdentity(); 
-	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_LIGHTING);
-	glDisable (GL_BLEND);
-
-	player.set(Point3(12., 0., 2.5), Point3(0., 0., -1.), Vector3(0., 1., 0.));
-	player.yaw(ROT_INCREMENT * 15);
-
-}
-
-//Initializes 3D rendering
-void init()
-{
-	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_LIGHTING);
-	glEnable(GL_LIGHT0);
-	glEnable(GL_LIGHT1);
-	glEnable(GL_LIGHT2);
-	glEnable(GL_NORMALIZE); //Automatically normalize normals
-	glShadeModel(GL_FLAT);
-	glEnable(GL_TEXTURE_2D);
-	glClearColor(0., 0., 0., 0.);
-	
-	player.set(Point3(12., 0., 2.5), Point3(0., 0., -1.), Vector3(0., 1., 0.));
-	player.yaw(ROT_INCREMENT * 15);
-
-	collision.init(&player, &maze);
-	maze.init();	
-	Point3 point = maze.getFinishPos();
 }
 
 void resize(int width, int height)
@@ -184,9 +148,16 @@ void displayText(const char * message, GLfloat x, GLfloat y/*, GLfloat z*/, int 
 	}
 }
 
-void displayWinText() {
+void displayGameFinished() {
+	glMatrixMode(GL_PROJECTION); 
+	glLoadIdentity();
+	glMatrixMode(GL_MODELVIEW); 
+	glLoadIdentity(); 
+	gluOrtho2D(0, WINDOW_WIDTH, 0, WINDOW_HEIGHT);
+	glEnable (GL_BLEND);
+    glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glDisable(GL_LIGHTING);
 	displayText("Congratulations! You won the game", (WINDOW_WIDTH / 2) - 135, (WINDOW_HEIGHT / 2) + 20, 18, COL_GREEN);
-	displayText("Press 'r' to restart game", (WINDOW_WIDTH / 2) - 85, (WINDOW_HEIGHT / 2), 18, COL_GREEN);
 	displayText("Press 'q' to quit game", (WINDOW_WIDTH / 2) - 75, (WINDOW_HEIGHT / 2) - 20, 18, COL_GREEN);
 }
 
@@ -196,25 +167,13 @@ void display()
 	
 	player.setModelViewMatrix();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	if (collision.checkFinish())
+	if (mazeFinished)
 	{
-		glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
-		glMatrixMode(GL_PROJECTION); 
-		glLoadIdentity();
-		glMatrixMode(GL_MODELVIEW); 
-		glLoadIdentity(); 
-		gluOrtho2D(0, WINDOW_WIDTH, 0, WINDOW_HEIGHT);
-		glDisable(GL_DEPTH_TEST);
-		glDisable(GL_LIGHTING);
-		glEnable (GL_BLEND);
-		glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		displayWinText();
-		//cout<<"FINISHED";
+		displayGameFinished();
 	}
 	else {
 		displayLightning();
 		maze.displayMaze();
-		
 	}
 	glutSwapBuffers();
 	glFlush();
@@ -223,101 +182,116 @@ void display()
 void update(int id)
 {	
 	glutTimerFunc(DELAY_TIME, update, 0);
-	if (collision.checkFinish())
+	if ( !mazeFinished && collision.checkFinish())
 	{
-		//cout<<"if inUpdate";
-		if(player.restartPressed)
+		mazeFinished = true;
+		glutPostRedisplay(); //Tell GLUT that the display has change
+	}
+	else {
+		if(player.upKeyPressed)
 		{
-			newGame();
+			//Point3* pos = player.getPosition();
+			//cout<<"eye: x: "<<pos->getX()<<" y: "<<pos->getY()<<" z: "<<pos->getZ()<<"\n";
+			if ( collision.check(1) != 0) {	
+				if(collision.check(1) == 1 || collision.check(1) == 3 )
+				{				
+					player.slideWallFrontBack(0.0f, 0.0f, -SLIDE_INCREMENT);
+				}
+				else if(collision.check(1) == 2)
+				{	
+					player.slideWallSide(0.0f, 0.0f, -SLIDE_INCREMENT);
+				}
+				else if(collision.check(1) == 4)
+				{
+					player.slide(0.0f, 0.0f, 0.0f);
+				}
+			}
+			else
+			{
+				player.slide(0.0f, 0.0f, -SLIDE_INCREMENT);
+			}
+		}
+
+		if(player.downKeyPressed)
+		{		
+			if ( collision.check(0) != 0) {
+				//player.slide(0.0f, 0.0f, -SLIDE_INCREMENT);
+
+				if(collision.check(0) == 1 || collision.check(0) == 3 )
+				{				
+					player.slideWallFrontBack(0.0f, 0.0f,SLIDE_INCREMENT);
+				}
+				else if(collision.check(0) == 2)
+				{	
+					player.slideWallSide(0.0f, 0.0f, SLIDE_INCREMENT);
+				}
+				else if(collision.check(0) == 4)
+				{
+					player.slide(0.0f, 0.0f, 0.0f);
+				}
+			}
+			else
+				player.slide(0.0f, 0.0f, SLIDE_INCREMENT);
+		}
+		if(player.leftKeyPressed)
+		{
+			player.yaw(-ROT_INCREMENT);
+		}
+		if(player.rightKeyPressed)
+		{
+			player.yaw(ROT_INCREMENT);
 		}
 		if(player.quitPressed)
 		{
 			exit(EXIT_SUCCESS);
 		}
-
-	}
-	else {
-		//cout<<"else inUpdate";
-	
-
-	if(player.upKeyPressed)
-	{
-		//Point3* pos = player.getPosition();
-		//cout<<"eye: x: "<<pos->getX()<<" y: "<<pos->getY()<<" z: "<<pos->getZ()<<"\n";
-		if ( collision.check(1) != 0) {	
-			if(collision.check(1) == 1 || collision.check(1) == 3 )
-			{				
-				player.slideWallFrontBack(0.0f, 0.0f, -SLIDE_INCREMENT);
-			}
-			else if(collision.check(1) == 2)
-			{	
-				player.slideWallSide(0.0f, 0.0f, -SLIDE_INCREMENT);
-			}
-			else if(collision.check(1) == 4)
-			{
-				player.slide(0.0f, 0.0f, 0.0f);
-			}
-		}
-		else
+		if (player.floatUpPressed)
 		{
-			player.slide(0.0f, 0.0f, -SLIDE_INCREMENT);
+			player.slide(0., SLIDE_INCREMENT, 0.);
 		}
-	}
-
-	if(player.downKeyPressed)
-	{		
-		if ( collision.check(0) != 0) {
-			//player.slide(0.0f, 0.0f, -SLIDE_INCREMENT);
-
-			if(collision.check(0) == 1 || collision.check(0) == 3 )
-			{				
-				player.slideWallFrontBack(0.0f, 0.0f,SLIDE_INCREMENT);
-			}
-			else if(collision.check(0) == 2)
-			{	
-				player.slideWallSide(0.0f, 0.0f, SLIDE_INCREMENT);
-			}
-			else if(collision.check(0) == 4)
-			{
-				player.slide(0.0f, 0.0f, 0.0f);
-			}
+		if (player.floatDownPressed)
+		{
+			player.slide(0., -SLIDE_INCREMENT, 0.);
 		}
-		else
-			player.slide(0.0f, 0.0f, SLIDE_INCREMENT);
+
+		maze.updateObjects();
+		glutPostRedisplay(); //Tell GLUT that the display has change
 	}
-	if(player.leftKeyPressed)
-	{
-		player.yaw(-ROT_INCREMENT);
-	}
-	if(player.rightKeyPressed)
-	{
-		player.yaw(ROT_INCREMENT);
-	}
-	if (player.floatUpPressed)
-	{
-		player.slide(0., SLIDE_INCREMENT, 0.);
-	}
-	if (player.floatDownPressed)
-	{
-		player.slide(0., -SLIDE_INCREMENT, 0.);
-	}
+		
+}
+
+void init()
+{
+	glMatrixMode(GL_PROJECTION); 
+	glLoadIdentity();
+	glMatrixMode(GL_MODELVIEW); 
+	glLoadIdentity();
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT0);
+	glEnable(GL_LIGHT1);
+	glEnable(GL_LIGHT2);
+	glEnable(GL_NORMALIZE); //Automatically normalize normals
+	glShadeModel(GL_FLAT);
+	glEnable(GL_TEXTURE_2D);
 	
-
-
-	maze.updateObjects();
-	}
-	glutPostRedisplay(); //Tell GLUT that the display has change	
+	mazeFinished = false;
+	player.set(Point3(12., 0., 2.5), Point3(0., 0., -1.), Vector3(0., 1., 0.));
+	player.yaw(ROT_INCREMENT * 15);
+	collision.init(&player, &maze);
+	maze.init();
 }
 
 // main fallið
 void main(int argc, char** argv)
 {
-	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
+	glutInit(&argc, argv);
 	glutInitWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);			// stærð glugga
 	glutInitWindowPosition(600,100);		// init staðsetning glugga
 	glutCreateWindow("3d Maze");	// nafn glugga
 	glutReshapeFunc(resize);
+	glClearColor(0., 0., 0., 0.);
 	init();						// inits 3D rendering
 
 	glutDisplayFunc(display);			// Teiknar hlutina
