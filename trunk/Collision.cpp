@@ -8,6 +8,7 @@ const float offset = 1.5;			// út ağ ytri hliğ kubbs
 const float lesserThan = 1;		// stærğ á kalli
 const float side_offset = 0.5;	// frá horni 
 int collision = 0;
+bool finishSingTouched = false;
 
 
 
@@ -139,6 +140,8 @@ int Collision::check(int forward)
 				topRightCorner(y,x,pos,n,ma);
 			}
 			#pragma endregion corners
+
+			checkFinish(y,x,pos,n,ma);
 		}					
 	}
 	return collision;
@@ -322,16 +325,22 @@ void Collision::topRightCorner(int y, int x, Point3* pos,Vector3* n,Point3 ma[MA
 
 }
 
+void Collision::checkFinish(int y, int x, Point3* pos,Vector3* n,Point3 ma[MAP_SIZE_Y][MAP_SIZE_X])
+{
+
+	Point3 finishPos = maze->getFinishPos();
+	if (fabs(finishPos.getX() - pos->getX()) < lesserThan
+		&&  fabs(finishPos.getZ() - pos->getZ()) < lesserThan ) 
+	{
+		finishSingTouched = true;
+	}	
+}
+
 Collision::~Collision(void)
 {
 }
 
-bool Collision::checkFinish()
+bool Collision::won()
 {
-	/*if (player->getPosition()->x < 13 && player->getPosition()->x > 11 
-		&& player->getPosition()->z < -1 && player->getPosition()->z > -3)
-	{
-		return true;
-	}*/
-	return false;
+	return finishSingTouched;
 }
