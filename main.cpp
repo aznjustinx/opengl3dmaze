@@ -90,7 +90,7 @@ void init()
 	player.yaw(ROT_INCREMENT * 15);
 
 	collision.init(&player, &maze);
-	maze.init();
+	maze.init();	
 	Point3 point = maze.getFinishPos();
 }
 

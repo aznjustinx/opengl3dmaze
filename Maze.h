@@ -5,7 +5,8 @@
 
 
 const float TILE_SIZE = 3.0;
-const int MAP_SIZE = 10;
+const int MAP_SIZE_Y = 39;
+const int MAP_SIZE_X = 10;
 const int MAX_TEXTURES = 5;
 
 class Maze
@@ -13,12 +14,12 @@ class Maze
 private:
 	Mesh* finishSign;
 	float finishRotAngle;
-	int nrOfCubes;
+	//int nrOfCubes;
 	Point3 finishPos;
 	
 public:
 	bool finished;
-	Point3 cubesPos[MAP_SIZE][MAP_SIZE];
+	Point3 cubesPos[MAP_SIZE_Y][MAP_SIZE_X];
 	Maze();
 	~Maze();		
 	void displayMaze();
@@ -26,8 +27,9 @@ public:
 	void displayWall();
 	void displayFloor();
 	Point3 getFinishPos();
-	Point3 getCubesPos(int i, int j);	
-	int getNrOfCubes();
+	Point3 getCubesPos(int i, int j);
+	//Point3 getCubesPos();
+//	int getNrOfCubes();
 	void setPosition(float x, float y, float z, int pos);
 	void init();
 	void displayFinishSign();
