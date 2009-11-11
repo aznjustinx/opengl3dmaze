@@ -182,7 +182,7 @@ void display()
 void update(int id)
 {	
 	glutTimerFunc(DELAY_TIME, update, 0);
-	if ( !gameOver && collision.checkFinish())
+	if ( !gameOver && collision.won())
 	{
 		gameOver = true;
 		glutPostRedisplay(); //Tell GLUT that the display has change
