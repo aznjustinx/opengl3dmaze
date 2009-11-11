@@ -158,6 +158,7 @@ void displayGameFinished() {
 	glEnable (GL_BLEND);
     glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glDisable(GL_LIGHTING);
+	glDisable(GL_DEPTH_TEST);
 	displayText("Congratulations! You won the game", (WINDOW_WIDTH / 2) - 135, (WINDOW_HEIGHT / 2) + 20, 18, COL_GREEN);
 	displayText("Press 'q' to quit game", (WINDOW_WIDTH / 2) - 75, (WINDOW_HEIGHT / 2) - 20, 18, COL_GREEN);
 }
@@ -250,7 +251,7 @@ void update(int id)
 		{
 			player.slide(0., SLIDE_INCREMENT, 0.);
 		}
-		if (player.floatDownPressed)
+		if (player.floatDownPressed && player.getPosition()->getY() > 0)
 		{
 			player.slide(0., -SLIDE_INCREMENT, 0.);
 		}
@@ -277,9 +278,19 @@ void init()
 	glEnable(GL_TEXTURE_2D);
 	
 	gameOver = false;
-	player.debugMode = false;
-	player.set(Point3(12., 0., 2.5), Point3(0., 0., -1.), Vector3(0., 1., 0.));
-	player.yaw(ROT_INCREMENT * 15);
+	player.debugMode = true;
+	float x, y = 0, z;
+	if (player.debugMode) {
+		x = 23.;
+		z = -110.;
+	}
+	else
+	{
+		x = 12.;
+		z = 2.5;
+	}
+	player.set(Point3(x, y, z), Point3(0., 0., -1.), Vector3(0., 1., 0.));
+	player.yaw(ROT_INCREMENT * 25);
 	collision.init(&player, &maze);
 	maze.init();
 }

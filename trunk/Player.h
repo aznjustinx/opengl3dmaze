@@ -15,10 +15,6 @@ public:
 	void specialKeyUp(int  key,  int  x,  int  y);
 	void keyboardDown(unsigned char key, int x, int y);
 	void keyboardUp(unsigned char key, int x, int y);
-	void moveUp();
-	void moveDown();
-	void moveLeft();
-	void moveRight();
 	void mouse(int x, int y);
 	~Player(void);
 };
