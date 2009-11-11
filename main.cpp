@@ -32,6 +32,7 @@ Player player;
 Maze maze;
 Collision collision;
 bool gameOver;
+bool debugMode;
 
 
 void specialKeyDown(int  key,  int  x,  int  y)
@@ -276,6 +277,7 @@ void init()
 	glEnable(GL_TEXTURE_2D);
 	
 	gameOver = false;
+	player.debugMode = false;
 	player.set(Point3(12., 0., 2.5), Point3(0., 0., -1.), Vector3(0., 1., 0.));
 	player.yaw(ROT_INCREMENT * 15);
 	collision.init(&player, &maze);

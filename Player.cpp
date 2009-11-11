@@ -9,7 +9,6 @@ Player::Player(void) {
 	keyPressed = upKeyPressed = downKeyPressed = leftKeyPressed = rightKeyPressed, quitPressed = false;
 	// debug
 	floatUpPressed = floatDownPressed = false;
-
 }
 
 void Player::specialKeyDown(int  key,  int  x,  int  y)
@@ -71,19 +70,17 @@ void Player::keyboardDown(unsigned char key, int x, int y)
 		case 'q' :
 		quitPressed = true;
 		break;
-
-		//debug
-		case 't' :
-		floatUpPressed = true;
+		case 'r' :
+		if (debugMode)
+		{
+			floatUpPressed = true;	
+		}
 		break;
-		case 'g' :
-		floatDownPressed = true;
-		break;
-		case 'l' :
-		glShadeModel(GL_FLAT);
-		break;
-		case 'm' :
-		glShadeModel(GL_SMOOTH);
+		case 'f' :
+		if (debugMode)
+		{
+			floatDownPressed = true;
+		}
 		break;
 	}
 	keyPressed = true;
@@ -109,13 +106,15 @@ void Player::keyboardUp(unsigned char key, int x, int y)
 		quitPressed = false;
 		break;
 
-		//debug
-		case 't' :
-		floatUpPressed = false;
-		break;
-		case 'g' :
-		floatDownPressed = false;
-		break;
+		if (debugMode)
+		{
+			case 'r' :
+			floatUpPressed = false;
+			break;
+			case 'f' :
+			floatDownPressed = false;
+			break;
+		}
 	}
 	keyPressed = false;
 
