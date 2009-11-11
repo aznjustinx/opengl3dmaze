@@ -141,7 +141,7 @@ int Collision::check(int forward)
 			}
 			#pragma endregion corners
 
-			checkFinish(y,x,pos,n,ma);
+			checkFinish(pos);
 		}					
 	}
 	return collision;
@@ -149,7 +149,6 @@ int Collision::check(int forward)
 
 void Collision::leftSide(int y, int x, Point3* pos,Vector3* n,Point3 ma[MAP_SIZE_Y][MAP_SIZE_X])
 {
-
 	// HLIÐAR *********
 	//444 555
 	// niðri vinstra HLIÐ 12
@@ -325,9 +324,8 @@ void Collision::topRightCorner(int y, int x, Point3* pos,Vector3* n,Point3 ma[MA
 
 }
 
-void Collision::checkFinish(int y, int x, Point3* pos,Vector3* n,Point3 ma[MAP_SIZE_Y][MAP_SIZE_X])
-{
-
+void Collision::checkFinish(Point3* pos)
+{	
 	Point3 finishPos = maze->getFinishPos();
 	if (fabs(finishPos.getX() - pos->getX()) < lesserThan
 		&&  fabs(finishPos.getZ() - pos->getZ()) < lesserThan ) 
