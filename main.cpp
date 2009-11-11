@@ -31,7 +31,7 @@ GLfloat COL_GREEN[3] = { 0., 1., 0. };
 Player player;
 Maze maze;
 Collision collision;
-bool mazeFinished;
+bool gameOver;
 
 
 void specialKeyDown(int  key,  int  x,  int  y)
@@ -167,7 +167,7 @@ void display()
 	
 	player.setModelViewMatrix();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	if (mazeFinished)
+	if (gameOver)
 	{
 		displayGameFinished();
 	}
@@ -182,9 +182,9 @@ void display()
 void update(int id)
 {	
 	glutTimerFunc(DELAY_TIME, update, 0);
-	if ( !mazeFinished && collision.checkFinish())
+	if ( !gameOver && collision.checkFinish())
 	{
-		mazeFinished = true;
+		gameOver = true;
 		glutPostRedisplay(); //Tell GLUT that the display has change
 	}
 	else {
@@ -275,7 +275,7 @@ void init()
 	glShadeModel(GL_FLAT);
 	glEnable(GL_TEXTURE_2D);
 	
-	mazeFinished = false;
+	gameOver = false;
 	player.set(Point3(12., 0., 2.5), Point3(0., 0., -1.), Vector3(0., 1., 0.));
 	player.yaw(ROT_INCREMENT * 15);
 	collision.init(&player, &maze);
