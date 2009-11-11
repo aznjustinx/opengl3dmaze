@@ -20,24 +20,53 @@ Tölvugrafik
 
 using namespace std;
 //   0  1  2  3  4  5  6  7  8  9
-int cMap[MAP_SIZE][MAP_SIZE] = {
+int cMap[MAP_SIZE_Y][MAP_SIZE_X] = {
 	{1, 1, 1, 1, 0, 1, 1, 1, 1, 1},
 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+	{1, 1, 1, 1, 0, 1, 1, 1, 1, 1},
 	{1, 0, 0, 1, 0, 1, 0, 0, 0, 1},
-	{1, 0, 1, 1, 1, 1, 1, 1, 1, 1},
+	{1, 0, 1, 1, 0, 1, 1, 1, 1, 1},
 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
 	{1, 0, 1, 1, 1, 1, 1, 1, 0, 1},
 	{1, 0, 0, 1, 0, 0, 0, 0, 0, 1},
-	{1, 1, 1, 1, 0, 1, 1, 1, 1, 1},};
+	{1, 1, 1, 1, 0, 1, 1, 1, 1, 1},
+	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+	{1, 1, 1, 1, 0, 1, 1, 1, 1, 1},
+	{1, 0, 0, 1, 0, 1, 0, 0, 0, 1},
+	{1, 0, 1, 1, 0, 1, 1, 1, 1, 1},
+	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+	{1, 0, 1, 1, 1, 1, 1, 1, 0, 1},
+	{1, 0, 0, 1, 0, 0, 0, 0, 0, 1},
+	{1, 0, 0, 1, 0, 0, 0, 0, 0, 1},
+	{1, 1, 1, 1, 0, 1, 1, 1, 1, 1},
+	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+	{1, 1, 1, 1, 0, 1, 1, 1, 1, 1},
+	{1, 0, 0, 1, 0, 1, 0, 0, 0, 1},
+	{1, 0, 1, 1, 0, 1, 1, 1, 1, 1},
+	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+	{1, 0, 1, 1, 1, 1, 1, 1, 0, 1},
+	{1, 0, 0, 1, 0, 0, 0, 0, 0, 1},
+	{1, 1, 1, 1, 0, 1, 1, 1, 1, 1},
+	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+	{1, 1, 1, 1, 0, 1, 1, 1, 1, 1},
+	{1, 0, 0, 1, 0, 1, 0, 0, 0, 1},
+	{1, 0, 1, 1, 0, 1, 1, 1, 1, 1},
+	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+	{1, 0, 1, 1, 1, 1, 1, 1, 0, 1},
+	{1, 0, 0, 1, 0, 0, 0, 0, 0, 1},
+	{1, 0, 0, 1, 0, 0, 0, 0, 0, 1},
+	{1, 1, 1, 1, 9, 1, 1, 1, 1, 1},};
 
 //int cMap[MAP_SIZE][MAP_SIZE] = {
 //	{0, 1, 0},
 //	{1, 1, 1},
 //	{0, 1, 0},};
 
-Point3 cubesPos[MAP_SIZE][MAP_SIZE];
+Point3 cubesPos[MAP_SIZE_Y][MAP_SIZE_X];
 // Holds all texture objects
 GLuint g_textures[MAX_TEXTURES];
 enum { TEX_FLOOR, TEX_WALL, TEX_ASPHALT, TEX_TILES, TEX_BRICKS };
@@ -101,16 +130,16 @@ void Maze::init()
 		cout<<"Error in read file";
 	}
 	finishRotAngle = 0;
-	nrOfCubes = 0;
+	//nrOfCubes = 0;
 
-	for (int i = 0; i < MAP_SIZE; i++) //loop through the height of the map
+	for (int i = 0; i < MAP_SIZE_Y; i++) //loop through the height of the map
 	{
-		for (int j = 0; j < MAP_SIZE; j++) //loop through the width of the map
+		for (int j = 0; j < MAP_SIZE_X; j++) //loop through the width of the map
 		{
 			if (cMap[i][j] == 1)
 			{
 				cubesPos[i][j] = Point3(j*TILE_SIZE, 0, -i*TILE_SIZE);
-				nrOfCubes++;
+				//nrOfCubes++;
 			}
 
 			if (cMap[i][j] == 9)
@@ -170,16 +199,11 @@ void Maze::makePlate(float width, float height, int dw, int dh, float texWidth, 
 	delete v;
 }
 
-Point3 Maze::getCubesPos(int i, int j)
+Point3 Maze::getCubesPos(int y, int x)
 {
 	//cout << "maze: "<< cubesPos[1][1].getZ() << endl;
-	return cubesPos[i][j];
+	return cubesPos[y][x];
 }
-
-//int Maze::getNrOfCubes()
-//{
-//	return nrOfCubes;
-//}
 
 Point3 Maze::getFinishPos()
 {
@@ -198,9 +222,9 @@ void Maze::updateObjects()
 void Maze::displayMaze()
 {
 	
-	for (int i = 0; i < MAP_SIZE; i++) //loop through the height of the map
+	for (int i = 0; i < MAP_SIZE_Y; i++) //loop through the height of the map
 	{
-		for (int j = 0; j < MAP_SIZE; j++) //loop through the width of the map
+		for (int j = 0; j < MAP_SIZE_X; j++) //loop through the width of the map
 		{
 			Point3* point = new Point3(j*TILE_SIZE, 0, -i*TILE_SIZE);
 			glPushMatrix();

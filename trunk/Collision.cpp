@@ -18,7 +18,7 @@ Collision::Collision(void)
 void Collision::init(Player* pl, Maze* ma)
 {
 	player = pl;
-	maze = ma;
+	maze = ma;	
 }
 
 int Collision::check(int forward)
@@ -26,23 +26,36 @@ int Collision::check(int forward)
 	Point3* pos = player->getPosition();
 	Vector3* n = player->getYaw();
 
+	//cout << pos->getZ() << endl;
+
 	collision = 0;
 
-	Point3 ma[MAP_SIZE][MAP_SIZE];
+	Point3 ma[MAP_SIZE_Y][MAP_SIZE_X];		
+	
+	// tekur 3 reiti fyrir aftan player position og notað það í loopu
+	int low_Y = fabs(pos->getZ())/TILE_SIZE-TILE_SIZE;
+	// sbr low en tekur 3 reiti fyrir framan player
+	int high_Y = fabs(pos->getZ())/TILE_SIZE+TILE_SIZE;//MAP_SIZE_Y/2;
+	if(low_Y < 0)
+		low_Y = 0;
+	if(high_Y > MAP_SIZE_Y)
+		high_Y = MAP_SIZE_Y;
 
-	// hleður staðsetningu á veggjum inn í array
-	for (int y = 0; y < MAP_SIZE; y++) //loop through the height of the map
-	{
-		for (int x = 0; x < MAP_SIZE; x++) //loop through the width of the map
-		{
-			ma[y][x] = maze->getCubesPos(y,x);		
-		}
-	}
+	// sama gildir og um Y ás
+	int low_X = fabs(pos->getX())/TILE_SIZE-TILE_SIZE;
+	int high_X = fabs(pos->getX())/TILE_SIZE+TILE_SIZE;//MAP_SIZE_Y/2;
+	if(low_X < 0)
+		low_X = 0;
+	if(high_X > MAP_SIZE_X)
+		high_X = MAP_SIZE_X;
+	//cout << high << endl;
 	// fer í gegnum öll stök í arrayi og leitar að árekstrum
-	for (int y = 0; y < MAP_SIZE; y++) //loop through the height of the map
+	for (int y = low_Y; y < high_Y; y++) //loop through the height of the map
 	{
-		for (int x = 0; x < MAP_SIZE; x++) //loop through the width of the map
+		for (int x = low_X; x < high_X; x++) //loop through the width of the map
 		{
+			// hleður staðsetningu á veggnum inn í array			
+			ma[y][x] = maze->getCubesPos(y,x);	
 			// 678
 			// 4 5
 			// 123
@@ -131,7 +144,7 @@ int Collision::check(int forward)
 	return collision;
 }
 
-void Collision::leftSide(int y, int x, Point3* pos,Vector3* n,Point3 ma[MAP_SIZE][MAP_SIZE])
+void Collision::leftSide(int y, int x, Point3* pos,Vector3* n,Point3 ma[MAP_SIZE_Y][MAP_SIZE_X])
 {
 
 	// HLIÐAR *********
@@ -159,7 +172,7 @@ void Collision::leftSide(int y, int x, Point3* pos,Vector3* n,Point3 ma[MAP_SIZE
 
 }
 
-void Collision::rightSide(int y, int x, Point3* pos,Vector3* n,Point3 ma[MAP_SIZE][MAP_SIZE])
+void Collision::rightSide(int y, int x, Point3* pos,Vector3* n,Point3 ma[MAP_SIZE_Y][MAP_SIZE_X])
 {
 
 	// niðri hægra HLIÐ 13
@@ -183,7 +196,7 @@ void Collision::rightSide(int y, int x, Point3* pos,Vector3* n,Point3 ma[MAP_SIZ
 
 }
 
-void Collision::topSide(int y, int x, Point3* pos,Vector3* n,Point3 ma[MAP_SIZE][MAP_SIZE])
+void Collision::topSide(int y, int x, Point3* pos,Vector3* n,Point3 ma[MAP_SIZE_Y][MAP_SIZE_X])
 {
 
 	// UPPI *************
@@ -209,7 +222,7 @@ void Collision::topSide(int y, int x, Point3* pos,Vector3* n,Point3 ma[MAP_SIZE]
 
 }
 
-void Collision::bottomSide(int y, int x, Point3* pos,Vector3* n,Point3 ma[MAP_SIZE][MAP_SIZE])
+void Collision::bottomSide(int y, int x, Point3* pos,Vector3* n,Point3 ma[MAP_SIZE_Y][MAP_SIZE_X])
 {
 	// NIÐRI************
 	// 123
@@ -239,7 +252,7 @@ void Collision::bottomSide(int y, int x, Point3* pos,Vector3* n,Point3 ma[MAP_SI
 
 
 
-void Collision::bottomRightCorner(int y, int x, Point3* pos,Vector3* n,Point3 ma[MAP_SIZE][MAP_SIZE])
+void Collision::bottomRightCorner(int y, int x, Point3* pos,Vector3* n,Point3 ma[MAP_SIZE_Y][MAP_SIZE_X])
 {
 	// horn i horn
 	// hægra neðra horn
@@ -257,7 +270,7 @@ void Collision::bottomRightCorner(int y, int x, Point3* pos,Vector3* n,Point3 ma
 	}
 
 }
-void Collision::bottomLeftCorner(int y, int x, Point3* pos,Vector3* n,Point3 ma[MAP_SIZE][MAP_SIZE])
+void Collision::bottomLeftCorner(int y, int x, Point3* pos,Vector3* n,Point3 ma[MAP_SIZE_Y][MAP_SIZE_X])
 {
 	// neðra vinstra horn
 	// niðri hlid hægri og efra vinstra
@@ -274,7 +287,7 @@ void Collision::bottomLeftCorner(int y, int x, Point3* pos,Vector3* n,Point3 ma[
 	}
 
 }
-void Collision::topLeftCorner(int y, int x, Point3* pos,Vector3* n,Point3 ma[MAP_SIZE][MAP_SIZE])
+void Collision::topLeftCorner(int y, int x, Point3* pos,Vector3* n,Point3 ma[MAP_SIZE_Y][MAP_SIZE_X])
 {
 	// efra vinstra horn
 	// down left og hlið up right
@@ -291,7 +304,7 @@ void Collision::topLeftCorner(int y, int x, Point3* pos,Vector3* n,Point3 ma[MAP
 	}
 
 }
-void Collision::topRightCorner(int y, int x, Point3* pos,Vector3* n,Point3 ma[MAP_SIZE][MAP_SIZE])
+void Collision::topRightCorner(int y, int x, Point3* pos,Vector3* n,Point3 ma[MAP_SIZE_Y][MAP_SIZE_X])
 {
 	// efra hægra horn
 	// down right og hlið up left
