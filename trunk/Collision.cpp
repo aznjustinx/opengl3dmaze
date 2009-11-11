@@ -30,7 +30,7 @@ int Collision::check(int forward)
 
 	Point3 ma[MAP_SIZE][MAP_SIZE];
 
-	//cout<<"Collision eye: x: "<<intpos->getX()<<" y: "<<int(pos->getY())<<" z: "<<intpos->getZ()<<"\n";
+	// hleður staðsetningu á veggjum inn í array
 	for (int y = 0; y < MAP_SIZE; y++) //loop through the height of the map
 	{
 		for (int x = 0; x < MAP_SIZE; x++) //loop through the width of the map
@@ -38,17 +38,11 @@ int Collision::check(int forward)
 			ma[y][x] = maze->getCubesPos(y,x);		
 		}
 	}
-	cout << endl;
-	//cout<<"Collision wall: x: "<<ma[3].getX()<<" y: "<<ma[3].getY()<<" z: "<<ma[3].getZ()<<"\n";
-	//for (int i = 0; i < maze->getNrOfCubes(); ++i) {
+	// fer í gegnum öll stök í arrayi og leitar að árekstrum
 	for (int y = 0; y < MAP_SIZE; y++) //loop through the height of the map
 	{
 		for (int x = 0; x < MAP_SIZE; x++) //loop through the width of the map
 		{
-			// offset er radius á vegg (1.5) + auka pláss til að stoppa player áður en hann snertir vegginn.
-			//cout<<"Collision wall: "<<i<<" x: "<<ma[y][x].getX()<<" y: "<<ma[y][x].getY()<<" z: "<<ma[y][x].getZ()<<"\n";
-
-
 			// 678
 			// 4 5
 			// 123
@@ -71,6 +65,7 @@ int Collision::check(int forward)
 				rightSide(y,x,pos,n,ma);			
 			}			
 
+			#pragma region corners
 
 			if(n->getX() <= 0
 				&&
@@ -130,15 +125,16 @@ int Collision::check(int forward)
 			{
 				topRightCorner(y,x,pos,n,ma);
 			}
+			#pragma endregion corners
 		}					
 	}
 	return collision;
 }
 
-void Collision::leftSide(int y, int x, Point3* pos,Vector3* n,Point3 ma[10][10])
+void Collision::leftSide(int y, int x, Point3* pos,Vector3* n,Point3 ma[MAP_SIZE][MAP_SIZE])
 {
 
-	// HLIÐAR *********+
+	// HLIÐAR *********
 	//444 555
 	// niðri vinstra HLIÐ 12
 	if (fabs(ma[y][x].getX() - offset -pos->getX()) < lesserThan
@@ -163,7 +159,7 @@ void Collision::leftSide(int y, int x, Point3* pos,Vector3* n,Point3 ma[10][10])
 
 }
 
-void Collision::rightSide(int y, int x, Point3* pos,Vector3* n,Point3 ma[10][10])
+void Collision::rightSide(int y, int x, Point3* pos,Vector3* n,Point3 ma[MAP_SIZE][MAP_SIZE])
 {
 
 	// niðri hægra HLIÐ 13
@@ -187,7 +183,7 @@ void Collision::rightSide(int y, int x, Point3* pos,Vector3* n,Point3 ma[10][10]
 
 }
 
-void Collision::topSide(int y, int x, Point3* pos,Vector3* n,Point3 ma[10][10])
+void Collision::topSide(int y, int x, Point3* pos,Vector3* n,Point3 ma[MAP_SIZE][MAP_SIZE])
 {
 
 	// UPPI *************
@@ -213,7 +209,7 @@ void Collision::topSide(int y, int x, Point3* pos,Vector3* n,Point3 ma[10][10])
 
 }
 
-void Collision::bottomSide(int y, int x, Point3* pos,Vector3* n,Point3 ma[10][10])
+void Collision::bottomSide(int y, int x, Point3* pos,Vector3* n,Point3 ma[MAP_SIZE][MAP_SIZE])
 {
 	// NIÐRI************
 	// 123
@@ -243,7 +239,7 @@ void Collision::bottomSide(int y, int x, Point3* pos,Vector3* n,Point3 ma[10][10
 
 
 
-void Collision::bottomRightCorner(int y, int x, Point3* pos,Vector3* n,Point3 ma[10][10])
+void Collision::bottomRightCorner(int y, int x, Point3* pos,Vector3* n,Point3 ma[MAP_SIZE][MAP_SIZE])
 {
 	// horn i horn
 	// hægra neðra horn
@@ -261,7 +257,7 @@ void Collision::bottomRightCorner(int y, int x, Point3* pos,Vector3* n,Point3 ma
 	}
 
 }
-void Collision::bottomLeftCorner(int y, int x, Point3* pos,Vector3* n,Point3 ma[10][10])
+void Collision::bottomLeftCorner(int y, int x, Point3* pos,Vector3* n,Point3 ma[MAP_SIZE][MAP_SIZE])
 {
 	// neðra vinstra horn
 	// niðri hlid hægri og efra vinstra
@@ -278,7 +274,7 @@ void Collision::bottomLeftCorner(int y, int x, Point3* pos,Vector3* n,Point3 ma[
 	}
 
 }
-void Collision::topLeftCorner(int y, int x, Point3* pos,Vector3* n,Point3 ma[10][10])
+void Collision::topLeftCorner(int y, int x, Point3* pos,Vector3* n,Point3 ma[MAP_SIZE][MAP_SIZE])
 {
 	// efra vinstra horn
 	// down left og hlið up right
@@ -295,7 +291,7 @@ void Collision::topLeftCorner(int y, int x, Point3* pos,Vector3* n,Point3 ma[10]
 	}
 
 }
-void Collision::topRightCorner(int y, int x, Point3* pos,Vector3* n,Point3 ma[10][10])
+void Collision::topRightCorner(int y, int x, Point3* pos,Vector3* n,Point3 ma[MAP_SIZE][MAP_SIZE])
 {
 	// efra hægra horn
 	// down right og hlið up left
