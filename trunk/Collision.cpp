@@ -328,5 +328,10 @@ Collision::~Collision(void)
 
 bool Collision::checkFinish()
 {
+	/*if (player->getPosition()->x < 13 && player->getPosition()->x > 11 
+		&& player->getPosition()->z < -1 && player->getPosition()->z > -3)
+	{
+		return true;
+	}*/
 	return false;
 }
