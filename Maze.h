@@ -5,7 +5,8 @@
 
 
 const float TILE_SIZE = 3.0;
-const int MAP_SIZE_Y = 39;
+const int MAP_SIZE_Y = 2;
+const int MAP_SIZE_Z = 39;
 const int MAP_SIZE_X = 10;
 const int MAX_TEXTURES = 5;
 const int NR_OF_VERTEXES = 4;
@@ -19,7 +20,7 @@ private:
 	
 public:
 	bool finished;
-	Point3 cubesPos[MAP_SIZE_Y][MAP_SIZE_X];
+	Point3 cubesPos[MAP_SIZE_Y][MAP_SIZE_Z][MAP_SIZE_X];
 	Maze();
 	~Maze();		
 	void displayMaze();
@@ -27,7 +28,7 @@ public:
 	void displayWall();
 	void displayFloor();
 	Point3 getFinishPos();
-	Point3 getCubesPos(int i, int j);
+	Point3 getCubesPos(int y,int z, int x);
 	void setPosition(float x, float y, float z, int pos);
 	void init();
 	void displayFinishSign();
