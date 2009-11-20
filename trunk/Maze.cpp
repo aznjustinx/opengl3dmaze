@@ -20,7 +20,7 @@ Tölvugrafik
 
 using namespace std;
 //   0  1  2  3  4  5  6  7  8  9
-int cMap[MAP_SIZE_Y][MAP_SIZE_X] = {
+int cMap[MAP_SIZE_Z][MAP_SIZE_X] = {
 	{1, 1, 1, 1, 0, 1, 1, 1, 1, 1},
 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
@@ -58,16 +58,17 @@ int cMap[MAP_SIZE_Y][MAP_SIZE_X] = {
 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
 	{1, 0, 1, 1, 1, 1, 1, 1, 0, 1},
 	{1, 0, 0, 1, 0, 0, 0, 0, 0, 1},
-	{1, 0, 0, 1, 9, 0, 0, 0, 0, 1},
+	{1, 0, 0, 1, 0, 0, 0, 0, 0, 1},
 	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1},};
 
+	
 /*
-int cMap[MAP_SIZE_Y][MAP_SIZE_X] = {
+int cMap[MAP_SIZE_Z][MAP_SIZE_X] = {
 	{0, 1, 0},
 	{1, 1, 1},
 	{0, 1, 0},};*/
 
-Point3 cubesPos[MAP_SIZE_Y][MAP_SIZE_X];
+Point3 cubesPos[MAP_SIZE_Z][MAP_SIZE_X];
 // Holds all texture objects
 GLuint g_textures[MAX_TEXTURES];
 enum { TEX_FLOOR, TEX_WALL, TEX_ASPHALT, TEX_TILES, TEX_BRICKS };
@@ -131,21 +132,21 @@ void Maze::init()
 		cout<<"Error in read file";
 	}
 	finishRotAngle = 0;
-	//nrOfCubes = 0;
-
-	for (int i = 0; i < MAP_SIZE_Y; i++) //loop through the height of the map
+	for (int y = 0; y < MAP_SIZE_Y; y++) //loop through the LEVELS of the map
 	{
-		for (int j = 0; j < MAP_SIZE_X; j++) //loop through the width of the map
+		for (int z = 0; z < MAP_SIZE_Z; z++) //loop through the height of the map
 		{
-			if (cMap[i][j] == 1)
+			for (int x = 0; x < MAP_SIZE_X; x++) //loop through the width of the map
 			{
-				cubesPos[i][j] = Point3(j*TILE_SIZE, 0, -i*TILE_SIZE);
-				//nrOfCubes++;
-			}
+				if (cMap[z][x] == 1)
+				{
+					cubesPos[y][z][x] = Point3(x*TILE_SIZE,y*TILE_SIZE , -z*TILE_SIZE);
+				}
 
-			if (cMap[i][j] == 9)
-			{
-				finishPos = Point3(j*TILE_SIZE, 0, -i*TILE_SIZE);
+				if (cMap[z][x] == 9)
+				{
+					finishPos = Point3(x*TILE_SIZE, y*TILE_SIZE, -z*TILE_SIZE);
+				}
 			}
 		}
 	}
@@ -200,10 +201,10 @@ void Maze::makePlate(float width, float height, int dw, int dh, float texWidth, 
 	delete v;
 }
 
-Point3 Maze::getCubesPos(int y, int x)
+Point3 Maze::getCubesPos(int y,int z, int x)
 {
 	//cout << "maze: "<< cubesPos[1][1].getZ() << endl;
-	return cubesPos[y][x];
+	return cubesPos[y][z][x];
 }
 
 Point3 Maze::getFinishPos()
@@ -222,38 +223,40 @@ void Maze::updateObjects()
 
 void Maze::displayMaze()
 {
-	
-	for (int i = 0; i < MAP_SIZE_Y; i++) //loop through the height of the map
+	for (int y = 0; y < MAP_SIZE_Y; y++) //loop through the LEVELS of the map
 	{
-		for (int j = 0; j < MAP_SIZE_X; j++) //loop through the width of the map
+		for (int z = 0; z < MAP_SIZE_Z; z++) //loop through the height of the map
 		{
-			Point3* point = new Point3(j*TILE_SIZE, 0, -i*TILE_SIZE);
-			glPushMatrix();
-			
-			
-			glTranslatef(point->getX(), point->getY(), point->getZ()); //translates to where it should belong	
-			switch (cMap[i][j])
+			for (int x = 0; x < MAP_SIZE_X; x++) //loop through the width of the map
 			{
-				case 0:
-				displayFloor();
-				break;
+				Point3* point = new Point3(x*TILE_SIZE, y*TILE_SIZE, -z*TILE_SIZE);
+				glPushMatrix();
+				
+				
+				glTranslatef(point->getX(), point->getY(), point->getZ()); //translates to where it should belong	
+				switch (cMap[z][x])
+				{
+					case 0:
+					displayFloor();
+					break;
 
-				case 1:
-				//materialColor(.75164, .60648, .22648, 1., .75164, .60648, .22648, 1., .75164, .60648, .22648, 1., 51.2);
-				//glutSolidCube(TILE_SIZE);
-				//glutWireCube(TILE_SIZE);
-				displayCube();
-				break;
+					case 1:
+					//materialColor(.75164, .60648, .22648, 1., .75164, .60648, .22648, 1., .75164, .60648, .22648, 1., 51.2);
+					//glutSolidCube(TILE_SIZE);
+					glutWireCube(TILE_SIZE);
+					//displayCube();
+					break;
 
-				case 9:
-				displayFloor();
-				displayFinishSign();
-				break;
-			}
-			glPopMatrix();
-			delete point;
-		} //end first loop
-	} //end second loop
+					case 9:
+					displayFloor();
+					displayFinishSign();
+					break;
+				}
+				glPopMatrix();
+				delete point;
+			} //end first loop
+		} //end second loop
+	}
 }
 
 void Maze::materialColor(float dif0, float dif1, float dif2, float dif3
