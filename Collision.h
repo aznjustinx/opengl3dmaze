@@ -13,6 +13,7 @@ public:
 	Collision(void);
 	void init(Player* pl, Maze* ma);
 	int check(int forward);
+	bool gravity();
 	~Collision(void);
 	void leftSide(int y,int z, int x, Point3* pos,Vector3* n,Point3 ma[MAP_SIZE_Y][MAP_SIZE_Z][MAP_SIZE_X]);
 	void rightSide(int y,int z, int x, Point3* pos,Vector3* n,Point3 ma[MAP_SIZE_Y][MAP_SIZE_Z][MAP_SIZE_X]);
