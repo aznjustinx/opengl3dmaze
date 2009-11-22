@@ -25,12 +25,14 @@ const int WINDOW_WIDTH = 640;
 const int WINDOW_HEIGHT = 480;
 const int DELAY_TIME = 24;
 const float SLIDE_INCREMENT = 0.3;
+//const float GRAVITY = 0.2;
 const float ROT_INCREMENT = 3.;
 GLfloat COL_GREEN[3] = { 0., 1., 0. };
 // globals
 Player player;
 Maze maze;
 Collision collision;
+bool moved = false;
 bool gameOver;
 bool debugMode;
 
@@ -190,6 +192,12 @@ void update(int id)
 		glutPostRedisplay(); //Tell GLUT that the display has change
 	}
 	else {
+
+		// gravity
+		if (moved == true)
+			if(collision.gravity() == false)
+				player.slide(0., -SLIDE_INCREMENT, 0.);
+
 		if(player.upKeyPressed)
 		{
 			//Point3* pos = player.getPosition();
@@ -212,6 +220,8 @@ void update(int id)
 			{
 				player.slide(0.0f, 0.0f, -SLIDE_INCREMENT);
 			}
+
+			moved = true;
 		}
 
 		if(player.downKeyPressed)
@@ -234,6 +244,8 @@ void update(int id)
 			}
 			else
 				player.slide(0.0f, 0.0f, SLIDE_INCREMENT);
+
+			moved = true;
 		}
 		if(player.leftKeyPressed)
 		{
@@ -281,8 +293,8 @@ void init()
 	player.debugMode = true;
 	float x, y = 0, z;
 	if (player.debugMode) {
-		x = 23.;
-		z = -110.;
+		x = 12.;
+		z = -2.5;
 	}
 	else
 	{

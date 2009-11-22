@@ -4,7 +4,7 @@
 
 using namespace std;
 
-const float offset = 1.5;			// út að ytri hlið kubbs
+const float offset = 1.5;		// út að ytri hlið kubbs
 const float lesserThan = 1;		// stærð á kalli
 const float side_offset = 0.3;	// frá horni 
 const float height = 3;
@@ -21,6 +21,20 @@ void Collision::init(Player* pl, Maze* ma)
 {
 	player = pl;
 	maze = ma;	
+}
+
+bool Collision::gravity()
+{
+	Point3* pos = player->getPosition();
+
+	//Point3 floor[MAP_SIZE_Y][MAP_SIZE_Z][MAP_SIZE_X];
+	int y = pos->getY()/TILE_SIZE;
+	int z = fabs(pos->getZ())/TILE_SIZE;
+	int x = fabs(pos->getX())/TILE_SIZE;
+	cout << maze->getFloorPos(y,z,x)<< endl;
+	//floor[y][z][x] = maze->getFloorPos(y,z,x);	
+	//cout << floor[y][z][x].getZ()<< endl;
+	return maze->getFloorPos(y,z,x);
 }
 
 int Collision::check(int forward)
@@ -59,14 +73,8 @@ int Collision::check(int forward)
 		low_X = 0;
 	if(high_X > MAP_SIZE_X)
 		high_X = MAP_SIZE_X;
-	//cout << high << endl;
-	//for (int z = 0; z < MAP_SIZE_Z; z++) //loop through the height of the map
-	//	{
-	//		for (int x = 0; x < MAP_SIZE_X; x++) //loop through the width of the map
-	//		{
-	//			cout << "ma: " << ma[1][z][x].getY() << endl;
-	//		}
-	//}
+
+
 	// fer í gegnum öll stök í arrayi og leitar að árekstrum
 	for (int z = low_Z; z < high_Z; z++) //loop through the height of the map
 	{

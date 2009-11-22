@@ -21,54 +21,33 @@ Tölvugrafik
 using namespace std;
 //   0  1  2  3  4  5  6  7  8  9
 int cMap[MAP_SIZE_Z][MAP_SIZE_X] = {
-	{1, 1, 1, 1, 0, 1, 1, 1, 1, 1},
-	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	{1, 1, 1, 1, 0, 1, 1, 1, 1, 1},
-	{1, 0, 0, 1, 0, 1, 0, 0, 0, 1},
-	{1, 0, 1, 1, 0, 1, 1, 1, 1, 1},
-	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	{1, 0, 1, 1, 1, 1, 1, 1, 0, 1},
-	{1, 0, 0, 1, 0, 0, 0, 0, 0, 1},
-	{1, 1, 1, 1, 0, 1, 1, 1, 1, 1},
-	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	{1, 1, 1, 1, 0, 1, 1, 1, 1, 1},
-	{1, 0, 0, 1, 0, 1, 0, 0, 0, 1},
-	{1, 0, 1, 1, 0, 1, 1, 1, 1, 1},
-	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	{1, 0, 1, 1, 1, 1, 1, 1, 0, 1},
-	{1, 0, 0, 1, 0, 0, 0, 0, 0, 1},
-	{1, 0, 0, 1, 0, 0, 0, 0, 0, 1},
-	{1, 1, 1, 1, 0, 1, 1, 1, 1, 1},
-	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	{1, 1, 1, 1, 0, 1, 1, 1, 1, 1},
-	{1, 0, 0, 1, 0, 1, 0, 0, 0, 1},
-	{1, 0, 1, 1, 0, 1, 1, 1, 1, 1},
-	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	{1, 0, 1, 1, 1, 1, 1, 1, 0, 1},
-	{1, 0, 0, 1, 0, 0, 0, 0, 0, 1},
-	{1, 1, 1, 1, 0, 1, 1, 1, 1, 1},
-	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	{1, 1, 1, 1, 0, 1, 1, 1, 1, 1},
-	{1, 0, 0, 1, 0, 1, 0, 0, 0, 1},
-	{1, 0, 1, 1, 0, 1, 1, 1, 1, 1},
-	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	{1, 0, 1, 1, 1, 1, 1, 1, 0, 1},
-	{1, 0, 0, 1, 0, 0, 0, 0, 0, 1},
-	{1, 0, 0, 1, 0, 0, 0, 0, 0, 1},
-	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1},};
+	{1,1,1,1,1,1,1,1,1,1},
+	{1,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,1},
+	{1,1,1,1,1,1,1,1,1,1},};
 
-	
+int dMap[MAP_SIZE_Z][MAP_SIZE_X] = {
+	{1,1,1,1,1,1,1,1,1,1},
+	{1,0,0,0,1,0,1,0,0,1},
+	{1,0,0,0,1,0,1,0,0,1},
+	{1,0,0,0,1,0,1,0,0,1},
+	{1,0,0,0,1,0,1,0,0,1},
+	{1,0,0,0,1,0,1,0,0,1},
+	{1,0,0,0,1,0,1,0,0,1},
+	{1,0,0,0,1,0,1,0,0,1},
+	{1,1,1,1,1,1,1,1,1,1},};
+
 /*
 int cMap[MAP_SIZE_Z][MAP_SIZE_X] = {
 	{0, 1, 0},
 	{1, 1, 1},
 	{0, 1, 0},};*/
 
-Point3 cubesPos[MAP_SIZE_Z][MAP_SIZE_X];
 // Holds all texture objects
 GLuint g_textures[MAX_TEXTURES];
 enum { TEX_FLOOR, TEX_WALL, TEX_ASPHALT, TEX_TILES, TEX_BRICKS };
@@ -132,21 +111,47 @@ void Maze::init()
 		cout<<"Error in read file";
 	}
 	finishRotAngle = 0;
-	for (int y = 0; y < MAP_SIZE_Y; y++) //loop through the LEVELS of the map
+
+	for (int y = 0; y < MAP_SIZE_Y-1; y++) //loop through the LEVELS of the map
 	{
 		for (int z = 0; z < MAP_SIZE_Z; z++) //loop through the height of the map
 		{
 			for (int x = 0; x < MAP_SIZE_X; x++) //loop through the width of the map
 			{
-				if (cMap[z][x] == 1)
+				switch(y)
 				{
-					cubesPos[y][z][x] = Point3(x*TILE_SIZE,y*TILE_SIZE , -z*TILE_SIZE);
-				}
+				case 0:
+					{
+						if (cMap[z][x] == 1)
+						{
+							cubesPos[y][z][x] = Point3(x*TILE_SIZE,y*TILE_SIZE , -z*TILE_SIZE);
+							floorPos[y][z][x] = true;
+						}
 
-				if (cMap[z][x] == 9)
-				{
-					finishPos = Point3(x*TILE_SIZE, y*TILE_SIZE, -z*TILE_SIZE);
-				}
+						else if (cMap[z][x] == 9)
+						{
+							finishPos = Point3(x*TILE_SIZE, y*TILE_SIZE, -z*TILE_SIZE);
+						}
+						else
+							floorPos[y][z][x] = true;
+						
+					}break;
+				case 1:
+					{
+						if (dMap[z][x] == 1)
+						{
+							cubesPos[y][z][x] = Point3(x*TILE_SIZE,y*TILE_SIZE , -z*TILE_SIZE);
+							floorPos[y][z][x] = true;
+						}
+
+						else if (dMap[z][x] == 9)
+						{
+							finishPos = Point3(x*TILE_SIZE, y*TILE_SIZE, -z*TILE_SIZE);
+						}
+						else
+							floorPos[y][z][x] = true;
+					}break;
+				}// closing switch statement
 			}
 		}
 	}
@@ -203,8 +208,12 @@ void Maze::makePlate(float width, float height, int dw, int dh, float texWidth, 
 
 Point3 Maze::getCubesPos(int y,int z, int x)
 {
-	//cout << "maze: "<< cubesPos[1][1].getZ() << endl;
 	return cubesPos[y][z][x];
+}
+
+bool Maze::getFloorPos(int y,int z, int x)
+{
+	return floorPos[y][z][x];
 }
 
 Point3 Maze::getFinishPos()
@@ -223,7 +232,7 @@ void Maze::updateObjects()
 
 void Maze::displayMaze()
 {
-	for (int y = 0; y < MAP_SIZE_Y; y++) //loop through the LEVELS of the map
+	for (int y = 0; y < MAP_SIZE_Y-1; y++) //loop through the LEVELS of the map
 	{
 		for (int z = 0; z < MAP_SIZE_Z; z++) //loop through the height of the map
 		{
@@ -234,24 +243,55 @@ void Maze::displayMaze()
 				
 				
 				glTranslatef(point->getX(), point->getY(), point->getZ()); //translates to where it should belong	
-				switch (cMap[z][x])
+
+				switch(y)
 				{
 					case 0:
-					displayFloor();
-					break;
+						{
+						switch (cMap[z][x])
+						{
+							case 0:
+							displayFloor();
+							break;
+
+							case 1:
+							//materialColor(.75164, .60648, .22648, 1., .75164, .60648, .22648, 1., .75164, .60648, .22648, 1., 51.2);
+							//glutSolidCube(TILE_SIZE);
+							//glutWireCube(TILE_SIZE);							
+							displayCube();
+							break;
+
+							case 9:
+							displayFloor();
+							displayFinishSign();
+							break;
+						}
+					}break; // case 0
 
 					case 1:
-					//materialColor(.75164, .60648, .22648, 1., .75164, .60648, .22648, 1., .75164, .60648, .22648, 1., 51.2);
-					//glutSolidCube(TILE_SIZE);
-					glutWireCube(TILE_SIZE);
-					//displayCube();
-					break;
+					{
+						switch (dMap[z][x])
+						{
+							case 0:
+							displayFloor();
+							break;
 
-					case 9:
-					displayFloor();
-					displayFinishSign();
-					break;
-				}
+							case 1:
+							//materialColor(.75164, .60648, .22648, 1., .75164, .60648, .22648, 1., .75164, .60648, .22648, 1., 51.2);
+							//glutSolidCube(TILE_SIZE);
+							//glutWireCube(TILE_SIZE);
+							displayFloor();
+							displayCube();
+							break;
+
+							case 9:
+							displayFloor();
+							displayFinishSign();
+							break;
+						}
+					}break; // case 01
+
+				} // closing switch statement
 				glPopMatrix();
 				delete point;
 			} //end first loop
