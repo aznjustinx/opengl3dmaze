@@ -31,7 +31,7 @@ bool Collision::gravity()
 	int y = pos->getY()/TILE_SIZE;
 	int z = fabs(pos->getZ())/TILE_SIZE;
 	int x = fabs(pos->getX())/TILE_SIZE;
-	cout << maze->getFloorPos(y,z,x)<< endl;
+	//cout << maze->getFloorPos(y,z,x)<< endl;
 	//floor[y][z][x] = maze->getFloorPos(y,z,x);	
 	//cout << floor[y][z][x].getZ()<< endl;
 	return maze->getFloorPos(y,z,x);

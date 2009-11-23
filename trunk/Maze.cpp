@@ -3,7 +3,7 @@ Stefan Einarsson
 stefane07@ru.is
 Egill Antonsson
 
-Skilaverkefni 3
+Skilaverkefni 4
 Tölvugrafik 
 */
 #include <windows.h>
@@ -27,8 +27,8 @@ int cMap[MAP_SIZE_Z][MAP_SIZE_X] = {
 	{1,0,0,0,0,0,0,0,0,1},
 	{1,0,0,0,0,0,0,0,0,1},
 	{1,0,0,0,0,0,0,0,0,1},
-	{1,0,0,0,0,0,0,0,0,1},
-	{1,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,8,8,0,0,1},
+	{1,0,0,0,0,8,8,0,0,1},
 	{1,1,1,1,1,1,1,1,1,1},};
 
 int dMap[MAP_SIZE_Z][MAP_SIZE_X] = {
@@ -132,7 +132,7 @@ void Maze::init()
 						{
 							finishPos = Point3(x*TILE_SIZE, y*TILE_SIZE, -z*TILE_SIZE);
 						}
-						else
+						else if(cMap[z][x] == 0)
 							floorPos[y][z][x] = true;
 						
 					}break;
@@ -148,7 +148,7 @@ void Maze::init()
 						{
 							finishPos = Point3(x*TILE_SIZE, y*TILE_SIZE, -z*TILE_SIZE);
 						}
-						else
+						else if(dMap[z][x] == 0)
 							floorPos[y][z][x] = true;
 					}break;
 				}// closing switch statement
