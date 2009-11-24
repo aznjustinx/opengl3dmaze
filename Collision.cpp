@@ -27,14 +27,12 @@ bool Collision::gravity()
 {
 	Point3* pos = player->getPosition();
 
-	//Point3 floor[MAP_SIZE_Y][MAP_SIZE_Z][MAP_SIZE_X];
 	int y = pos->getY()/TILE_SIZE;
 	int z = fabs(pos->getZ())/TILE_SIZE;
 	int x = fabs(pos->getX())/TILE_SIZE;
-	//cout << maze->getFloorPos(y,z,x)<< endl;
-	//floor[y][z][x] = maze->getFloorPos(y,z,x);	
-	//cout << floor[y][z][x].getZ()<< endl;
-	return maze->getFloorPos(y,z,x);
+	if(int(pos->getY()+0.1) % 3==0)
+		return maze->getFloorPos(y,z,x);
+	else return false;
 }
 
 int Collision::check(int forward)
