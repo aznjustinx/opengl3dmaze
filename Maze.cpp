@@ -15,16 +15,19 @@ Tölvugrafik
 #include "Point3.h"
 #include <gl/gl.h>
 #include <FreeImage.h>
+#include <vector>
 
 
 
 using namespace std;
+
+vector <vector <int> > v; /*two dimensions*/
 //   0  1  2  3  4  5  6  7  8  9
 int cMap[MAP_SIZE_Z][MAP_SIZE_X] = {
 	{1,1,1,1,1,1,1,1,1,1},
 	{1,0,0,0,0,0,0,0,0,1},
 	{1,0,0,0,0,0,0,0,0,1},
-	{1,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,1,0,0,0,1},
 	{1,0,0,0,0,0,0,0,0,1},
 	{1,0,0,0,0,0,0,0,0,1},
 	{1,0,0,0,0,8,8,0,0,1},
@@ -33,20 +36,15 @@ int cMap[MAP_SIZE_Z][MAP_SIZE_X] = {
 
 int dMap[MAP_SIZE_Z][MAP_SIZE_X] = {
 	{1,1,1,1,1,1,1,1,1,1},
-	{1,0,0,0,1,0,1,0,0,1},
-	{1,0,0,0,1,0,1,0,0,1},
-	{1,0,0,0,1,0,1,0,0,1},
-	{1,0,0,0,1,0,1,0,0,1},
-	{1,0,0,0,1,0,1,0,0,1},
-	{1,0,0,0,1,0,1,0,0,1},
-	{1,0,0,0,1,0,1,0,0,1},
+	{1,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,1},
+	{1,0,1,0,0,0,0,0,0,1},
+	{1,0,8,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,1},
 	{1,1,1,1,1,1,1,1,1,1},};
 
-/*
-int cMap[MAP_SIZE_Z][MAP_SIZE_X] = {
-	{0, 1, 0},
-	{1, 1, 1},
-	{0, 1, 0},};*/
 
 // Holds all texture objects
 GLuint g_textures[MAX_TEXTURES];
@@ -103,7 +101,10 @@ void Maze::loadImage(GLuint textureID, char* filename) {
 
 void Maze::init()
 {
-	cout<<"MAZE INIT";
+	
+	//m_theArr.push_back(cMap);
+	//m_theArr.push_back(dMap);
+
 	finished = false;
 	finishSign = new Mesh();
 	if (finishSign->readFile("FINISH_SIGN.3VN") == -1)
@@ -111,50 +112,53 @@ void Maze::init()
 		cout<<"Error in read file";
 	}
 	finishRotAngle = 0;
+	
 
-	for (int y = 0; y < MAP_SIZE_Y-1; y++) //loop through the LEVELS of the map
+	
+
+	for (int y = 0; y < 2; y++) //loop through the LEVELS of the map
 	{
+		vector<int> temp;
 		for (int z = 0; z < MAP_SIZE_Z; z++) //loop through the height of the map
 		{
 			for (int x = 0; x < MAP_SIZE_X; x++) //loop through the width of the map
 			{
-				switch(y)
-				{
-				case 0:
-					{
-						if (cMap[z][x] == 1)
-						{
-							cubesPos[y][z][x] = Point3(x*TILE_SIZE,y*TILE_SIZE , -z*TILE_SIZE);
-							floorPos[y][z][x] = true;
-						}
-
-						else if (cMap[z][x] == 9)
-						{
-							finishPos = Point3(x*TILE_SIZE, y*TILE_SIZE, -z*TILE_SIZE);
-						}
-						else if(cMap[z][x] == 0)
-							floorPos[y][z][x] = true;
-						
-					}break;
-				case 1:
-					{
-						if (dMap[z][x] == 1)
-						{
-							cubesPos[y][z][x] = Point3(x*TILE_SIZE,y*TILE_SIZE , -z*TILE_SIZE);
-							floorPos[y][z][x] = true;
-						}
-
-						else if (dMap[z][x] == 9)
-						{
-							finishPos = Point3(x*TILE_SIZE, y*TILE_SIZE, -z*TILE_SIZE);
-						}
-						else if(dMap[z][x] == 0)
-							floorPos[y][z][x] = true;
-					}break;
-				}// closing switch statement
+				if (y==0)
+					temp.push_back(cMap[z][x]);
+				else
+					temp.push_back(dMap[z][x]);
+					//cout << cMap[z][x]<< endl;
 			}
 		}
+		v.push_back(temp);
 	}
+
+	
+	for (int y = 0; y < 2; y++) //loop through the LEVELS of the map
+	{
+		int zx = 0;
+		for (int z = 0; z < MAP_SIZE_Z; z++) //loop through the height of the map
+		{
+			for (int x = 0; x < MAP_SIZE_X; x++) //loop through the width of the map
+			{	
+				if (v[y][zx] == 1)
+				{
+					cubesPos[y][z][x] = Point3(x*TILE_SIZE,y*TILE_SIZE , -z*TILE_SIZE);
+					floorPos[y][z][x] = true;
+				}
+
+				else if (v[y][zx] == 9)
+				{
+					finishPos = Point3(x*TILE_SIZE, y*TILE_SIZE, -z*TILE_SIZE);
+				}
+				else if(v[y][zx] == 0)
+					floorPos[y][z][x] = true;
+
+				zx++;
+			}							
+		}
+	}
+	
 	materialColor(1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 100);
 
 	// Generate valid texture IDs
@@ -232,68 +236,42 @@ void Maze::updateObjects()
 
 void Maze::displayMaze()
 {
-	for (int y = 0; y < MAP_SIZE_Y-1; y++) //loop through the LEVELS of the map
+	for (int y = 0; y < MAP_SIZE_Y; y++) //loop through the LEVELS of the map
 	{
+		int zx = 0;
 		for (int z = 0; z < MAP_SIZE_Z; z++) //loop through the height of the map
 		{
 			for (int x = 0; x < MAP_SIZE_X; x++) //loop through the width of the map
 			{
 				Point3* point = new Point3(x*TILE_SIZE, y*TILE_SIZE, -z*TILE_SIZE);
-				glPushMatrix();
-				
-				
+				glPushMatrix();								
 				glTranslatef(point->getX(), point->getY(), point->getZ()); //translates to where it should belong	
-
-				switch(y)
+	
+					
+		
+				switch (v[y][zx])
 				{
 					case 0:
-						{
-						switch (cMap[z][x])
-						{
-							case 0:
-							displayFloor();
-							break;
-
-							case 1:
-							//materialColor(.75164, .60648, .22648, 1., .75164, .60648, .22648, 1., .75164, .60648, .22648, 1., 51.2);
-							//glutSolidCube(TILE_SIZE);
-							//glutWireCube(TILE_SIZE);							
-							displayCube();
-							break;
-
-							case 9:
-							displayFloor();
-							displayFinishSign();
-							break;
-						}
-					}break; // case 0
+					displayFloor();
+					break;
 
 					case 1:
-					{
-						switch (dMap[z][x])
-						{
-							case 0:
-							displayFloor();
-							break;
+					//materialColor(.75164, .60648, .22648, 1., .75164, .60648, .22648, 1., .75164, .60648, .22648, 1., 51.2);
+					//glutSolidCube(TILE_SIZE);							
+					//glutWireCube(TILE_SIZE);
+					displayFloor();
+					displayCube();
+					break;
 
-							case 1:
-							//materialColor(.75164, .60648, .22648, 1., .75164, .60648, .22648, 1., .75164, .60648, .22648, 1., 51.2);
-							//glutSolidCube(TILE_SIZE);
-							//glutWireCube(TILE_SIZE);
-							displayFloor();
-							displayCube();
-							break;
+					case 9:
+					displayFloor();
+					displayFinishSign();
+					break;
+				}
 
-							case 9:
-							displayFloor();
-							displayFinishSign();
-							break;
-						}
-					}break; // case 01
-
-				} // closing switch statement
 				glPopMatrix();
 				delete point;
+				zx++;
 			} //end first loop
 		} //end second loop
 	}

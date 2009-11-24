@@ -5,7 +5,7 @@
 
 
 const float TILE_SIZE = 3.0;
-const int MAP_SIZE_Y = 3;
+const int MAP_SIZE_Y = 2;
 const int MAP_SIZE_Z = 9;
 const int MAP_SIZE_X = 10;
 const int MAX_TEXTURES = 5;
