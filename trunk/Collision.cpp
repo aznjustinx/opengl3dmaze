@@ -42,24 +42,20 @@ int Collision::check(int forward)
 	Point3* pos = player->getPosition();
 	Vector3* n = player->getYaw();
 
-	//cout << pos->getZ() << endl;
-
+	// nulla collisionið
 	collision = 0;
 
 	Point3 ma[MAP_SIZE_Y][MAP_SIZE_Z][MAP_SIZE_X];		
 	
 	// tekur 1 reit fyrir aftan player position og notað það í loopu
 	int y = pos->getY()/TILE_SIZE;
-	//// sbr low en tekur 3 reiti fyrir framan player
-	//int high_Y = pos->getY()/TILE_SIZE;
-	//if(low_Y < 0)
-	//	low_Y = 0;
+	//// sbr low en tekur 1 reit fyrir framan player
 	if(y > MAP_SIZE_Y-1)
 		y = MAP_SIZE_Y-1;
 
 	// tekur 1 reit fyrir aftan player position og notað það í loopu
 	int low_Z = fabs(pos->getZ())/TILE_SIZE-TILE_SIZE;
-	// sbr low en tekur 3 reiti fyrir framan player
+	// sbr low en tekur 1 reit fyrir framan player
 	int high_Z = fabs(pos->getZ())/TILE_SIZE+TILE_SIZE;//MAP_SIZE_Z/2;
 	if(low_Z < 0)
 		low_Z = 0;
@@ -87,8 +83,6 @@ int Collision::check(int forward)
 				// 678
 				// 4 5
 				// 123
-				
-				//cout << "pos: " <<pos->getY() << endl;
 
 				if(n->getZ() >= 0 && forward || n->getZ() <= 0 && !forward)
 				{
