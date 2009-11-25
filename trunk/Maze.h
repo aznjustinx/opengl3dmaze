@@ -2,6 +2,7 @@
 #define maze_h
 #include "Point3.h"
 #include "Mesh.h"
+#include "Outside.h"
 
 
 const float TILE_SIZE = 3.0;
@@ -10,6 +11,8 @@ const int MAP_SIZE_Z = 9;
 const int MAP_SIZE_X = 10;
 const int MAX_TEXTURES = 5;
 const int NR_OF_VERTEXES = 4;
+const float GOODIE_SIZE = 0.5;
+const int GOODIE_ROT_INC = 3;
 
 class Maze
 {
@@ -17,6 +20,8 @@ private:
 	Mesh* finishSign;
 	float finishRotAngle;
 	Point3 finishPos;
+	Outside* outside;
+	float goodieRotAngle;
 	
 public:
 	bool finished;
@@ -41,6 +46,7 @@ public:
 	void materialColor(float dif0, float dif1, float dif2, float dif3
 						 , float spec0, float spec1, float spec2, float spec3
 						 , float amb0, float amb1, float amb2, float amb3, float shininess);
+	void displayGoodie();
 
 	
 };

@@ -112,7 +112,7 @@ void Maze::init()
 		cout<<"Error in read file";
 	}
 	finishRotAngle = 0;
-	
+	goodieRotAngle = 0;
 
 	
 
@@ -232,6 +232,11 @@ void Maze::updateObjects()
 	} else {
 		++finishRotAngle;
 	}
+	if (goodieRotAngle >= 359 + GOODIE_ROT_INC) {
+		goodieRotAngle = 359 - goodieRotAngle + GOODIE_ROT_INC;
+	} else {
+		goodieRotAngle += GOODIE_ROT_INC;
+	}
 }
 
 void Maze::displayMaze()
@@ -253,6 +258,7 @@ void Maze::displayMaze()
 				{
 					case 0:
 					displayFloor();
+					displayGoodie();
 					break;
 
 					case 1:
@@ -309,6 +315,25 @@ void Maze::displayFinishSign()
 	glTranslatef(0., -TILE_SIZE/2 + .5, 0.);
 	glRotatef(finishRotAngle, 0., 1., 0.);
 	finishSign->draw();
+	glPopMatrix();
+}
+
+void Maze::displayGoodie()
+{
+	/*materialColor(.4, .4, .4, 1., .774597, .774597, .774597, 1., .25, .25, .25, 1., 76.8);
+	glPushMatrix();
+	
+	glTranslatef(0., -TILE_SIZE/2 + .0001, 0.);
+	glScalef(.2, .2, .2);
+	glRotatef(finishRotAngle, 0., 1., 0.);
+	
+	finishSign->draw();
+	glPopMatrix();*/
+	glPushMatrix();
+	glRotatef(finishRotAngle, 0., 1., 0.);
+	glTranslatef(-GOODIE_SIZE/2, -GOODIE_SIZE/2 /*-TILE_SIZE/2*/, 0);
+	
+	makePlate(GOODIE_SIZE, GOODIE_SIZE, 5, 5, GOODIE_SIZE, GOODIE_SIZE);
 	glPopMatrix();
 }
 
