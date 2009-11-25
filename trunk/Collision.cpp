@@ -23,6 +23,7 @@ void Collision::init(Player* pl, Maze* ma)
 	maze = ma;	
 }
 
+// checks if floor is right below player. If not then "falls"
 bool Collision::gravity()
 {
 	Point3* pos = player->getPosition();
@@ -40,6 +41,7 @@ bool Collision::gravity()
 		return false;
 }
 
+// checks for collisions on walls/cubes
 int Collision::check(int forward)
 {
 	Point3* pos = player->getPosition();
@@ -52,6 +54,8 @@ int Collision::check(int forward)
 	
 	// tekur 1 reit fyrir aftan player position og notað það í loopu
 	int y = pos->getY()/TILE_SIZE;
+
+	cout <<y << endl;
 	//// sbr low en tekur 1 reit fyrir framan player
 	if(y > MAP_SIZE_Y-1)
 		y = MAP_SIZE_Y-1;

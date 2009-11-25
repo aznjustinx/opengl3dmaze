@@ -263,7 +263,7 @@ void update(int id)
 		{
 			player.slide(0., SLIDE_INCREMENT, 0.);
 		}
-		if (player.floatDownPressed && player.getPosition()->getY() > 0)
+		if (player.floatDownPressed)// && player.getPosition()->getY() > 0)
 		{
 			player.slide(0., -SLIDE_INCREMENT, 0.);
 		}
@@ -291,10 +291,10 @@ void init()
 	
 	gameOver = false;
 	player.debugMode = true;
-	float x, y = 7, z;
+	float x, y = 20, z;
 	if (player.debugMode) {
-		x = 15.;
-		z = -5.5;
+		x = 20.;
+		z = -20;
 	}
 	else
 	{
