@@ -291,18 +291,18 @@ void init()
 	
 	gameOver = false;
 	player.debugMode = true;
-	float x, y = 0, z;
+	float x, y = 7, z;
 	if (player.debugMode) {
-		x = 12.;
-		z = -2.5;
+		x = 15.;
+		z = -5.5;
 	}
 	else
 	{
 		x = 12.;
 		z = 2.5;
 	}
-	player.set(Point3(x, y, z), Point3(0., 0., 0.), Vector3(0., 1., 0.));
-	player.yaw(ROT_INCREMENT * 25);
+	player.set(Point3(x, y, z), Point3(0., y, 0.), Vector3(0., 1., 0.));
+	//player.yaw(ROT_INCREMENT * 25);
 	collision.init(&player, &maze);
 	maze.init();
 }
