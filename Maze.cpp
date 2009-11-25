@@ -25,13 +25,13 @@ vector <vector <int> > v; /*two dimensions*/
 //   0  1  2  3  4  5  6  7  8  9
 int cMap[MAP_SIZE_Z][MAP_SIZE_X] = {
 	{1,1,1,1,1,1,1,1,1,1},
-	{1,0,0,0,0,0,0,0,0,1},
-	{1,0,0,0,0,0,0,0,0,1},
-	{1,0,0,0,0,1,0,0,0,1},
-	{1,0,0,0,0,0,0,0,0,1},
-	{1,0,0,0,0,0,0,0,0,1},
-	{1,0,0,0,0,8,8,0,0,1},
-	{1,0,0,0,0,8,8,0,0,1},
+	{1,0,0,0,0,0,0,0,0,0},
+	{1,0,0,0,0,0,0,0,0,0},
+	{1,0,0,0,0,1,0,0,0,0},
+	{1,0,0,0,1,1,0,0,0,0},
+	{1,0,0,0,0,0,0,0,0,0},
+	{1,0,0,0,0,0,0,0,0,0},
+	{1,0,0,0,0,0,0,0,0,0},
 	{1,1,1,1,1,1,1,1,1,1},};
 
 int dMap[MAP_SIZE_Z][MAP_SIZE_X] = {
@@ -39,10 +39,10 @@ int dMap[MAP_SIZE_Z][MAP_SIZE_X] = {
 	{1,0,0,0,0,0,0,0,0,1},
 	{1,0,0,0,0,0,0,0,0,1},
 	{1,0,1,0,0,0,0,0,0,1},
-	{1,0,8,0,0,0,0,0,0,1},
 	{1,0,0,0,0,0,0,0,0,1},
-	{1,0,0,0,0,0,0,0,0,1},
-	{1,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,8,8,0,0,0,1},
+	{1,0,0,0,8,8,0,0,0,1},
+	{1,0,0,0,8,8,0,0,0,1},
 	{1,1,1,1,1,1,1,1,1,1},};
 
 
@@ -143,8 +143,8 @@ void Maze::init()
 			{	
 				if (v[y][zx] == 1)
 				{
-					cubesPos[y][z][x] = Point3(x*TILE_SIZE,y*TILE_SIZE , -z*TILE_SIZE);
-					floorPos[y][z][x] = true;
+					cubesPos[y][z][x] = Point3(x*TILE_SIZE,y , -z*TILE_SIZE);
+					floorPos[y][z][x] = Point3(x*TILE_SIZE,y , -z*TILE_SIZE);
 				}
 
 				else if (v[y][zx] == 9)
@@ -152,7 +152,7 @@ void Maze::init()
 					finishPos = Point3(x*TILE_SIZE, y*TILE_SIZE, -z*TILE_SIZE);
 				}
 				else if(v[y][zx] == 0)
-					floorPos[y][z][x] = true;
+					floorPos[y][z][x] = Point3(x*TILE_SIZE,y, -z*TILE_SIZE);
 
 				zx++;
 			}							
@@ -215,7 +215,7 @@ Point3 Maze::getCubesPos(int y,int z, int x)
 	return cubesPos[y][z][x];
 }
 
-bool Maze::getFloorPos(int y,int z, int x)
+Point3 Maze::getFloorPos(int y,int z, int x)
 {
 	return floorPos[y][z][x];
 }

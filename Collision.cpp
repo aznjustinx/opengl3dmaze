@@ -27,12 +27,17 @@ bool Collision::gravity()
 {
 	Point3* pos = player->getPosition();
 
-	int y = pos->getY()/TILE_SIZE;
+	float y = pos->getY()/TILE_SIZE;
 	int z = fabs(pos->getZ())/TILE_SIZE;
 	int x = fabs(pos->getX())/TILE_SIZE;
-	if(int(pos->getY()+0.1) % 3==0)
-		return maze->getFloorPos(y,z,x);
-	else return false;
+
+	// lower the value of 0.1 to get closer to floor
+	if(y-0.1<maze->getFloorPos(int(y),z,x).getY())
+	{
+		return true;
+	}
+	else
+		return false;
 }
 
 int Collision::check(int forward)
