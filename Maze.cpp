@@ -25,7 +25,7 @@ vector <vector <int> > v; /*two dimensions*/
 //   0  1  2  3  4  5  6  7  8  9
 int cMap[MAP_SIZE_Z][MAP_SIZE_X] = {
 	{1,1,1,1,1,1,1,1,1,1},
-	{1,0,0,0,0,0,0,0,0,0},
+	{1,0,0,0,0,0,0,0,0,9},
 	{1,0,0,0,0,0,0,0,0,0},
 	{1,0,0,0,0,1,0,0,0,0},
 	{1,0,0,0,1,1,0,0,0,0},
@@ -45,6 +45,27 @@ int dMap[MAP_SIZE_Z][MAP_SIZE_X] = {
 	{1,0,0,0,8,8,0,0,0,1},
 	{1,1,1,1,1,1,1,1,1,1},};
 
+int eMap[MAP_SIZE_Z][MAP_SIZE_X] = {
+	{1,1,1,1,1,1,1,1,1,1},
+	{1,0,0,0,8,8,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,1},
+	{1,0,1,0,0,0,0,1,0,1},
+	{1,0,0,1,0,0,1,0,0,1},
+	{1,0,1,0,0,0,0,1,0,1},
+	{1,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,1},
+	{1,1,1,1,1,1,1,1,1,1},};
+
+int fMap[MAP_SIZE_Z][MAP_SIZE_X] = {
+	{1,1,1,1,1,1,1,1,1,1},
+	{1,0,0,0,0,0,0,0,0,1},
+	{1,0,0,1,1,1,1,0,0,1},
+	{1,0,0,1,8,8,1,0,0,1},
+	{1,0,0,1,8,8,1,0,0,1},
+	{1,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,1},
+	{1,1,1,1,1,1,1,1,1,1},};
 
 // Holds all texture objects
 GLuint g_textures[MAX_TEXTURES];
@@ -116,7 +137,7 @@ void Maze::init()
 
 	
 
-	for (int y = 0; y < 2; y++) //loop through the LEVELS of the map
+	for (int y = 0; y < MAP_SIZE_Y; y++) //loop through the LEVELS of the map
 	{
 		vector<int> temp;
 		for (int z = 0; z < MAP_SIZE_Z; z++) //loop through the height of the map
@@ -125,16 +146,19 @@ void Maze::init()
 			{
 				if (y==0)
 					temp.push_back(cMap[z][x]);
-				else
+				else if(y==1)
 					temp.push_back(dMap[z][x]);
+				else if(y==2)
+					temp.push_back(eMap[z][x]);
+				else if(y==3)
+					temp.push_back(fMap[z][x]);
 					//cout << cMap[z][x]<< endl;
 			}
 		}
 		v.push_back(temp);
 	}
 
-	
-	for (int y = 0; y < 2; y++) //loop through the LEVELS of the map
+	for (int y = 0; y < MAP_SIZE_Y; y++) //loop through the LEVELS of the map
 	{
 		int zx = 0;
 		for (int z = 0; z < MAP_SIZE_Z; z++) //loop through the height of the map
@@ -143,17 +167,16 @@ void Maze::init()
 			{	
 				if (v[y][zx] == 1)
 				{
-					cubesPos[y][z][x] = Point3(x*TILE_SIZE,y , -z*TILE_SIZE);
+					cubesPos[y][z][x] = Point3(x*TILE_SIZE,y*3 , -z*TILE_SIZE);
 					floorPos[y][z][x] = Point3(x*TILE_SIZE,y , -z*TILE_SIZE);
 				}
 
 				else if (v[y][zx] == 9)
 				{
-					finishPos = Point3(x*TILE_SIZE, y*TILE_SIZE, -z*TILE_SIZE);
+					finishPos = Point3(x*TILE_SIZE, y, -z*TILE_SIZE);
 				}
 				else if(v[y][zx] == 0)
 					floorPos[y][z][x] = Point3(x*TILE_SIZE,y, -z*TILE_SIZE);
-
 				zx++;
 			}							
 		}
@@ -163,7 +186,7 @@ void Maze::init()
 
 	// Generate valid texture IDs
 	glGenTextures( MAX_TEXTURES, g_textures );
-	loadImage(g_textures[TEX_FLOOR], ".\\TilesOrnate.jpg"); //".\\MixedPurple.jpg");   // ".\\Roads0059_4_S.jpg");
+	loadImage(g_textures[TEX_FLOOR], ".\\TilesOrnate.jpg");
 	loadImage(g_textures[TEX_WALL], ".\\BrickLargeBare.jpg");
 }
 
