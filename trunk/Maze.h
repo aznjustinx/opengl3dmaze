@@ -12,7 +12,7 @@ const int MAP_SIZE_X = 10;
 const int MAX_TEXTURES = 5;
 const int NR_OF_VERTEXES = 4;
 const float GOODIE_SIZE = 0.5;
-const int GOODIE_ROT_INC = 3;
+const int GOODIE_ROT_INC = 10;
 
 class Maze
 {
