@@ -69,7 +69,7 @@ int fMap[MAP_SIZE_Z][MAP_SIZE_X] = {
 
 // Holds all texture objects
 GLuint g_textures[MAX_TEXTURES];
-enum { TEX_FLOOR, TEX_WALL, TEX_ASPHALT, TEX_TILES, TEX_BRICKS };
+enum { TEX_FLOOR, TEX_WALL, TEX_GOODIE, TEX_TILES, TEX_BRICKS };
 
 Maze::Maze()
 {	
@@ -135,6 +135,7 @@ void Maze::init()
 	finishRotAngle = 0;
 	goodieRotAngle = 0;
 
+
 	
 
 	for (int y = 0; y < MAP_SIZE_Y; y++) //loop through the LEVELS of the map
@@ -188,6 +189,7 @@ void Maze::init()
 	glGenTextures( MAX_TEXTURES, g_textures );
 	loadImage(g_textures[TEX_FLOOR], ".\\TilesOrnate.jpg");
 	loadImage(g_textures[TEX_WALL], ".\\BrickLargeBare.jpg");
+	loadImage(g_textures[TEX_GOODIE], ".\\pacman.tif");
 }
 
 // Structure used in makePlate
@@ -203,7 +205,6 @@ struct Vertex {
 void Maze::makePlate(float width, float height, int dw, int dh, float texWidth, float texHeight) {
 	float widthRatio = width / texWidth;
 	float heightRadio = height / texHeight;
-
 
 	Vertex *v = new Vertex[dw*dh];
 	float stepw = (width/(float)(dw-1));
@@ -343,20 +344,21 @@ void Maze::displayFinishSign()
 
 void Maze::displayGoodie()
 {
-	/*materialColor(.4, .4, .4, 1., .774597, .774597, .774597, 1., .25, .25, .25, 1., 76.8);
+	materialColor(1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.);
+	glBindTexture( GL_TEXTURE_2D, g_textures[TEX_GOODIE] );
+	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 	glPushMatrix();
+	glRotatef(goodieRotAngle, 0., 1., 0.);
+	glTranslatef(-GOODIE_SIZE/2, -GOODIE_SIZE/2, 0);
 	
-	glTranslatef(0., -TILE_SIZE/2 + .0001, 0.);
-	glScalef(.2, .2, .2);
-	glRotatef(finishRotAngle, 0., 1., 0.);
+	makePlate(GOODIE_SIZE, GOODIE_SIZE, GOODIE_NR_OF_VERTS, GOODIE_NR_OF_VERTS, GOODIE_SIZE, GOODIE_SIZE);
+	glPopMatrix();
 	
-	finishSign->draw();
-	glPopMatrix();*/
 	glPushMatrix();
-	glRotatef(finishRotAngle, 0., 1., 0.);
-	glTranslatef(-GOODIE_SIZE/2, -GOODIE_SIZE/2 /*-TILE_SIZE/2*/, 0);
+	glRotatef(goodieRotAngle + 180, 0., 1., 0.);
+	glTranslatef(-GOODIE_SIZE/2 - 0.001, -GOODIE_SIZE/2, -0.001);
 	
-	makePlate(GOODIE_SIZE, GOODIE_SIZE, 5, 5, GOODIE_SIZE, GOODIE_SIZE);
+	makePlate(GOODIE_SIZE, GOODIE_SIZE, GOODIE_NR_OF_VERTS, GOODIE_NR_OF_VERTS, GOODIE_SIZE, GOODIE_SIZE);
 	glPopMatrix();
 }
 

@@ -288,7 +288,10 @@ void init()
 	glEnable(GL_NORMALIZE); //Automatically normalize normals
 	glShadeModel(GL_FLAT);
 	glEnable(GL_TEXTURE_2D);
+	//glEnable (GL_BLEND);
+	//glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	
+
 	gameOver = false;
 	player.debugMode = true;
 	float x, y = 20, z;
