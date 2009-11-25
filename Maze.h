@@ -3,6 +3,7 @@
 #include "Point3.h"
 #include "Mesh.h"
 #include "Outside.h"
+#include "Piece.h"
 
 
 const float TILE_SIZE = 3.0;
@@ -11,8 +12,9 @@ const int MAP_SIZE_Z = 9;
 const int MAP_SIZE_X = 10;
 const int MAX_TEXTURES = 5;
 const int NR_OF_VERTEXES = 4;
-const float GOODIE_SIZE = 0.5;
-const int GOODIE_ROT_INC = 10;
+const float GOODIE_SIZE = 0.3;
+const int GOODIE_ROT_INC = 5;
+const int GOODIE_NR_OF_VERTS = 8;
 
 class Maze
 {
@@ -22,6 +24,7 @@ private:
 	Point3 finishPos;
 	Outside* outside;
 	float goodieRotAngle;
+	Piece* pieces[100];
 	
 public:
 	bool finished;
