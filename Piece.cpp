@@ -24,10 +24,10 @@ Piece::~Piece(void)
 
 void Piece::update()
 {
-	if (rotAngle >= 359 + GOODIE_ROT_INC) {
-		rotAngle = 359 - rotAngle + GOODIE_ROT_INC;
+	if (rotAngle >= 359 + ROT_INC) {
+		rotAngle = 359 - rotAngle + ROT_INC;
 	} else {
-		rotAngle += GOODIE_ROT_INC;
+		rotAngle += ROT_INC;
 	}
 }
 
@@ -38,15 +38,15 @@ void Piece::display()
 	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 	glPushMatrix();
 	glRotatef(rotAngle, 0., 1., 0.);
-	glTranslatef(-GOODIE_SIZE/2, -GOODIE_SIZE/2, 0);
+	glTranslatef(-PIECE_SIZE/2, -PIECE_SIZE/2, 0);
 	
-	main::makePlate(GOODIE_SIZE, GOODIE_SIZE, GOODIE_NR_OF_VERTS, GOODIE_NR_OF_VERTS, GOODIE_SIZE, GOODIE_SIZE);
+	main::makePlate(PIECE_SIZE, PIECE_SIZE, NR_OF_VERTS, NR_OF_VERTS, PIECE_SIZE, PIECE_SIZE);
 	glPopMatrix();
 	
 	glPushMatrix();
 	glRotatef(rotAngle + 180, 0., 1., 0.);
-	glTranslatef(-GOODIE_SIZE/2 - 0.001, -GOODIE_SIZE/2, -0.001);
+	glTranslatef(-PIECE_SIZE/2 - 0.001, -PIECE_SIZE/2, -0.001);
 	
-	main::makePlate(GOODIE_SIZE, GOODIE_SIZE, GOODIE_NR_OF_VERTS, GOODIE_NR_OF_VERTS, GOODIE_SIZE, GOODIE_SIZE);
+	main::makePlate(PIECE_SIZE, PIECE_SIZE, NR_OF_VERTS, NR_OF_VERTS, PIECE_SIZE, PIECE_SIZE);
 	glPopMatrix();
 }

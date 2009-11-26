@@ -293,15 +293,7 @@ void init()
 	glEnable(GL_NORMALIZE); //Automatically normalize normals
 	glShadeModel(GL_FLAT);
 	glEnable(GL_TEXTURE_2D);
-	//glEnable (GL_BLEND);
-	//glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	
-	/*glGenTextures(MAX_TEXTURES, g_textures );
-	main::loadImage(g_textures[TEX_FLOOR], ".\\TilesOrnate.jpg");
-	main::loadImage(g_textures[TEX_WALL], ".\\BrickLargeBare.jpg");
-	main::loadImage(g_textures[TEX_GOODIE], ".\\pacman.tif");*/
-	
-
 	gameOver = false;
 	player.debugMode = true;
 	float x, y = 15, z;
