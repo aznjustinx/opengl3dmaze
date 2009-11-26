@@ -163,6 +163,11 @@ Point3 Maze::getFinishPos()
 	return finishPos;
 }
 
+void Maze::deletePiece(int y, int z, int x)
+{
+	pieces[y][z][x]->captured = true;
+}
+
 void Maze::updateObjects()
 {
 	if (finishRotAngle == 359) {
@@ -192,7 +197,7 @@ void Maze::displayMaze()
 		for (int z = 0; z < MAP_SIZE_Z; z++) //loop through the height of the map
 		{
 			for (int x = 0; x < MAP_SIZE_X; x++) //loop through the width of the map
-			{
+			{				
 				Point3* point = new Point3(x*TILE_SIZE, y*TILE_SIZE, -z*TILE_SIZE);
 				glPushMatrix();								
 				glTranslatef(point->getX(), point->getY(), point->getZ()); //translates to where it should belong	

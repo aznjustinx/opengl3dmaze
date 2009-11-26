@@ -31,7 +31,8 @@ public:
 	Point3 cubesPos[MAP_SIZE_Y][MAP_SIZE_Z][MAP_SIZE_X];
 	Point3 floorPos[MAP_SIZE_Y][MAP_SIZE_Z][MAP_SIZE_X];
 	Maze();
-	~Maze();		
+	~Maze();	
+	void deletePiece(int y,int z, int x);
 	void displayMaze();
 	void displayBox();
 	void displayWall();

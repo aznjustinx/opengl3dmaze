@@ -12,6 +12,7 @@ private:
 	float rotAngle;
 	GLuint g_PieceTextures[PIECE_MAX_TEXTURES];
 public:
+	bool captured;
 	Piece(void);
 	~Piece(void);
 	void update();

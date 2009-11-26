@@ -35,6 +35,7 @@ bool Collision::gravity()
 	// lower the value of 0.1 to get closer to floor
 	if(y-0.1<maze->getFloorPos(int(y),z,x).getY())
 	{
+		maze->deletePiece(int(y),z,x);
 		return true;
 	}
 	else
