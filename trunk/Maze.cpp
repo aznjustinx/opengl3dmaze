@@ -143,12 +143,9 @@ void Maze::init()
 	}
 	
 	main::materialColor(1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 100);
-
+	glGenTextures(MAZE_MAX_TEXTURES, g_MazeTextures );
 	main::loadImage(g_MazeTextures[TEX_FLOOR], ".\\TilesOrnate.jpg");
-
 	main::loadImage(g_MazeTextures[TEX_WALL], ".\\BrickLargeBare.jpg");
-
-	
 }
 
 Point3 Maze::getCubesPos(int y,int z, int x)
@@ -207,9 +204,6 @@ void Maze::displayMaze()
 					break;
 
 					case 1:
-					//materialColor(.75164, .60648, .22648, 1., .75164, .60648, .22648, 1., .75164, .60648, .22648, 1., 51.2);
-					//glutSolidCube(TILE_SIZE);							
-					//glutWireCube(TILE_SIZE);
 					displayFloor();
 
 					// display cube ceiling?
