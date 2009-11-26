@@ -294,7 +294,7 @@ void init()
 
 	gameOver = false;
 	player.debugMode = true;
-	float x, y = 20, z;
+	float x, y = 15, z;
 	if (player.debugMode) {
 		x = 20.;
 		z = -20;

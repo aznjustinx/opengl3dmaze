@@ -7,7 +7,7 @@ using namespace std;
 const float offset = 1.5;		// út að ytri hlið kubbs
 const float lesserThan = 1;		// stærð á kalli
 const float side_offset = 0.3;	// frá horni 
-const float height = 3;
+const float height = TILE_SIZE;
 int collision = 0;
 bool finishSingTouched = false;
 

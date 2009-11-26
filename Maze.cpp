@@ -168,7 +168,7 @@ void Maze::init()
 			{	
 				if (v[y][zx] == 1)
 				{
-					cubesPos[y][z][x] = Point3(x*TILE_SIZE,y*3 , -z*TILE_SIZE);
+					cubesPos[y][z][x] = Point3(x*TILE_SIZE,y*TILE_SIZE , -z*TILE_SIZE);
 					floorPos[y][z][x] = Point3(x*TILE_SIZE,y , -z*TILE_SIZE);
 				}
 
@@ -276,8 +276,6 @@ void Maze::displayMaze()
 				glPushMatrix();								
 				glTranslatef(point->getX(), point->getY(), point->getZ()); //translates to where it should belong	
 	
-					
-		
 				switch (v[y][zx])
 				{
 					case 0:
@@ -285,12 +283,15 @@ void Maze::displayMaze()
 					displayGoodie();
 					break;
 
-					case 1:
-					//materialColor(.75164, .60648, .22648, 1., .75164, .60648, .22648, 1., .75164, .60648, .22648, 1., 51.2);
-					//glutSolidCube(TILE_SIZE);							
+					case 1:										
 					//glutWireCube(TILE_SIZE);
 					displayFloor();
-					displayCube();
+
+					// display cube ceiling?
+					if (y+1== MAP_SIZE_Y)
+						displayCube(true);
+					else 
+						displayCube(false);
 					break;
 
 					case 9:
@@ -375,7 +376,7 @@ void Maze::displayFloor()
 	glPopMatrix();
 }
 
-void Maze::displayCube()
+void Maze::displayCube(bool ceiling)
 {
 	materialColor(1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1000);
 	glBindTexture( GL_TEXTURE_2D, g_textures[TEX_WALL] );
@@ -402,9 +403,12 @@ void Maze::displayCube()
 	makePlate(TILE_SIZE, TILE_SIZE, NR_OF_VERTEXES, NR_OF_VERTEXES, TILE_SIZE, TILE_SIZE);
 	glPopMatrix();
 
-	glPushMatrix();		
-	glTranslatef(-TILE_SIZE/2, TILE_SIZE/2, -TILE_SIZE/2);
-	glRotatef(90., 1., 0., 0.);
-	makePlate(TILE_SIZE, TILE_SIZE, NR_OF_VERTEXES, NR_OF_VERTEXES, TILE_SIZE, TILE_SIZE);
-	glPopMatrix();
+	if(ceiling)
+	{
+		glPushMatrix();		
+		glTranslatef(-TILE_SIZE/2, TILE_SIZE/2, -TILE_SIZE/2);
+		glRotatef(90., 1., 0., 0.);
+		makePlate(TILE_SIZE, TILE_SIZE, NR_OF_VERTEXES, NR_OF_VERTEXES, TILE_SIZE, TILE_SIZE);
+		glPopMatrix();
+	}
 }

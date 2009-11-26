@@ -6,7 +6,7 @@
 #include "Piece.h"
 
 
-const float TILE_SIZE = 3.0;
+const float TILE_SIZE =3.0;
 const int MAP_SIZE_Y = 4;
 const int MAP_SIZE_Z = 9;
 const int MAP_SIZE_X = 10;
@@ -45,7 +45,7 @@ public:
 	void updateObjects();
 	void loadImage(GLuint textureID, char* filename);
 	void makePlate(float width, float height, int dw, int dh, float texWidth, float texHeight);
-	void displayCube();
+	void displayCube(bool ceiling);
 	void materialColor(float dif0, float dif1, float dif2, float dif3
 						 , float spec0, float spec1, float spec2, float spec3
 						 , float amb0, float amb1, float amb2, float amb3, float shininess);
