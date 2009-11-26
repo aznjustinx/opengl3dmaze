@@ -11,7 +11,7 @@ const int PIECE_MAX_TEXTURES = 5;
 class Piece
 {
 private:
-	float goodieRotAngle;
+	float rotAngle;
 	GLuint g_PieceTextures[PIECE_MAX_TEXTURES];
 public:
 	Piece(void);

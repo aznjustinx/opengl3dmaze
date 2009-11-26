@@ -15,6 +15,7 @@ Piece::Piece(void)
 {
 	glGenTextures(PIECE_MAX_TEXTURES, g_PieceTextures);
 	main::loadImage(g_PieceTextures[TEX_GOODIE], ".\\pacman.tif");
+	rotAngle = 0;
 }
 
 Piece::~Piece(void)
@@ -23,10 +24,10 @@ Piece::~Piece(void)
 
 void Piece::update()
 {
-	if (goodieRotAngle >= 359 + GOODIE_ROT_INC) {
-		goodieRotAngle = 359 - goodieRotAngle + GOODIE_ROT_INC;
+	if (rotAngle >= 359 + GOODIE_ROT_INC) {
+		rotAngle = 359 - rotAngle + GOODIE_ROT_INC;
 	} else {
-		goodieRotAngle += GOODIE_ROT_INC;
+		rotAngle += GOODIE_ROT_INC;
 	}
 }
 
@@ -36,14 +37,14 @@ void Piece::display()
 	glBindTexture( GL_TEXTURE_2D, g_PieceTextures[TEX_GOODIE] );
 	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 	glPushMatrix();
-	glRotatef(goodieRotAngle, 0., 1., 0.);
+	glRotatef(rotAngle, 0., 1., 0.);
 	glTranslatef(-GOODIE_SIZE/2, -GOODIE_SIZE/2, 0);
 	
 	main::makePlate(GOODIE_SIZE, GOODIE_SIZE, GOODIE_NR_OF_VERTS, GOODIE_NR_OF_VERTS, GOODIE_SIZE, GOODIE_SIZE);
 	glPopMatrix();
 	
 	glPushMatrix();
-	glRotatef(goodieRotAngle + 180, 0., 1., 0.);
+	glRotatef(rotAngle + 180, 0., 1., 0.);
 	glTranslatef(-GOODIE_SIZE/2 - 0.001, -GOODIE_SIZE/2, -0.001);
 	
 	main::makePlate(GOODIE_SIZE, GOODIE_SIZE, GOODIE_NR_OF_VERTS, GOODIE_NR_OF_VERTS, GOODIE_SIZE, GOODIE_SIZE);
