@@ -24,13 +24,13 @@ vector <vector <int> > v; /*two dimensions*/
 //   0  1  2  3  4  5  6  7  8  9
 int cMap[MAP_SIZE_Z][MAP_SIZE_X] = {
 	{1,1,1,1,1,1,1,1,1,1},
-	{1,0,0,0,0,0,0,0,0,9},
-	{1,0,0,0,0,0,0,0,0,0},
-	{1,0,0,0,0,1,0,0,0,0},
-	{1,0,0,0,1,1,0,0,0,0},
-	{1,0,0,0,0,0,0,0,0,0},
-	{1,0,0,0,0,0,0,0,0,0},
-	{1,0,0,0,0,0,0,0,0,0},
+	{1,0,0,0,0,0,0,0,9,1},
+	{1,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,1,0,0,0,1},
+	{1,0,0,0,1,1,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,1},
 	{1,1,1,1,1,1,1,1,1,1},};
 
 int dMap[MAP_SIZE_Z][MAP_SIZE_X] = {
@@ -143,10 +143,11 @@ void Maze::init()
 	}
 	
 	main::materialColor(1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 100);
-	
-	glGenTextures(MAZE_MAX_TEXTURES, g_MazeTextures);
+
 	main::loadImage(g_MazeTextures[TEX_FLOOR], ".\\TilesOrnate.jpg");
+
 	main::loadImage(g_MazeTextures[TEX_WALL], ".\\BrickLargeBare.jpg");
+
 	
 }
 
