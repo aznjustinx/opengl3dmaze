@@ -35,7 +35,7 @@ bool Collision::gravity()
 	// lower the value of 0.1 to get closer to floor
 	if(y-0.1<maze->getFloorPos(int(y),z,x).getY())
 	{
-		maze->deletePiece(int(y),z,x);
+		//maze->deletePiece(int(y),z,x);
 		return true;
 	}
 	else
@@ -409,7 +409,9 @@ void Collision::checkFinish(Point3* pos)
 {	
 	Point3 finishPos = maze->getFinishPos();
 	if (fabs(finishPos.getX() - pos->getX()) < lesserThan
-		&&  fabs(finishPos.getZ() - pos->getZ()) < lesserThan ) 
+		&&  fabs(finishPos.getZ() - pos->getZ()) < lesserThan 
+		&&
+		(finishPos.getY() + height) > pos->getY())
 	{
 		finishSingTouched = true;
 	}	
