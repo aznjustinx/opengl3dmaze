@@ -16,8 +16,7 @@ Tölvugrafik
 #include <gl/gl.h>
 #include <FreeImage.h>
 #include <vector>
-
-
+#include "main.h"
 
 using namespace std;
 
@@ -68,11 +67,11 @@ int fMap[MAP_SIZE_Z][MAP_SIZE_X] = {
 	{1,1,1,1,1,1,1,1,1,1},};
 
 // Holds all texture objects
-GLuint g_textures[MAX_TEXTURES];
-enum { TEX_FLOOR, TEX_WALL, TEX_GOODIE, TEX_TILES, TEX_BRICKS };
+/*GLuint g_textures[MAX_TEXTURES];
+enum { TEX_FLOOR, TEX_WALL, TEX_GOODIE, TEX_TILES, TEX_BRICKS };*/
 
 Maze::Maze()
-{	
+{
 }
 
 Maze::~Maze()
@@ -82,7 +81,7 @@ Maze::~Maze()
 // loadImage
 // Create a new texture object and bind it to a valid textureID
 // Load the image data from the given file
-void Maze::loadImage(GLuint textureID, char* filename) {
+/*void Maze::loadImage(GLuint textureID, char* filename) {
 	FREE_IMAGE_FORMAT fifmt = FreeImage_GetFileType(filename, 0);
 	FIBITMAP *dib = FreeImage_Load(fifmt, filename,0);
     dib = FreeImage_ConvertTo32Bits(dib);
@@ -118,14 +117,10 @@ void Maze::loadImage(GLuint textureID, char* filename) {
 		delete bits;
 	}
 	//return textureID;
-}
+}*/
 
 void Maze::init()
 {
-	
-	//m_theArr.push_back(cMap);
-	//m_theArr.push_back(dMap);
-
 	finished = false;
 	finishSign = new Mesh();
 	if (finishSign->readFile("FINISH_SIGN.3VN") == -1)
@@ -133,10 +128,13 @@ void Maze::init()
 		cout<<"Error in read file";
 	}
 	finishRotAngle = 0;
-	goodieRotAngle = 0;
-
-
 	
+	/*ghostCount = 4;
+	while (ghostCount == 0) {
+
+	if (rand()%500 == 0) {
+	pieces
+	}*/
 
 	for (int y = 0; y < MAP_SIZE_Y; y++) //loop through the LEVELS of the map
 	{
@@ -168,7 +166,7 @@ void Maze::init()
 			{	
 				if (v[y][zx] == 1)
 				{
-					cubesPos[y][z][x] = Point3(x*TILE_SIZE,y*TILE_SIZE , -z*TILE_SIZE);
+					cubesPos[y][z][x] = Point3(x*TILE_SIZE,y*3 , -z*TILE_SIZE);
 					floorPos[y][z][x] = Point3(x*TILE_SIZE,y , -z*TILE_SIZE);
 				}
 
@@ -176,62 +174,20 @@ void Maze::init()
 				{
 					finishPos = Point3(x*TILE_SIZE, y, -z*TILE_SIZE);
 				}
-				else if(v[y][zx] == 0)
+				else if(v[y][zx] == 0) {
 					floorPos[y][z][x] = Point3(x*TILE_SIZE,y, -z*TILE_SIZE);
+					pieces[y][z][x] = new Piece();
+				}
 				zx++;
 			}							
 		}
 	}
 	
-	materialColor(1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 100);
+	main::materialColor(1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 100);
 
-	// Generate valid texture IDs
-	glGenTextures( MAX_TEXTURES, g_textures );
-	loadImage(g_textures[TEX_FLOOR], ".\\TilesOrnate.jpg");
-	loadImage(g_textures[TEX_WALL], ".\\BrickLargeBare.jpg");
-	loadImage(g_textures[TEX_GOODIE], ".\\pacman.tif");
-}
-
-// Structure used in makePlate
-struct Vertex {
-    // GL_T2F_V3F
-    float tu, tv;
-    float x, y, z;
-};
-
-// makePlate
-// Create a flat polygonal mesh of the given dimensions in the x/y plane
-// 'dw' and 'dh' specify the number of vertices across the width and height 
-void Maze::makePlate(float width, float height, int dw, int dh, float texWidth, float texHeight) {
-	float widthRatio = width / texWidth;
-	float heightRadio = height / texHeight;
-
-	Vertex *v = new Vertex[dw*dh];
-	float stepw = (width/(float)(dw-1));
-	float steph = (height/(float)(dh-1));
-	// Create Our Plate Verticies
-	for (int i = 0; i < dw; i++) {
-		for (int j = 0; j < dh; j++) {
-			v[i*dh+j].x = i*stepw;				
-			v[i*dh+j].y = j*steph;						
-			v[i*dh+j].z = 0;				
-			v[i*dh+j].tu = ((float)i/ (float)(dw-1) * widthRatio);
-			v[i*dh+j].tv = ((float)j/ (float)(dh-1) * heightRadio);
-		}
-	}
-	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);	
-	for (int i = 0; i < dw - 1; i++) {
-		// Draw A Triangle Strip For Each Column Of Our Mesh
-		glBegin(GL_TRIANGLE_STRIP);
-		for (int j = 0; j < dh; j++) {
-			glTexCoord2f(v[i*dh+j].tu, v[i*dh+j].tv);
-			glVertex3f(v[i*dh+j].x, v[i*dh+j].y, v[i*dh+j].z);	// Draw Vertex
-			glTexCoord2f(v[(i+1)*dh+j].tu, v[(i+1)*dh+j].tv);
-			glVertex3f(v[(i+1)*dh+j].x, v[(i+1)*dh+j].y, v[(i+1)*dh+j].z);// Draw Vertex
-		}
-		glEnd();
-	}
-	delete v;
+	main::loadImage(g_textures[main::TEX_FLOOR], ".\\TilesOrnate.jpg");
+	main::loadImage(g_textures[main::TEX_WALL], ".\\BrickLargeBare.jpg");
+	
 }
 
 Point3 Maze::getCubesPos(int y,int z, int x)
@@ -256,11 +212,11 @@ void Maze::updateObjects()
 	} else {
 		++finishRotAngle;
 	}
-	if (goodieRotAngle >= 359 + GOODIE_ROT_INC) {
+	/*if (goodieRotAngle >= 359 + GOODIE_ROT_INC) {
 		goodieRotAngle = 359 - goodieRotAngle + GOODIE_ROT_INC;
 	} else {
 		goodieRotAngle += GOODIE_ROT_INC;
-	}
+	}*/
 }
 
 void Maze::displayMaze()
@@ -275,15 +231,16 @@ void Maze::displayMaze()
 				Point3* point = new Point3(x*TILE_SIZE, y*TILE_SIZE, -z*TILE_SIZE);
 				glPushMatrix();								
 				glTranslatef(point->getX(), point->getY(), point->getZ()); //translates to where it should belong	
-	
 				switch (v[y][zx])
 				{
 					case 0:
 					displayFloor();
-					displayGoodie();
+					pieces[y][z][x]->display();
 					break;
 
-					case 1:										
+					case 1:
+					//materialColor(.75164, .60648, .22648, 1., .75164, .60648, .22648, 1., .75164, .60648, .22648, 1., 51.2);
+					//glutSolidCube(TILE_SIZE);							
 					//glutWireCube(TILE_SIZE);
 					displayFloor();
 
@@ -292,6 +249,8 @@ void Maze::displayMaze()
 						displayCube(true);
 					else 
 						displayCube(false);
+					break;
+
 					break;
 
 					case 9:
@@ -308,34 +267,9 @@ void Maze::displayMaze()
 	}
 }
 
-void Maze::materialColor(float dif0, float dif1, float dif2, float dif3
-						 , float spec0, float spec1, float spec2, float spec3
-						 , float amb0, float amb1, float amb2, float amb3, float shininess)
-{
-	float materialArr[4];
-	materialArr[0] = dif0;
-	materialArr[1] = dif1;
-	materialArr[2] = dif2;
-	materialArr[3] = dif3;
-	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, materialArr);
-	materialArr[0] = spec0;
-	materialArr[1] = spec1;
-	materialArr[2] = spec2;
-	materialArr[3] = spec3;
-	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, materialArr);
-	materialArr[0] = amb0;
-	materialArr[1] = amb1;
-	materialArr[2] = amb2;
-	materialArr[3] = amb3;
-	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, materialArr);
-	glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, shininess);
-}
-
-
-
 void Maze::displayFinishSign()
 {	
-	materialColor(.4, .4, .4, 1., .774597, .774597, .774597, 1., .25, .25, .25, 1., 76.8);
+	main::materialColor(.4, .4, .4, 1., .774597, .774597, .774597, 1., .25, .25, .25, 1., 76.8);
 	glPushMatrix();	
 	glTranslatef(0., -TILE_SIZE/2 + .5, 0.);
 	glRotatef(finishRotAngle, 0., 1., 0.);
@@ -343,64 +277,49 @@ void Maze::displayFinishSign()
 	glPopMatrix();
 }
 
-void Maze::displayGoodie()
-{
-	materialColor(1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.);
-	glBindTexture( GL_TEXTURE_2D, g_textures[TEX_GOODIE] );
-	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-	glPushMatrix();
-	glRotatef(goodieRotAngle, 0., 1., 0.);
-	glTranslatef(-GOODIE_SIZE/2, -GOODIE_SIZE/2, 0);
-	
-	makePlate(GOODIE_SIZE, GOODIE_SIZE, GOODIE_NR_OF_VERTS, GOODIE_NR_OF_VERTS, GOODIE_SIZE, GOODIE_SIZE);
-	glPopMatrix();
-	
-	glPushMatrix();
-	glRotatef(goodieRotAngle + 180, 0., 1., 0.);
-	glTranslatef(-GOODIE_SIZE/2 - 0.001, -GOODIE_SIZE/2, -0.001);
-	
-	makePlate(GOODIE_SIZE, GOODIE_SIZE, GOODIE_NR_OF_VERTS, GOODIE_NR_OF_VERTS, GOODIE_SIZE, GOODIE_SIZE);
-	glPopMatrix();
-}
-
 void Maze::displayFloor()
 {	
-	materialColor(.4, .4, .4, 1., .1, .1, .1, 1., .4, .4, .4, 1., 25);
-	glBindTexture( GL_TEXTURE_2D, g_textures[TEX_FLOOR] );
+	main::materialColor(.4, .4, .4, 1., .1, .1, .1, 1., .4, .4, .4, 1., 25);
+	glBindTexture( GL_TEXTURE_2D, g_textures[main::TEX_FLOOR] );
 	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 	glPushMatrix();		
 	glTranslatef(-TILE_SIZE/2, -TILE_SIZE/2, -TILE_SIZE/2);
 	glRotatef(90., 1., 0., 0.);
-	
-	makePlate(TILE_SIZE, TILE_SIZE, NR_OF_VERTEXES, NR_OF_VERTEXES, TILE_SIZE, TILE_SIZE);
+	main::makePlate(TILE_SIZE, TILE_SIZE, NR_OF_VERTEXES, NR_OF_VERTEXES, TILE_SIZE, TILE_SIZE);
 	glPopMatrix();
 }
 
 void Maze::displayCube(bool ceiling)
 {
-	materialColor(1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1000);
-	glBindTexture( GL_TEXTURE_2D, g_textures[TEX_WALL] );
+	main::materialColor(1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1000);
+	glBindTexture( GL_TEXTURE_2D, g_textures[main::TEX_WALL] );
 	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 	glPushMatrix();		
 	glTranslatef(-TILE_SIZE/2, -TILE_SIZE/2, -TILE_SIZE/2);
-	makePlate(TILE_SIZE, TILE_SIZE, NR_OF_VERTEXES, NR_OF_VERTEXES, TILE_SIZE, TILE_SIZE);
+	main::makePlate(TILE_SIZE, TILE_SIZE, NR_OF_VERTEXES, NR_OF_VERTEXES, TILE_SIZE, TILE_SIZE);
 	glPopMatrix();
 
 	glPushMatrix();		
 	glTranslatef(-TILE_SIZE/2, -TILE_SIZE/2, TILE_SIZE/2);
-	makePlate(TILE_SIZE, TILE_SIZE, NR_OF_VERTEXES, NR_OF_VERTEXES, TILE_SIZE, TILE_SIZE);
+	main::makePlate(TILE_SIZE, TILE_SIZE, NR_OF_VERTEXES, NR_OF_VERTEXES, TILE_SIZE, TILE_SIZE);
 	glPopMatrix();
 
 	glPushMatrix();		
 	glTranslatef(-TILE_SIZE/2, -TILE_SIZE/2, -TILE_SIZE/2);
 	glRotatef(-90., 0., 1., 0.);
-	makePlate(TILE_SIZE, TILE_SIZE, NR_OF_VERTEXES, NR_OF_VERTEXES, TILE_SIZE, TILE_SIZE);
+	main::makePlate(TILE_SIZE, TILE_SIZE, NR_OF_VERTEXES, NR_OF_VERTEXES, TILE_SIZE, TILE_SIZE);
 	glPopMatrix();
 
 	glPushMatrix();		
 	glTranslatef(TILE_SIZE/2, -TILE_SIZE/2, -TILE_SIZE/2);
 	glRotatef(-90., 0., 1., 0.);
-	makePlate(TILE_SIZE, TILE_SIZE, NR_OF_VERTEXES, NR_OF_VERTEXES, TILE_SIZE, TILE_SIZE);
+	main::makePlate(TILE_SIZE, TILE_SIZE, NR_OF_VERTEXES, NR_OF_VERTEXES, TILE_SIZE, TILE_SIZE);
+	glPopMatrix();
+
+	glPushMatrix();		
+	glTranslatef(-TILE_SIZE/2, TILE_SIZE/2, -TILE_SIZE/2);
+	glRotatef(90., 1., 0., 0.);
+	main::makePlate(TILE_SIZE, TILE_SIZE, NR_OF_VERTEXES, NR_OF_VERTEXES, TILE_SIZE, TILE_SIZE);
 	glPopMatrix();
 
 	if(ceiling)
@@ -408,7 +327,8 @@ void Maze::displayCube(bool ceiling)
 		glPushMatrix();		
 		glTranslatef(-TILE_SIZE/2, TILE_SIZE/2, -TILE_SIZE/2);
 		glRotatef(90., 1., 0., 0.);
-		makePlate(TILE_SIZE, TILE_SIZE, NR_OF_VERTEXES, NR_OF_VERTEXES, TILE_SIZE, TILE_SIZE);
+		main::makePlate(TILE_SIZE, TILE_SIZE, NR_OF_VERTEXES, NR_OF_VERTEXES, TILE_SIZE, TILE_SIZE);
 		glPopMatrix();
 	}
+
 }
