@@ -2,7 +2,9 @@
 #include <FreeImage.h>
 
 const int MAX_TEXTURES = 5;
-static GLuint g_textures[MAX_TEXTURES];
+//static GLuint g_textures[MAX_TEXTURES];
+
+enum { TEX_FLOOR, TEX_WALL, TEX_GOODIE, TEX_TILES, TEX_BRICKS };
 
 class main
 {
@@ -116,7 +118,7 @@ public:
 
 	
 	
-	enum { TEX_FLOOR, TEX_WALL, TEX_GOODIE, TEX_TILES, TEX_BRICKS };
+	
 
 	main(void);
 	~main(void);

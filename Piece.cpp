@@ -7,13 +7,14 @@
 #include <FreeImage.h>
 #include <vector>
 #include "main.h"
-#include "piece.h"
+#include "Piece.h"
 
 using namespace std;
 
 Piece::Piece(void)
 {
-	main::loadImage(g_textures[main::TEX_GOODIE], ".\\pacman.tif");
+	glGenTextures(PIECE_MAX_TEXTURES, g_PieceTextures);
+	main::loadImage(g_PieceTextures[TEX_GOODIE], ".\\pacman.tif");
 }
 
 Piece::~Piece(void)
@@ -32,7 +33,7 @@ void Piece::update()
 void Piece::display()
 {
 	main::materialColor(1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.);
-	glBindTexture( GL_TEXTURE_2D, g_textures[main::TEX_GOODIE] );
+	glBindTexture( GL_TEXTURE_2D, g_PieceTextures[TEX_GOODIE] );
 	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 	glPushMatrix();
 	glRotatef(goodieRotAngle, 0., 1., 0.);

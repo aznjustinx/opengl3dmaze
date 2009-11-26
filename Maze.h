@@ -5,12 +5,11 @@
 #include "Outside.h"
 #include "Piece.h"
 
-
 const float TILE_SIZE =3.0;
 const int MAP_SIZE_Y = 4;
 const int MAP_SIZE_Z = 9;
 const int MAP_SIZE_X = 10;
-//const int MAX_TEXTURES = 5;
+const int MAZE_MAX_TEXTURES = 5;
 const int NR_OF_VERTEXES = 4;
 //const float GOODIE_SIZE = 0.3;
 //const int GOODIE_ROT_INC = 5;
@@ -26,7 +25,7 @@ private:
 	//float goodieRotAngle;
 	Piece* pieces[MAP_SIZE_Y][MAP_SIZE_Z][MAP_SIZE_X];
 	int ghostCount;
-	
+	GLuint g_MazeTextures[MAZE_MAX_TEXTURES];
 public:
 	bool finished;
 	Point3 cubesPos[MAP_SIZE_Y][MAP_SIZE_Z][MAP_SIZE_X];
