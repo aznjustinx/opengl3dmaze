@@ -55,7 +55,6 @@ int Collision::check(int forward)
 	// tekur 1 reit fyrir aftan player position og notað það í loopu
 	int y = pos->getY()/TILE_SIZE;
 
-	cout <<y << endl;
 	//// sbr low en tekur 1 reit fyrir framan player
 	if(y > MAP_SIZE_Y-1)
 		y = MAP_SIZE_Y-1;
