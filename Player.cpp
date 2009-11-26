@@ -6,7 +6,7 @@
 using namespace std;
 
 Player::Player(void) {
-	keyPressed = upKeyPressed = downKeyPressed = leftKeyPressed = rightKeyPressed, quitPressed = false;
+	keyPressed = upKeyPressed = downKeyPressed = leftKeyPressed = rightKeyPressed, quitPressed, jumpKeyPressed = false;
 	// debug
 	floatUpPressed = floatDownPressed = false;
 }
@@ -82,6 +82,9 @@ void Player::keyboardDown(unsigned char key, int x, int y)
 			floatDownPressed = true;
 		}
 		break;
+		case ' ':
+			jumpKeyPressed = true;
+		break;
 	}
 	keyPressed = true;
 }
@@ -105,7 +108,9 @@ void Player::keyboardUp(unsigned char key, int x, int y)
 		case 'q' :
 		quitPressed = false;
 		break;
-
+		case ' ':
+			jumpKeyPressed = false;
+		break;
 		if (debugMode)
 		{
 			case 'r' :
@@ -115,6 +120,7 @@ void Player::keyboardUp(unsigned char key, int x, int y)
 			floatDownPressed = false;
 			break;
 		}
+
 	}
 	keyPressed = false;
 
