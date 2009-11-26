@@ -184,9 +184,10 @@ void Maze::init()
 	}
 	
 	main::materialColor(1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 100);
-
-	main::loadImage(g_textures[main::TEX_FLOOR], ".\\TilesOrnate.jpg");
-	main::loadImage(g_textures[main::TEX_WALL], ".\\BrickLargeBare.jpg");
+	
+	glGenTextures(MAZE_MAX_TEXTURES, g_MazeTextures);
+	main::loadImage(g_MazeTextures[TEX_FLOOR], ".\\TilesOrnate.jpg");
+	main::loadImage(g_MazeTextures[TEX_WALL], ".\\BrickLargeBare.jpg");
 	
 }
 
@@ -278,7 +279,7 @@ void Maze::displayFinishSign()
 void Maze::displayFloor()
 {	
 	main::materialColor(.4, .4, .4, 1., .1, .1, .1, 1., .4, .4, .4, 1., 25);
-	glBindTexture( GL_TEXTURE_2D, g_textures[main::TEX_FLOOR] );
+	glBindTexture( GL_TEXTURE_2D, g_MazeTextures[TEX_FLOOR] );
 	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 	glPushMatrix();		
 	glTranslatef(-TILE_SIZE/2, -TILE_SIZE/2, -TILE_SIZE/2);
@@ -290,7 +291,7 @@ void Maze::displayFloor()
 void Maze::displayCube(bool ceiling)
 {
 	main::materialColor(1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1000);
-	glBindTexture( GL_TEXTURE_2D, g_textures[main::TEX_WALL] );
+	glBindTexture( GL_TEXTURE_2D, g_MazeTextures[TEX_WALL] );
 	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 	glPushMatrix();		
 	glTranslatef(-TILE_SIZE/2, -TILE_SIZE/2, -TILE_SIZE/2);
