@@ -199,6 +199,10 @@ void update(int id)
 			if(collision.gravity() == false)
 				player.slide(0., -SLIDE_INCREMENT, 0.);
 
+		if(player.jumpKeyPressed)
+		{
+			player.slide(0., SLIDE_INCREMENT, 0.);
+		}
 		if(player.upKeyPressed)
 		{
 			//Point3* pos = player.getPosition();
