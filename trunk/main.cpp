@@ -37,6 +37,7 @@ bool gameOver;
 bool debugMode;
 
 
+
 void specialKeyDown(int  key,  int  x,  int  y)
 {
 	player.specialKeyDown(key, x, y);
@@ -291,6 +292,11 @@ void init()
 	//glEnable (GL_BLEND);
 	//glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	
+	glGenTextures(MAX_TEXTURES, g_textures );
+	/*loadImage(g_textures[main::TEX_FLOOR], ".\\TilesOrnate.jpg");
+	loadImage(g_textures[main::TEX_WALL], ".\\BrickLargeBare.jpg");
+	loadImage(g_textures[main::TEX_GOODIE], ".\\pacman.tif");*/
+	
 
 	gameOver = false;
 	player.debugMode = true;
@@ -320,8 +326,8 @@ void main(int argc, char** argv)
 	glutCreateWindow("3d Maze");	// nafn glugga
 	glutReshapeFunc(resize);
 	glClearColor(0., 0., 0., 0.);
-	init();						// inits 3D rendering
 
+	init();						// inits 3D rendering
 	glutDisplayFunc(display);			// Teiknar hlutina
 	glutTimerFunc(DELAY_TIME, update, 0);
 	
