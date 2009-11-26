@@ -34,8 +34,7 @@ void Piece::update()
 
 void Piece::display()
 {
-	if(captured==false)
-	{
+
 		main::materialColor(1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.);
 		glBindTexture( GL_TEXTURE_2D, g_PieceTextures[TEX_GOODIE] );
 		glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
@@ -52,5 +51,5 @@ void Piece::display()
 		
 		main::makePlate(PIECE_SIZE, PIECE_SIZE, NR_OF_VERTS, NR_OF_VERTS, PIECE_SIZE, PIECE_SIZE);
 		glPopMatrix();
-	}
+	
 }
