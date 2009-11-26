@@ -173,7 +173,18 @@ void Maze::updateObjects()
 	} else {
 		++finishRotAngle;
 	}
-	//for (int i = 0; i < 
+	
+	for (int y = 0; y < MAP_SIZE_Y; y++) {
+		int zx = 0;
+		for (int z = 0; z < MAP_SIZE_Z; z++) {
+			for (int x = 0; x < MAP_SIZE_X; x++) {
+				if ((v[y][zx]) == 0) {
+					pieces[y][z][x]->update();
+				}
+				zx++;
+			}
+		}
+	}
 }
 
 void Maze::displayMaze()
