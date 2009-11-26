@@ -4,7 +4,7 @@
 const float PIECE_SIZE = 0.3;
 const int ROT_INC = 5;
 const int NR_OF_VERTS = 8;
-const int PIECE_MAX_TEXTURES = 2;
+const int PIECE_MAX_TEXTURES = 3;
 
 class Piece
 {

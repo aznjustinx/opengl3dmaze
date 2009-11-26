@@ -1,11 +1,7 @@
-#include <windows.h>
 #include <iostream>
 #include <stdlib.h>
 #include <GL/glut.h>
-#include "Point3.h"
 #include <gl/gl.h>
-#include <FreeImage.h>
-#include <vector>
 #include "main.h"
 #include "Piece.h"
 

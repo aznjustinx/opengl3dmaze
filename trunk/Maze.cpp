@@ -66,10 +66,6 @@ int fMap[MAP_SIZE_Z][MAP_SIZE_X] = {
 	{1,0,0,0,0,0,0,0,0,1},
 	{1,1,1,1,1,1,1,1,1,1},};
 
-// Holds all texture objects
-/*GLuint g_textures[MAX_TEXTURES];
-enum { TEX_FLOOR, TEX_WALL, TEX_GOODIE, TEX_TILES, TEX_BRICKS };*/
-
 Maze::Maze()
 {
 }
