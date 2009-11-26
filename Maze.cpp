@@ -24,18 +24,18 @@ vector <vector <int> > v; /*two dimensions*/
 //   0  1  2  3  4  5  6  7  8  9
 int cMap[MAP_SIZE_Z][MAP_SIZE_X] = {
 	{1,1,1,1,1,1,1,1,1,1},
-	{1,9,0,0,0,0,0,0,9,1},
+	{1,0,0,0,0,0,0,0,0,1},
 	{1,0,0,0,0,0,0,0,0,1},
 	{1,0,0,0,0,1,0,0,0,1},
 	{1,0,0,0,1,1,0,0,0,1},
 	{1,0,0,0,0,0,0,0,0,1},
 	{1,0,0,0,0,0,0,0,0,1},
-	{1,9,0,0,0,0,0,0,9,1},
+	{1,0,0,0,0,0,0,0,0,1},
 	{1,1,1,1,1,1,1,1,1,1},};
 
 int dMap[MAP_SIZE_Z][MAP_SIZE_X] = {
 	{1,1,1,1,1,1,1,1,1,1},
-	{1,0,0,0,0,0,0,0,9,1},
+	{1,0,0,0,0,0,0,0,0,1},
 	{1,0,0,0,0,0,0,0,0,1},
 	{1,0,1,0,0,0,0,0,0,1},
 	{1,0,0,0,0,0,0,0,0,1},
@@ -60,7 +60,7 @@ int fMap[MAP_SIZE_Z][MAP_SIZE_X] = {
 	{1,0,0,0,0,0,0,0,0,1},
 	{1,0,0,1,1,1,1,0,0,1},
 	{1,0,0,1,8,8,1,0,0,1},
-	{1,0,0,1,8,8,1,0,0,1},
+	{1,0,0,1,8,0,1,0,0,1},
 	{1,0,0,0,0,0,0,0,0,1},
 	{1,0,0,0,0,0,0,0,0,1},
 	{1,0,0,0,0,0,0,0,0,1},
@@ -128,6 +128,7 @@ void Maze::init()
 				else if (v[y][zx] == 9)
 				{
 					finishPos = Point3(x*TILE_SIZE, y, -z*TILE_SIZE);
+					floorPos[y][z][x] = Point3(x*TILE_SIZE,y , -z*TILE_SIZE);
 				}
 				else if(v[y][zx] == 0) {
 					floorPos[y][z][x] = Point3(x*TILE_SIZE,y, -z*TILE_SIZE);
@@ -161,7 +162,7 @@ Point3 Maze::getFinishPos()
 
 void Maze::deletePiece(int y, int z, int x)
 {
-	pieces[y][z][x]->captured = true;
+	//pieces[y][z][x]->captured = true;		
 }
 
 void Maze::updateObjects()
@@ -178,7 +179,7 @@ void Maze::updateObjects()
 			for (int x = 0; x < MAP_SIZE_X; x++) {
 				if ((v[y][zx]) == 0) {
 					if(pieces[y][z][x]->captured == false)
-					pieces[y][z][x]->update();
+						pieces[y][z][x]->update();
 				}
 				zx++;
 			}
