@@ -245,12 +245,10 @@ void Maze::displayMaze()
 					displayFloor();
 
 					// display cube ceiling?
-					if (y+1== MAP_SIZE_Y)
+					if (y+1 == MAP_SIZE_Y)
 						displayCube(true);
 					else 
 						displayCube(false);
-					break;
-
 					break;
 
 					case 9:
@@ -313,12 +311,6 @@ void Maze::displayCube(bool ceiling)
 	glPushMatrix();		
 	glTranslatef(TILE_SIZE/2, -TILE_SIZE/2, -TILE_SIZE/2);
 	glRotatef(-90., 0., 1., 0.);
-	main::makePlate(TILE_SIZE, TILE_SIZE, NR_OF_VERTEXES, NR_OF_VERTEXES, TILE_SIZE, TILE_SIZE);
-	glPopMatrix();
-
-	glPushMatrix();		
-	glTranslatef(-TILE_SIZE/2, TILE_SIZE/2, -TILE_SIZE/2);
-	glRotatef(90., 1., 0., 0.);
 	main::makePlate(TILE_SIZE, TILE_SIZE, NR_OF_VERTEXES, NR_OF_VERTEXES, TILE_SIZE, TILE_SIZE);
 	glPopMatrix();
 

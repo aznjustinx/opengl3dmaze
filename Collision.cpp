@@ -38,7 +38,10 @@ bool Collision::gravity()
 		return true;
 	}
 	else
+	{
+		//cout << "false";
 		return false;
+	}
 }
 
 // checks for collisions on walls/cubes
