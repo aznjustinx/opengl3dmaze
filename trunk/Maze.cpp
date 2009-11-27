@@ -53,7 +53,7 @@ int fMap[MAP_SIZE_Z][MAP_SIZE_X] = {
 	{1,1,1,1,1,1,1,1,1,1},
 	{1,0,0,0,0,0,0,0,0,1},
 	{1,0,0,1,1,1,1,0,0,1},
-	{1,0,0,1,0,0,1,0,0,1},
+	{1,0,0,1,7,7,1,0,0,1},
 	{1,0,0,1,0,0,1,0,0,1},
 	{1,0,0,0,0,0,0,0,0,1},
 	{1,0,0,0,0,0,0,0,0,1},
@@ -84,7 +84,6 @@ void Maze::init()
 	}
 	finishRotAngle = 0;
 
-
 	for (int y = 0; y < MAP_SIZE_Y; y++) //loop through the LEVELS of the map
 	{
 		vector<int> temp;
@@ -100,7 +99,6 @@ void Maze::init()
 					temp.push_back(eMap[z][x]);
 				else if(y==3)
 					temp.push_back(fMap[z][x]);
-					//cout << cMap[z][x]<< endl;
 			}
 		}
 		v.push_back(temp);
@@ -113,37 +111,29 @@ void Maze::init()
 		{
 			for (int x = 0; x < MAP_SIZE_X; x++) //loop through the width of the map
 			{	
-				if (v[y][zx] == 1)
+				switch (v[y][zx])
 				{
+				case 1:
 					cubesPos[y][z][x] = Point3(x*TILE_SIZE,y*3 , -z*TILE_SIZE);
 					floorPos[y][z][x] = Point3(x*TILE_SIZE,y , -z*TILE_SIZE);
-				}
+					break;
 
-				else if (v[y][zx] == 9)
-				{
+				case 9:
 					finishPos = Point3(x*TILE_SIZE, y, -z*TILE_SIZE);
 					floorPos[y][z][x] = Point3(x*TILE_SIZE,y , -z*TILE_SIZE);
-				}
-				else if(v[y][zx] == 0) {
-					floorPos[y][z][x] = Point3(x*TILE_SIZE,y, -z*TILE_SIZE);
+					break;
+
+				case 0:
 					pieces[y][z][x] = new Piece();
-					//pieceArr[nrOfPieces] = new Piece();
-					//nrOfPieces++;
+
+				case 7:
+					floorPos[y][z][x] = Point3(x*TILE_SIZE,y, -z*TILE_SIZE);
+					break;
 				}
 				zx++;
 			}							
 		}
 	}
-
-	/*int randNumbers[NR_OF_GHOSTS];
-	for (int i = 0; i < nrOfPieces; ++i)
-	{
-		randNumbers[i] = rand()%nrOfPieces;	
-	}
-	for (int j = 0; j < NR_OF_GHOSTS; ++j)
-	{
-		pieceArr[randNumbers]->changeType(GHOST);
-	}*/
 
 	ghostCount = 25;	
 	int yy, zz, xx;
@@ -162,8 +152,6 @@ void Maze::init()
 			}
 		}
 	}
-	
-	
 }
 
 Point3 Maze::getCubesPos(int y,int z, int x)
@@ -180,20 +168,6 @@ Point3 Maze::getFinishPos()
 {
 	return finishPos;
 }
-
-/*bool Maze::getPiece(int y, int z, int x)
-{
-	if(pieces[y][z][x] != NULL)
-		return true;
-	else
-		return false;
-		
-}
-
-void Maze::deletePiece(int y, int z, int x)
-{
-	pieces[y][z][x] = NULL;//->captured = true;		
-}*/
 
 void Maze::updateObjects()
 {
@@ -234,10 +208,11 @@ void Maze::displayMaze()
 				switch (v[y][zx])
 				{
 					case 0:
-					displayFloor();
-					//if(pieces[y][z][x]->captured == false)
 					if(pieces[y][z][x] != NULL)
 						pieces[y][z][x]->display();
+
+					case 7:
+					displayFloor();
 					break;
 
 					case 1:

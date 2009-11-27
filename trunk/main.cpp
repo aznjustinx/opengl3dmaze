@@ -294,7 +294,11 @@ void init()
 	
 	gameOver = false;
 	player.debugMode = false;
-	float x, y = 12, z;
+	
+	
+	collision.init(&player, &maze);
+	maze.init();
+	float x, y = 9, z;
 	if (player.debugMode) {
 		x = 20.;
 		z = -20;
@@ -305,9 +309,6 @@ void init()
 		z = -10.;
 	}
 	player.set(Point3(x, y, z), Point3(0., y, 0.), Vector3(0., 1., 0.));
-	//player.yaw(ROT_INCREMENT * 25);
-	collision.init(&player, &maze);
-	maze.init();
 }
 
 // main fallið
