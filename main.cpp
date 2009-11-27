@@ -182,6 +182,7 @@ void display()
 	}
 	glutSwapBuffers();
 	glFlush();
+	cout << player.getScore() << endl;
 }
 
 void update(int id)

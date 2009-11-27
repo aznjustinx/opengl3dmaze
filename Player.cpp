@@ -11,6 +11,15 @@ Player::Player(void) {
 	floatUpPressed = floatDownPressed = false;
 }
 
+void Player::setScore(int i)
+{
+	score += i;
+}
+int Player::getScore()
+{
+	return score;
+}
+
 void Player::specialKeyDown(int  key,  int  x,  int  y)
 {
 	switch(key)

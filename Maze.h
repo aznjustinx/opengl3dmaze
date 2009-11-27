@@ -36,6 +36,7 @@ public:
 	void displayBox();
 	void displayWall();
 	void displayFloor();
+	bool getGoodie(int y, int z, int x);
 	Point3 getFinishPos();
 	Point3 getCubesPos(int y,int z, int x);
 	Point3 getFloorPos(int y,int z, int x);
