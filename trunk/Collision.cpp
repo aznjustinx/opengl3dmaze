@@ -10,6 +10,7 @@ const float side_offset = 0.3;	// frá horni
 const float height = TILE_SIZE;
 int collision = 0;
 bool finishSingTouched = false;
+int points = 10;
 
 
 
@@ -35,7 +36,9 @@ bool Collision::gravity()
 	// lower the value of 0.1 to get closer to floor
 	if(y-0.1<maze->getFloorPos(int(y),z,x).getY())
 	{
-		maze->deletePiece(int(y),z,x);
+		if(maze->getGoodie(int(y),z,x) == true)
+			player->setScore(points);
+		maze->deletePiece(int(y),z,x);		
 		return true;
 	}
 	else

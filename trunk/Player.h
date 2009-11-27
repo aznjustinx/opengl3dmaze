@@ -4,6 +4,8 @@
 class Player :
 	public Camera
 {
+private:
+	int score;
 public:
 	// checkar á hvort takki er niðri
 	bool keyPressed, upKeyPressed, downKeyPressed, leftKeyPressed, rightKeyPressed, quitPressed, jumpKeyPressed;
@@ -17,4 +19,6 @@ public:
 	void keyboardUp(unsigned char key, int x, int y);
 	void mouse(int x, int y);
 	~Player(void);
+	void setScore(int i);
+	int getScore();
 };
