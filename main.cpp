@@ -9,12 +9,12 @@ Tölvugrafik
 #include <iostream>
 #include <stdlib.h>
 #include <math.h>
-#include <GL/glut.h>
 #include "Player.h"
 #include "Maze.h"
 #include "Mesh.h"
 #include "main.h"
 #include "Collision.h"
+#include "SkyBox.h"
 
 using namespace std;
 
@@ -169,7 +169,6 @@ void displayGameFinished() {
 // sér um að kalla á og birta objectana
 void display()
 {	
-	
 	player.setModelViewMatrix();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	if (gameOver)

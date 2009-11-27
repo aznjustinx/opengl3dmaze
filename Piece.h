@@ -1,9 +1,9 @@
 #pragma once
-#include "Point3.h"
+#include "main.h"
 
 const float PIECE_SIZE = 0.3;
 const int ROT_INC = 5;
-const int NR_OF_VERTS = 8;
+const int PIECE_NR_OF_VERTS = 8;
 const int PIECE_MAX_TEXTURES = 3;
 
 enum {PACMAN, GHOST};
