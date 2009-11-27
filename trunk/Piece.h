@@ -13,9 +13,10 @@ class Piece
 private:
 	float rotAngle;
 	GLuint g_PieceTextures[PIECE_MAX_TEXTURES];
-	float score;
+	
 	int type;
 public:
+	int scoreValue;
 	bool captured;
 	Piece();
 	~Piece(void);

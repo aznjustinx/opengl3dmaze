@@ -36,14 +36,22 @@ bool Collision::gravity()
 	// lower the value of 0.1 to get closer to floor
 	if(y-0.1<maze->getFloorPos(int(y),z,x).getY())
 	{
-		if(maze->getGoodie(int(y),z,x) == true)
+		//Piece* piece = maze->pieces[int(y)][z][x];
+		if (maze->pieces[int(y)][z][x] != NULL)
+		{
+			player->addToScore(maze->pieces[int(y)][z][x]->scoreValue);
+			maze->pieces[int(y)][z][x] = NULL;
+		}
+		
+		return true;
+
+		/*if(maze->getPiece(int(y),z,x) == true)
 			player->setScore(points);
 		maze->deletePiece(int(y),z,x);		
-		return true;
+		return true;*/
 	}
 	else
 	{
-		//cout << "false";
 		return false;
 	}
 }
