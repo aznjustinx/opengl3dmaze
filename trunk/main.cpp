@@ -14,7 +14,6 @@ Tölvugrafik
 #include "Mesh.h"
 #include "main.h"
 #include "Collision.h"
-#include "SkyBox.h"
 
 using namespace std;
 
@@ -35,7 +34,6 @@ Collision collision;
 bool moved = false;
 bool gameOver;
 bool debugMode;
-
 
 
 void specialKeyDown(int  key,  int  x,  int  y)
@@ -295,16 +293,16 @@ void init()
 	glEnable(GL_TEXTURE_2D);
 	
 	gameOver = false;
-	player.debugMode = true;
-	float x, y = 15, z;
+	player.debugMode = false;
+	float x, y = 12, z;
 	if (player.debugMode) {
 		x = 20.;
 		z = -20;
 	}
 	else
 	{
-		x = 12.;
-		z = 2.5;
+		x = 14.;
+		z = -10.;
 	}
 	player.set(Point3(x, y, z), Point3(0., y, 0.), Vector3(0., 1., 0.));
 	//player.yaw(ROT_INCREMENT * 25);
