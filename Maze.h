@@ -3,7 +3,7 @@
 #include "main.h"
 #include "Point3.h"
 #include "Mesh.h"
-//#include "SkyBox.h"
+#include "SkyBox.h"
 #include "Piece.h"
 
 const float TILE_SIZE =3.0;
@@ -20,7 +20,7 @@ private:
 	Mesh* finishSign;
 	float finishRotAngle;
 	Point3 finishPos;
-	//SkyBox* skyBox;
+	SkyBox* skyBox;
 	Piece* pieces[MAP_SIZE_Y][MAP_SIZE_Z][MAP_SIZE_X];
 	int ghostCount;
 	GLuint g_MazeTextures[MAZE_MAX_TEXTURES];

@@ -3,7 +3,7 @@
 SkyBox::SkyBox(void)
 {
 	glGenTextures(SKY_MAX_TEXTURES, g_skyTextures);
-	main::loadImage(g_skyTextures[TEX_SKY], ".\\StarsRed.jpg");
+	main::loadImage(g_skyTextures[TEX_SKY], ".\\stars.jpg");
 }
 
 SkyBox::~SkyBox(void)
@@ -20,8 +20,22 @@ void SkyBox::display()
 	glBindTexture( GL_TEXTURE_2D, g_skyTextures[TEX_SKY] );
 	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 	glPushMatrix();
-	//glRotatef(rotAngle, 0., 1., 0.);
-	glTranslatef(-3, 3, -3);
-	main::makePlate(SKY_SIZE, SKY_SIZE, SKY_NR_OF_VERTS, SKY_NR_OF_VERTS, SKY_SIZE, SKY_SIZE);
+	glTranslatef(-5, 7, 5);
+	main::makePlate(SKY_WIDTH, SKY_HEIGHT, SKY_NR_OF_VERTS, SKY_NR_OF_VERTS, SKY_WIDTH/2, SKY_HEIGHT/2);
+	glPopMatrix();
+	glPushMatrix();
+	glTranslatef(30, 7, 5);
+	glRotatef(90, 0., 1., 0.);
+
+	main::makePlate(SKY_WIDTH, SKY_HEIGHT, SKY_NR_OF_VERTS, SKY_NR_OF_VERTS, SKY_WIDTH/2, SKY_HEIGHT/2);
+	glPopMatrix();
+	glPushMatrix();
+	glTranslatef(-5, 7, -30);
+	glRotatef(-90, 0., 1., 0.);
+	main::makePlate(SKY_WIDTH, SKY_HEIGHT, SKY_NR_OF_VERTS, SKY_NR_OF_VERTS, SKY_WIDTH/2, SKY_HEIGHT/2);
+	glPopMatrix();
+	glPushMatrix();
+	glTranslatef(-5, 7, -30);
+	main::makePlate(SKY_WIDTH, SKY_HEIGHT, SKY_NR_OF_VERTS, SKY_NR_OF_VERTS, SKY_WIDTH/2, SKY_HEIGHT/2);
 	glPopMatrix();
 }

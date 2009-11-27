@@ -53,11 +53,11 @@ int fMap[MAP_SIZE_Z][MAP_SIZE_X] = {
 	{1,1,1,1,1,1,1,1,1,1},
 	{1,0,0,0,0,0,0,0,0,1},
 	{1,0,0,1,1,1,1,0,0,1},
-	{1,0,0,1,8,8,1,0,0,1},
-	{1,0,0,1,8,0,1,0,0,1},
+	{1,0,0,1,0,0,1,0,0,1},
+	{1,0,0,1,0,0,1,0,0,1},
 	{1,0,0,0,0,0,0,0,0,1},
 	{1,0,0,0,0,0,0,0,0,1},
-	{1,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,8,1},
 	{1,1,1,1,1,1,1,1,1,1},};
 
 Maze::Maze()
@@ -74,7 +74,7 @@ void Maze::init()
 	main::loadImage(g_MazeTextures[TEX_FLOOR], ".\\TilesOrnate.jpg");
 	main::loadImage(g_MazeTextures[TEX_WALL], ".\\BrickLargeBare.jpg");
 
-	//skyBox = new SkyBox();
+	skyBox = new SkyBox();
 
 	finished = false;
 	finishSign = new Mesh();
@@ -219,6 +219,8 @@ void Maze::updateObjects()
 
 void Maze::displayMaze()
 {
+	skyBox->display();
+
 	for (int y = 0; y < MAP_SIZE_Y; y++) //loop through the LEVELS of the map
 	{
 		int zx = 0;
@@ -260,7 +262,7 @@ void Maze::displayMaze()
 			} //end first loop
 		} //end second loop
 	}
-	//skyBox->display();
+	
 }
 
 void Maze::displayFinishSign()
