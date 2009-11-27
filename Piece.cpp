@@ -7,15 +7,30 @@
 
 using namespace std;
 
-Piece::Piece(void)
+Piece::Piece()
 {
-	glGenTextures(PIECE_MAX_TEXTURES, g_PieceTextures);
-	main::loadImage(g_PieceTextures[TEX_GOODIE], ".\\pacman.tif");
+	type = PACMAN;
 	rotAngle = 0;
 	captured = false;
+	glGenTextures(PIECE_MAX_TEXTURES, g_PieceTextures);
+	main::loadImage(g_PieceTextures[TEX_GOODIE], ".\\pacman.tif");
+	score = 1;
 }
 
 Piece::~Piece(void)
+{
+}
+
+void Piece::changeType(int type)
+{
+	if (type == GHOST)
+	{
+		main::loadImage(g_PieceTextures[TEX_GOODIE], ".\\ghost.tif");
+		score = -5;
+	}
+}
+
+void Piece::init()
 {
 }
 
