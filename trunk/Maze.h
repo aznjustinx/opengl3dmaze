@@ -1,8 +1,9 @@
 #ifndef maze_h
 #define maze_h
+#include "main.h"
 #include "Point3.h"
 #include "Mesh.h"
-#include "Outside.h"
+//#include "SkyBox.h"
 #include "Piece.h"
 
 const float TILE_SIZE =3.0;
@@ -19,12 +20,12 @@ private:
 	Mesh* finishSign;
 	float finishRotAngle;
 	Point3 finishPos;
-	Outside* outside;
+	//SkyBox* skyBox;
 	Piece* pieces[MAP_SIZE_Y][MAP_SIZE_Z][MAP_SIZE_X];
 	int ghostCount;
 	GLuint g_MazeTextures[MAZE_MAX_TEXTURES];
-	Piece* pieceArr[MAP_SIZE_X*MAP_SIZE_Y*MAP_SIZE_Z];
-	int nrOfPieces;
+	//Piece* pieceArr[MAP_SIZE_X*MAP_SIZE_Y*MAP_SIZE_Z];
+	//int nrOfPieces;
 public:
 	bool finished;
 	Point3 cubesPos[MAP_SIZE_Y][MAP_SIZE_Z][MAP_SIZE_X];
@@ -44,14 +45,6 @@ public:
 	void init();
 	void displayFinishSign();
 	void updateObjects();
-	//void loadImage(GLuint textureID, char* filename);
-	//void makePlate(float width, float height, int dw, int dh, float texWidth, float texHeight);
 	void displayCube(bool ceiling);
-	/*void materialColor(float dif0, float dif1, float dif2, float dif3
-						 , float spec0, float spec1, float spec2, float spec3
-						 , float amb0, float amb1, float amb2, float amb3, float shininess);*/
-	void displayGoodie();
-
-	
 };
 #endif maze_h

@@ -6,17 +6,11 @@ Egill Antonsson
 Skilaverkefni 4
 Tölvugrafik 
 */
-#include <windows.h>
 #include <iostream>
 #include <stdlib.h>
 #include <math.h>
-#include <GL/glut.h>
 #include "Maze.h"
-#include "Point3.h"
-#include <gl/gl.h>
-#include <FreeImage.h>
 #include <vector>
-#include "main.h"
 
 using namespace std;
 
@@ -76,6 +70,12 @@ Maze::~Maze()
 
 void Maze::init()
 {
+	glGenTextures(MAZE_MAX_TEXTURES, g_MazeTextures );
+	main::loadImage(g_MazeTextures[TEX_FLOOR], ".\\TilesOrnate.jpg");
+	main::loadImage(g_MazeTextures[TEX_WALL], ".\\BrickLargeBare.jpg");
+
+	//skyBox = new SkyBox();
+
 	finished = false;
 	finishSign = new Mesh();
 	if (finishSign->readFile("FINISH_SIGN.3VN") == -1)
@@ -83,9 +83,7 @@ void Maze::init()
 		cout<<"Error in read file";
 	}
 	finishRotAngle = 0;
-	ghostCount = 25;
-	nrOfPieces = 0;
-	
+
 
 	for (int y = 0; y < MAP_SIZE_Y; y++) //loop through the LEVELS of the map
 	{
@@ -147,6 +145,7 @@ void Maze::init()
 		pieceArr[randNumbers]->changeType(GHOST);
 	}*/
 
+	ghostCount = 25;	
 	int yy, zz, xx;
 	while (ghostCount > 0)
 	{
@@ -162,19 +161,9 @@ void Maze::init()
 				ghostCount--;
 			}
 		}
-
-		/*if (y == MAP_SIZE_Y - 1) y=-1;
-		if (z == MAP_SIZE_Z - 1) z=-1;
-		if (x == MAP_SIZE_X - 1) x=-1;
-		y++;
-		z++;
-		x++;*/
 	}
 	
-	main::materialColor(1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 100);
-	glGenTextures(MAZE_MAX_TEXTURES, g_MazeTextures );
-	main::loadImage(g_MazeTextures[TEX_FLOOR], ".\\TilesOrnate.jpg");
-	main::loadImage(g_MazeTextures[TEX_WALL], ".\\BrickLargeBare.jpg");
+	
 }
 
 Point3 Maze::getCubesPos(int y,int z, int x)
@@ -271,6 +260,7 @@ void Maze::displayMaze()
 			} //end first loop
 		} //end second loop
 	}
+	//skyBox->display();
 }
 
 void Maze::displayFinishSign()

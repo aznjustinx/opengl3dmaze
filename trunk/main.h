@@ -1,16 +1,15 @@
 #pragma once
 #include <FreeImage.h>
+#include <GL/glut.h>
+#include <gl/gl.h>
 
-const int MAX_TEXTURES = 5;
-//static GLuint g_textures[MAX_TEXTURES];
+const int MAX_TEXTURES = 10;
 
-enum { TEX_FLOOR, TEX_WALL, TEX_GOODIE, TEX_TILES, TEX_BRICKS };
+enum { TEX_FLOOR, TEX_WALL, TEX_GOODIE, TEX_SKY};
 
 class main
 {
-
 public:
-	//static GLuint g_textures[MAX_TEXTURES];
 	// Structure used in makePlate
 	struct Vertex {
 	// GL_T2F_V3F
