@@ -194,7 +194,7 @@ Point3 Maze::getFinishPos()
 
 void Maze::deletePiece(int y, int z, int x)
 {
-	//pieces[y][z][x]->captured = true;		
+	pieces[y][z][x] = NULL;//->captured = true;		
 }
 
 void Maze::updateObjects()
@@ -210,7 +210,7 @@ void Maze::updateObjects()
 		for (int z = 0; z < MAP_SIZE_Z; z++) {
 			for (int x = 0; x < MAP_SIZE_X; x++) {
 				if ((v[y][zx]) == 0) {
-					if(pieces[y][z][x]->captured == false)
+					if(pieces[y][z][x] != NULL)
 						pieces[y][z][x]->update();
 				}
 				zx++;
@@ -235,7 +235,8 @@ void Maze::displayMaze()
 				{
 					case 0:
 					displayFloor();
-					if(pieces[y][z][x]->captured == false)
+					//if(pieces[y][z][x]->captured == false)
+					if(pieces[y][z][x] != NULL)
 						pieces[y][z][x]->display();
 					break;
 
