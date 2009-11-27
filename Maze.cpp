@@ -181,7 +181,7 @@ Point3 Maze::getFinishPos()
 	return finishPos;
 }
 
-bool Maze::getGoodie(int y, int z, int x)
+/*bool Maze::getPiece(int y, int z, int x)
 {
 	if(pieces[y][z][x] != NULL)
 		return true;
@@ -193,7 +193,7 @@ bool Maze::getGoodie(int y, int z, int x)
 void Maze::deletePiece(int y, int z, int x)
 {
 	pieces[y][z][x] = NULL;//->captured = true;		
-}
+}*/
 
 void Maze::updateObjects()
 {

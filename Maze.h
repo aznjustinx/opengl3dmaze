@@ -21,23 +21,22 @@ private:
 	float finishRotAngle;
 	Point3 finishPos;
 	SkyBox* skyBox;
-	Piece* pieces[MAP_SIZE_Y][MAP_SIZE_Z][MAP_SIZE_X];
+	
 	int ghostCount;
 	GLuint g_MazeTextures[MAZE_MAX_TEXTURES];
-	//Piece* pieceArr[MAP_SIZE_X*MAP_SIZE_Y*MAP_SIZE_Z];
-	//int nrOfPieces;
 public:
+	Piece* pieces[MAP_SIZE_Y][MAP_SIZE_Z][MAP_SIZE_X];
 	bool finished;
 	Point3 cubesPos[MAP_SIZE_Y][MAP_SIZE_Z][MAP_SIZE_X];
 	Point3 floorPos[MAP_SIZE_Y][MAP_SIZE_Z][MAP_SIZE_X];
 	Maze();
 	~Maze();	
-	void deletePiece(int y,int z, int x);
+	//void deletePiece(int y,int z, int x);
 	void displayMaze();
 	void displayBox();
 	void displayWall();
 	void displayFloor();
-	bool getGoodie(int y, int z, int x);
+	//bool getPiece(int y, int z, int x);
 	Point3 getFinishPos();
 	Point3 getCubesPos(int y,int z, int x);
 	Point3 getFloorPos(int y,int z, int x);

@@ -19,6 +19,6 @@ public:
 	void keyboardUp(unsigned char key, int x, int y);
 	void mouse(int x, int y);
 	~Player(void);
-	void setScore(int i);
+	void addToScore(int value);
 	int getScore();
 };

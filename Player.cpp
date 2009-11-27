@@ -11,10 +11,11 @@ Player::Player(void) {
 	floatUpPressed = floatDownPressed = false;
 }
 
-void Player::setScore(int i)
+void Player::addToScore(int value)
 {
-	score += i;
+	score += value;
 }
+
 int Player::getScore()
 {
 	return score;
