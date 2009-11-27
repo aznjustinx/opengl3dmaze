@@ -83,13 +83,9 @@ void Maze::init()
 		cout<<"Error in read file";
 	}
 	finishRotAngle = 0;
+	ghostCount = 25;
+	nrOfPieces = 0;
 	
-	/*ghostCount = 4;
-	while (ghostCount == 0) {
-
-	if (rand()%500 == 0) {
-	pieces
-	}*/
 
 	for (int y = 0; y < MAP_SIZE_Y; y++) //loop through the LEVELS of the map
 	{
@@ -133,10 +129,46 @@ void Maze::init()
 				else if(v[y][zx] == 0) {
 					floorPos[y][z][x] = Point3(x*TILE_SIZE,y, -z*TILE_SIZE);
 					pieces[y][z][x] = new Piece();
+					//pieceArr[nrOfPieces] = new Piece();
+					//nrOfPieces++;
 				}
 				zx++;
 			}							
 		}
+	}
+
+	/*int randNumbers[NR_OF_GHOSTS];
+	for (int i = 0; i < nrOfPieces; ++i)
+	{
+		randNumbers[i] = rand()%nrOfPieces;	
+	}
+	for (int j = 0; j < NR_OF_GHOSTS; ++j)
+	{
+		pieceArr[randNumbers]->changeType(GHOST);
+	}*/
+
+	int yy, zz, xx;
+	while (ghostCount > 0)
+	{
+		yy = rand()%MAP_SIZE_Y;
+		zz = rand()%MAP_SIZE_Z;
+		xx = rand()%MAP_SIZE_X;
+
+		if (pieces[yy][zz][xx] != NULL)
+		{
+			if (rand()%20 == 0)
+			{
+				pieces[yy][zz][xx]->changeType(GHOST);
+				ghostCount--;
+			}
+		}
+
+		/*if (y == MAP_SIZE_Y - 1) y=-1;
+		if (z == MAP_SIZE_Z - 1) z=-1;
+		if (x == MAP_SIZE_X - 1) x=-1;
+		y++;
+		z++;
+		x++;*/
 	}
 	
 	main::materialColor(1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 100);

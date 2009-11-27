@@ -111,7 +111,7 @@ int Collision::check(int forward)
 
 				if(n->getX() >= 0 && forward || n->getX() <= 0 && !forward)
 				{
-					rightSide(y,z,x,pos,n,ma);			
+					rightSide(y,z,x,pos,n,ma);
 				}			
 
 #pragma region corners

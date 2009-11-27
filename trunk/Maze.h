@@ -11,9 +11,7 @@ const int MAP_SIZE_Z = 9;
 const int MAP_SIZE_X = 10;
 const int MAZE_MAX_TEXTURES = 5;
 const int NR_OF_VERTEXES = 4;
-//const float GOODIE_SIZE = 0.3;
-//const int GOODIE_ROT_INC = 5;
-//const int GOODIE_NR_OF_VERTS = 8;
+const int NR_OF_GHOSTS = 25;
 
 class Maze
 {
@@ -22,10 +20,11 @@ private:
 	float finishRotAngle;
 	Point3 finishPos;
 	Outside* outside;
-	//float goodieRotAngle;
 	Piece* pieces[MAP_SIZE_Y][MAP_SIZE_Z][MAP_SIZE_X];
 	int ghostCount;
 	GLuint g_MazeTextures[MAZE_MAX_TEXTURES];
+	Piece* pieceArr[MAP_SIZE_X*MAP_SIZE_Y*MAP_SIZE_Z];
+	int nrOfPieces;
 public:
 	bool finished;
 	Point3 cubesPos[MAP_SIZE_Y][MAP_SIZE_Z][MAP_SIZE_X];
