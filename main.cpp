@@ -164,6 +164,27 @@ void displayGameFinished() {
 	displayText("Press 'q' to quit game", (WINDOW_WIDTH / 2) - 75, (WINDOW_HEIGHT / 2) - 20, 18, COL_GREEN);
 }
 
+void display2D()
+{
+	glDisable(GL_DEPTH_TEST);
+	glDisable(GL_LIGHTING);
+	glMatrixMode(GL_PROJECTION);
+	glPushMatrix();
+	glLoadIdentity();
+	gluOrtho2D(0, WINDOW_WIDTH, 0, WINDOW_HEIGHT);
+	glMatrixMode(GL_MODELVIEW); 
+	glPushMatrix();
+	glLoadIdentity();
+	displayText("Congratulations! You won the game", (WINDOW_WIDTH / 2) - 135, (WINDOW_HEIGHT / 2) + 20, 18, COL_GREEN);
+	displayText("Press 'q' to quit game", (WINDOW_WIDTH / 2) - 75, (WINDOW_HEIGHT / 2) - 20, 18, COL_GREEN);
+	glPopMatrix();
+	glMatrixMode(GL_PROJECTION);
+	glPopMatrix();
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_LIGHTING);
+}
+	
+
 // sér um að kalla á og birta objectana
 void display()
 {	
@@ -176,6 +197,7 @@ void display()
 	else {
 		displayLightning();
 		maze.displayMaze();
+		display2D();
 	}
 	glutSwapBuffers();
 	glFlush();
