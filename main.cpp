@@ -14,6 +14,8 @@ Tölvugrafik
 #include "Mesh.h"
 #include "main.h"
 #include "Collision.h"
+#include <sstream>
+#include <string>
 
 using namespace std;
 
@@ -27,6 +29,8 @@ const float SLIDE_INCREMENT = 0.3;
 //const float GRAVITY = 0.2;
 const float ROT_INCREMENT = 3.;
 GLfloat COL_GREEN[3] = { 0., 1., 0. };
+GLfloat COL_WHITE[3] = { 1., 1., 1. };
+GLfloat COL_RED[3] = { 1., 0., 0. };
 // globals
 Player player;
 Maze maze;
@@ -136,7 +140,7 @@ void displayLightning()
 
 }
 
-void displayText(const char * message, GLfloat x, GLfloat y/*, GLfloat z*/, int fontSize, GLfloat color[]) {
+void displayText(const char* message, GLfloat x, GLfloat y, int fontSize, GLfloat color[]) {
 	glColor3f(color[0], color[1], color[2]);
 	glRasterPos2f(x, y);
 	//glRasterPos3f(x, y, z);
@@ -145,7 +149,7 @@ void displayText(const char * message, GLfloat x, GLfloat y/*, GLfloat z*/, int 
 			glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, *message++);
 		}
 		if (fontSize == 10) {
-			glutBitmapCharacter(GLUT_BITMAP_HELVETICA_10, *message++);
+			glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, *message++);
 		}
 	}
 }
@@ -160,12 +164,13 @@ void displayGameFinished() {
     glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glDisable(GL_LIGHTING);
 	glDisable(GL_DEPTH_TEST);
-	displayText("Congratulations! You won the game", (WINDOW_WIDTH / 2) - 135, (WINDOW_HEIGHT / 2) + 20, 18, COL_GREEN);
-	displayText("Press 'q' to quit game", (WINDOW_WIDTH / 2) - 75, (WINDOW_HEIGHT / 2) - 20, 18, COL_GREEN);
+	displayText("Congratulations! You won the game", (WINDOW_WIDTH / 2) - 135, (WINDOW_HEIGHT / 2) + 20, 18, COL_WHITE);
+	displayText("Press 'q' to quit game", (WINDOW_WIDTH / 2) - 75, (WINDOW_HEIGHT / 2) - 20, 18, COL_WHITE);
 }
 
-void display2D()
+void push2D()
 {
+	glDisable(GL_TEXTURE_2D);
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_LIGHTING);
 	glMatrixMode(GL_PROJECTION);
@@ -175,13 +180,17 @@ void display2D()
 	glMatrixMode(GL_MODELVIEW); 
 	glPushMatrix();
 	glLoadIdentity();
-	displayText("Congratulations! You won the game", (WINDOW_WIDTH / 2) - 135, (WINDOW_HEIGHT / 2) + 20, 18, COL_GREEN);
-	displayText("Press 'q' to quit game", (WINDOW_WIDTH / 2) - 75, (WINDOW_HEIGHT / 2) - 20, 18, COL_GREEN);
+}
+
+void pop2D()
+{
 	glPopMatrix();
 	glMatrixMode(GL_PROJECTION);
 	glPopMatrix();
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_LIGHTING);
+	glEnable(GL_TEXTURE_2D);
+
 }
 	
 
@@ -192,16 +201,23 @@ void display()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	if (gameOver)
 	{
-		displayGameFinished();
+		push2D();
+		displayText("Congratulations! You won the game", (WINDOW_WIDTH / 2) - 135, (WINDOW_HEIGHT / 2) + 20, 18, COL_WHITE);
+		displayText("Press 'q' to quit game", (WINDOW_WIDTH / 2) - 75, (WINDOW_HEIGHT / 2) - 20, 18, COL_WHITE);
+		pop2D();
 	}
 	else {
 		displayLightning();
 		maze.displayMaze();
-		display2D();
+		push2D();
+		char txtScore[5];
+		sprintf(txtScore, "%d", player.getScore());
+		displayText("SCORE:", 10, 10, 18, COL_WHITE);
+		displayText(txtScore, 100, 10, 18, COL_WHITE);
+		pop2D();
 	}
 	glutSwapBuffers();
 	glFlush();
-	cout << player.getScore() << endl;
 }
 
 void update(int id)
@@ -313,6 +329,8 @@ void init()
 	glEnable(GL_NORMALIZE); //Automatically normalize normals
 	glShadeModel(GL_FLAT);
 	glEnable(GL_TEXTURE_2D);
+    //glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glDisable(GL_BLEND);
 	
 	gameOver = false;
 	player.debugMode = false;
