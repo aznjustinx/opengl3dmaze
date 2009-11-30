@@ -38,6 +38,8 @@ Collision collision;
 bool moved = false;
 bool gameOver;
 bool debugMode;
+float weakSource = 0.285;
+float strongSource = 0.57;
 
 
 void specialKeyDown(int  key,  int  x,  int  y)
@@ -75,9 +77,9 @@ void resize(int width, int height)
 void displayLightning()
 {
 	float lightArr[4];
-	lightArr[0] = .7;
-	lightArr[1] = .7;
-	lightArr[2] = .7;
+	lightArr[0] = weakSource;//.7;
+	lightArr[1] = weakSource;//.7;
+	lightArr[2] = strongSource;//.7;
 	lightArr[3] = 1.0f;
 	glLightfv(GL_LIGHT0, GL_DIFFUSE, lightArr);
 	lightArr[0] = 0.0;
@@ -85,45 +87,46 @@ void displayLightning()
 	lightArr[2] = 0.0;
 	lightArr[3] = 1.0f;
 	glLightfv(GL_LIGHT0, GL_SPECULAR, lightArr);
-	lightArr[0] = .1;
-	lightArr[1] = .1;
-	lightArr[2] = .1;
+	lightArr[0] = weakSource;//.1;
+	lightArr[1] = weakSource;//.1;
+	lightArr[2] = strongSource;//.1;
 	lightArr[3] = 1.0f;
 	glLightfv(GL_LIGHT0, GL_AMBIENT, lightArr);
-	lightArr[0] = 0.0;
-	lightArr[1] = 350.;
-	lightArr[2] = 250.;
-	lightArr[3] = 1.0f;
+	lightArr[0] = 0.;//0.0;
+	lightArr[1] = 35.;//350.;
+	lightArr[2] = 0.;//250.;
+	lightArr[3] = 0.;//1.0f;
 	glLightfv(GL_LIGHT0, GL_POSITION, lightArr);
 
-	lightArr[0] = 0.0;
-	lightArr[1] = 0.0;
-	lightArr[2] = .4;
+	Point3* pos = player.getPosition();
+	lightArr[0] = 1.0;
+	lightArr[1] = 1.0;
+	lightArr[2] = 1.0;
 	lightArr[3] = 1.0f;
 	glLightfv(GL_LIGHT1, GL_DIFFUSE, lightArr);
 	lightArr[0] = 0.0;
 	lightArr[1] = 0.0;
-	lightArr[2] = 1.0;
-	lightArr[3] = 1.0f;
-	glLightfv(GL_LIGHT1, GL_SPECULAR, lightArr);
-	lightArr[0] = 0.0;
-	lightArr[1] = 0.0;
 	lightArr[2] = 0.0;
 	lightArr[3] = 1.0f;
+	glLightfv(GL_LIGHT1, GL_SPECULAR, lightArr);
+	lightArr[0] = 1.0;
+	lightArr[1] = 1.0;
+	lightArr[2] = 1.0;
+	lightArr[3] = 1.0f;
 	glLightfv(GL_LIGHT1, GL_AMBIENT, lightArr);
-	lightArr[0] = -250.;
-	lightArr[1] = 350.;
-	lightArr[2] = 100.;
-	lightArr[3] = 1.0f; // The position is a point now so the light has position
+	lightArr[0] = 0.;//0.0;
+	lightArr[1] = 35.;//350.;
+	lightArr[2] = 0.;//250.;
+	lightArr[3] = 0.;//1.0f;
 	glLightfv(GL_LIGHT1, GL_POSITION, lightArr);
 
-	lightArr[0] = 0.;
-	lightArr[1] = .2;
+	lightArr[0] = 0.2;
+	lightArr[1] = 0.;
 	lightArr[2] = 0.;
 	lightArr[3] = 1.0f;
 	glLightfv(GL_LIGHT2, GL_DIFFUSE, lightArr);
-	lightArr[0] = 0.;
-	lightArr[1] = .9;
+	lightArr[0] = 0.7;
+	lightArr[1] = 0.;
 	lightArr[2] = 0.;
 	lightArr[3] = 1.f;
 	glLightfv(GL_LIGHT2, GL_SPECULAR, lightArr);
@@ -197,21 +200,23 @@ void pop2D()
 // sér um að kalla á og birta objectana
 void display()
 {	
+	char txtScore[5];
+	sprintf(txtScore, "%d", player.getScore());
 	player.setModelViewMatrix();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	if (gameOver)
 	{
 		push2D();
-		displayText("Congratulations! You won the game", (WINDOW_WIDTH / 2) - 135, (WINDOW_HEIGHT / 2) + 20, 18, COL_WHITE);
-		displayText("Press 'q' to quit game", (WINDOW_WIDTH / 2) - 75, (WINDOW_HEIGHT / 2) - 20, 18, COL_WHITE);
+		displayText("You finished with score ", (WINDOW_WIDTH / 2) - 100, (WINDOW_HEIGHT / 2) + 30, 18, COL_WHITE);
+		displayText(txtScore, (WINDOW_WIDTH / 2) + 50, (WINDOW_HEIGHT / 2) + 30, 18, COL_WHITE);
+		displayText("Press 'q' to quit", (WINDOW_WIDTH / 2) - 100, (WINDOW_HEIGHT / 2), 18, COL_WHITE);
 		pop2D();
 	}
 	else {
 		displayLightning();
 		maze.displayMaze();
 		push2D();
-		char txtScore[5];
-		sprintf(txtScore, "%d", player.getScore());
+		
 		displayText("SCORE:", 10, 10, 18, COL_WHITE);
 		displayText(txtScore, 100, 10, 18, COL_WHITE);
 		pop2D();
@@ -222,13 +227,34 @@ void display()
 
 void update(int id)
 {	
-	glutTimerFunc(DELAY_TIME, update, 0);
-	if ( !gameOver && collision.won())
+	Point3* pos = player.getPosition();
+	
+	if (pos->getY() < 12 && pos->getY() > 6.3)
 	{
-		gameOver = true;
+		//cout << pos->getY() << " : ";
+		weakSource -= 0.03;
+		strongSource -= 0.03;
+	}
+
+	glutTimerFunc(DELAY_TIME, update, 0);
+	if (collision.won()) gameOver = true;
+	if (gameOver)
+	{
+		//gameOver = true;
+		player.disabled = true;
 		glutPostRedisplay(); //Tell GLUT that the display has change
 	}
 	else {
+		if (player.headlightToggle)
+		{
+			glEnable(GL_LIGHT1);
+			glEnable(GL_LIGHT2);
+		}
+		else
+		{
+			glDisable(GL_LIGHT1);
+			glDisable(GL_LIGHT2);
+		}
 
 		// gravity
 		if (moved == true)
@@ -296,10 +322,7 @@ void update(int id)
 		{
 			player.yaw(ROT_INCREMENT);
 		}
-		if(player.quitPressed)
-		{
-			exit(EXIT_SUCCESS);
-		}
+		
 		if (player.floatUpPressed)
 		{
 			player.slide(0., SLIDE_INCREMENT, 0.);
@@ -312,7 +335,10 @@ void update(int id)
 		maze.updateObjects();
 		glutPostRedisplay(); //Tell GLUT that the display has change
 	}
-		
+	if(player.quitPressed)
+	{
+		exit(EXIT_SUCCESS);
+	}	
 }
 
 void init()
@@ -324,8 +350,8 @@ void init()
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
-	glEnable(GL_LIGHT1);
-	glEnable(GL_LIGHT2);
+	//glEnable(GL_LIGHT1);
+	//glEnable(GL_LIGHT2);
 	glEnable(GL_NORMALIZE); //Automatically normalize normals
 	glShadeModel(GL_FLAT);
 	glEnable(GL_TEXTURE_2D);
@@ -338,7 +364,7 @@ void init()
 	
 	collision.init(&player, &maze);
 	maze.init();
-	float x, y = 9, z;
+	float x, y = 12/*9*/, z;
 	if (player.debugMode) {
 		x = 20.;
 		z = -20;
@@ -349,6 +375,7 @@ void init()
 		z = -10.;
 	}
 	player.set(Point3(x, y, z), Point3(0., y, 0.), Vector3(0., 1., 0.));
+	player.yaw(50); 
 }
 
 // main fallið

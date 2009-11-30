@@ -7,11 +7,11 @@
 #include "Piece.h"
 
 const float TILE_SIZE =3.0;
-const int MAP_SIZE_Y = 4;
+const int MAP_SIZE_Y = 5;
 const int MAP_SIZE_Z = 9;
 const int MAP_SIZE_X = 10;
 const int MAZE_MAX_TEXTURES = 5;
-const int NR_OF_VERTEXES = 4;
+const int NR_OF_VERTEXES = 5;
 const int NR_OF_GHOSTS = 25;
 
 class Maze

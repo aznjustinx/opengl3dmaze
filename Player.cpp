@@ -6,7 +6,7 @@
 using namespace std;
 
 Player::Player(void) {
-	keyPressed = upKeyPressed = downKeyPressed = leftKeyPressed = rightKeyPressed, quitPressed, jumpKeyPressed = false;
+	headlightToggle, headlight, disabled, upKeyPressed = downKeyPressed = leftKeyPressed = rightKeyPressed, quitPressed, jumpKeyPressed = false;
 	// debug
 	floatUpPressed = floatDownPressed = false;
 }
@@ -23,22 +23,24 @@ int Player::getScore()
 
 void Player::specialKeyDown(int  key,  int  x,  int  y)
 {
-	switch(key)
+	if ( !disabled) 
 	{
-		case GLUT_KEY_UP :
-		upKeyPressed  =  true;
-		break;
-		case GLUT_KEY_DOWN :
-		downKeyPressed  =  true;
-		break;
-		case GLUT_KEY_RIGHT :
-		rightKeyPressed  =  true;
-		break;
-		case GLUT_KEY_LEFT :
-		leftKeyPressed  =  true;
-		break;
+		switch(key)
+		{
+			case GLUT_KEY_UP :
+			upKeyPressed  =  true;
+			break;
+			case GLUT_KEY_DOWN :
+			downKeyPressed  =  true;
+			break;
+			case GLUT_KEY_RIGHT :
+			rightKeyPressed  =  true;
+			break;
+			case GLUT_KEY_LEFT :
+			leftKeyPressed  =  true;
+			break;
+		}
 	}
-	keyPressed = true;
 }
 
 void Player::specialKeyUp(int  key,  int  x,  int  y)
@@ -58,45 +60,48 @@ void Player::specialKeyUp(int  key,  int  x,  int  y)
 		leftKeyPressed  =  false;
 		break;
 	}
-	keyPressed = false;
 }
 
 void Player::keyboardDown(unsigned char key, int x, int y)
 {
 	switch(key)
 	{
-		case 'w' :
-		upKeyPressed  =  true;
-		break;
-		case 's' :
-		downKeyPressed  =  true;
-		break;
-		case 'd' :
-		rightKeyPressed  =  true;
-		break;
-		case 'a' :
-		leftKeyPressed  =  true;
-		break;
+		if ( !disabled)
+		{
+			case 'w' :
+			upKeyPressed  =  true;
+			break;
+			case 's' :
+			downKeyPressed  =  true;
+			break;
+			case 'd' :
+			rightKeyPressed  =  true;
+			break;
+			case 'a' :
+			leftKeyPressed  =  true;
+			break;
+		}
 		case 'q' :
 		quitPressed = true;
 		break;
-		case 'r' :
-		if (debugMode)
-		{
-			floatUpPressed = true;	
-		}
-		break;
-		case 'f' :
-		if (debugMode)
-		{
-			floatDownPressed = true;
-		}
+		case 'l' :
+		headlight = true;
+		headlightToggle = !headlightToggle;
 		break;
 		case ' ':
 			jumpKeyPressed = true;
 		break;
+		if (debugMode)
+		{
+		case 'r' :
+			floatUpPressed = true;
+			break;
+		case 'f' :
+			floatDownPressed = true;
+			break;
+		}
+		
 	}
-	keyPressed = true;
 }
 
 void Player::keyboardUp(unsigned char key, int x, int y)
@@ -118,6 +123,9 @@ void Player::keyboardUp(unsigned char key, int x, int y)
 		case 'q' :
 		quitPressed = false;
 		break;
+		case 'l' :
+		headlight = false;
+		break;
 		case ' ':
 			jumpKeyPressed = false;
 		break;
@@ -132,8 +140,6 @@ void Player::keyboardUp(unsigned char key, int x, int y)
 		}
 
 	}
-	keyPressed = false;
-
 }
 
 Player::~Player(void)
