@@ -8,7 +8,8 @@ private:
 	int score;
 public:
 	// checkar á hvort takki er niðri
-	bool keyPressed, upKeyPressed, downKeyPressed, leftKeyPressed, rightKeyPressed, quitPressed, jumpKeyPressed;
+	bool headlightToggle, headlight, disabled, upKeyPressed, downKeyPressed, leftKeyPressed, rightKeyPressed
+			, quitPressed, jumpKeyPressed;
 	//debug
 	bool debugMode, floatUpPressed, floatDownPressed;
 	float lastx, lasty, xpos, ypos, zpos, xrot, yrot, angle;
