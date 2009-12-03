@@ -18,6 +18,7 @@ public:
 	void slide(float delU, float delV, float delN);	// slide it
 	void slideWallFrontBack(float delU, float delV, float delN);	// slide against wall
 	void slideWallSide(float delU, float delV, float delN);	// slide against wall
+	void slideGravity(float delU, float delV, float delN)
 	// get ready for perspective projection
 	void setPerspective(float vAng, float asp, float nearD, float farD);
 	// get ready for parallel projection

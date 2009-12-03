@@ -257,7 +257,7 @@ void update(int id)
 		// gravity
 		if (moved == true)
 			if(collision.gravity() == false)
-				player.slide(0., -SLIDE_INCREMENT, 0.);
+				player.slideGravity(0., -SLIDE_INCREMENT, 0.);
 				collision.goodies();
 
 		if(player.jumpKeyPressed)
