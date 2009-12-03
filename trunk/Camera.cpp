@@ -81,6 +81,15 @@ void Camera::slideWallSide(float delU, float delV, float delN)
 	eye.set(x, y, z);
 }
 
+// Getur einungis farið í y stefnu
+void Camera::slideGravity(float delU, float delV, float delN)
+{
+	float x = eye.getX();// + delU*u.getX() + delV*v.getX() + delN*n.getX();
+	float y = eye.getY() + delU*u.getY() + delV*v.getY() + delN*n.getY();
+	float z = eye.getZ();// + delU*u.getZ() + delV*v.getZ() + delN*n.getZ();
+	eye.set(x, y, z);
+}
+
 void Camera::roll(float angle)
 {	// roll the camera through angle degrees
 	// rotation about n-axis
