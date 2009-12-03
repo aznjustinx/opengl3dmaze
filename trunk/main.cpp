@@ -348,6 +348,7 @@ void init()
 	glLoadIdentity();
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT1); // headlight in player
 	// turning off global ambient light.
 	GLfloat amb[] = {0, 0, 0, 0};
 	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, amb);
@@ -374,7 +375,7 @@ void init()
 		z = -10.;
 	}
 	player.set(Point3(x, y, z), Point3(0., y, 0.), Vector3(0., 1., 0.));
-	player.yaw(50);
+	player.yaw(123);
 }
 
 // main fallið

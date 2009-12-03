@@ -81,9 +81,8 @@ Maze::~Maze()
 
 void Maze::init()
 {
-	glEnable(GL_LIGHT0);
-	main::changeLightning(GL_LIGHT0, 0.3,0.3,0.5,1, 0.3,0.3,0.5,1, 0,0,0,1, 0,35,0,0);
-	//main::changeLightning(GL_LIGHT0, 0.,0.,0.,0, 0.,0.,0.,0, 0,0,0,0, 0,35,0,0);
+	//glEnable(GL_LIGHT0);
+	//main::changeLightning(GL_LIGHT0, 0.3,0.3,0.5,1, 0.3,0.3,0.5,1, 0,0,0,1, 0,35,0,0);
 	glGenTextures(MAZE_MAX_TEXTURES, g_MazeTextures );
 	main::loadImage(g_MazeTextures[TEX_FLOOR], ".\\TilesOrnate.jpg");
 	main::loadImage(g_MazeTextures[TEX_WALL], ".\\BrickLargeBare.jpg");

@@ -2,11 +2,10 @@
 #include "main.h"
 
 const int SKY_MAX_TEXTURES = 3;
-const int SKY_SIZE = 35;
 const int SKY_NR_OF_VERTS = 4;
 
 const int SKY_WIDTH = 35;
-const int SKY_HEIGHT= 19;
+const int SKY_HEIGHT= 22;
 
 class SkyBox
 {

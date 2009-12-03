@@ -48,17 +48,17 @@ void Player::specialKeyUp(int  key,  int  x,  int  y)
 	switch(key)
 	{
 		case GLUT_KEY_UP :
-		upKeyPressed  =  false;
-		break;
+			upKeyPressed  =  false;
+			break;
 		case GLUT_KEY_DOWN :
-		downKeyPressed  =  false;
-		break;
+			downKeyPressed  =  false;
+			break;
 		case GLUT_KEY_RIGHT :
-		rightKeyPressed  =  false;
-		break;
+			rightKeyPressed  =  false;
+			break;
 		case GLUT_KEY_LEFT :
-		leftKeyPressed  =  false;
-		break;
+			leftKeyPressed  =  false;
+			break;
 	}
 }
 
@@ -69,38 +69,42 @@ void Player::keyboardDown(unsigned char key, int x, int y)
 		if ( !disabled)
 		{
 			case 'w' :
-			upKeyPressed  =  true;
-			break;
+				upKeyPressed  =  true;
+				break;
 			case 's' :
-			downKeyPressed  =  true;
-			break;
+				downKeyPressed  =  true;
+				break;
 			case 'd' :
-			rightKeyPressed  =  true;
-			break;
+				rightKeyPressed  =  true;
+				break;
 			case 'a' :
-			leftKeyPressed  =  true;
-			break;
+				leftKeyPressed  =  true;
+				break;
 		}
 		case 'q' :
-		quitPressed = true;
-		break;
+			quitPressed = true;
+			break;
 		case 'l' :
-		headlight = true;
-		headlightToggle = !headlightToggle;
-		break;
+			headlight = !headlight;
+			if (headlight)
+			{
+				main::changeLightning(GL_LIGHT1, 1,1,1,1, 1,1,1,1, 1,1,1,1, 0,23,0,1);
+				cout<<"HEADLIGHT ON!!!";
+			}
+			//headlight = true;
+			break;
 		case ' ':
 			jumpKeyPressed = true;
-		break;
+			break;
 		if (debugMode)
 		{
-		case 'r' :
-			floatUpPressed = true;
-			break;
-		case 'f' :
-			floatDownPressed = true;
-			break;
+			case 'r' :
+				floatUpPressed = true;
+				break;
+			case 'f' :
+				floatDownPressed = true;
+				break;
 		}
-		
 	}
 }
 
@@ -122,9 +126,6 @@ void Player::keyboardUp(unsigned char key, int x, int y)
 		break;
 		case 'q' :
 		quitPressed = false;
-		break;
-		case 'l' :
-		headlight = false;
 		break;
 		case ' ':
 			jumpKeyPressed = false;
