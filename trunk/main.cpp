@@ -74,12 +74,12 @@ void resize(int width, int height)
 	player.setPerspective( 45.0f, (double)width / (double)height, 0.1f, 100.0f);
 }
 
-void displayLightning()
+/*void displayLightning()
 {
 	float lightArr[4];
-	lightArr[0] = weakSource;//.7;
-	lightArr[1] = weakSource;//.7;
-	lightArr[2] = strongSource;//.7;
+	lightArr[0] = weakSource;
+	lightArr[1] = weakSource;
+	lightArr[2] = strongSource;
 	lightArr[3] = 1.0f;
 	glLightfv(GL_LIGHT0, GL_DIFFUSE, lightArr);
 	lightArr[0] = 0.0;
@@ -87,15 +87,15 @@ void displayLightning()
 	lightArr[2] = 0.0;
 	lightArr[3] = 1.0f;
 	glLightfv(GL_LIGHT0, GL_SPECULAR, lightArr);
-	lightArr[0] = weakSource;//.1;
-	lightArr[1] = weakSource;//.1;
-	lightArr[2] = strongSource;//.1;
+	lightArr[0] = weakSource;
+	lightArr[1] = weakSource;
+	lightArr[2] = strongSource;
 	lightArr[3] = 1.0f;
 	glLightfv(GL_LIGHT0, GL_AMBIENT, lightArr);
-	lightArr[0] = 0.;//0.0;
-	lightArr[1] = 35.;//350.;
-	lightArr[2] = 0.;//250.;
-	lightArr[3] = 0.;//1.0f;
+	lightArr[0] = 0.;
+	lightArr[1] = 35.;
+	lightArr[2] = 0.;
+	lightArr[3] = 0.;
 	glLightfv(GL_LIGHT0, GL_POSITION, lightArr);
 
 	Point3* pos = player.getPosition();
@@ -114,10 +114,10 @@ void displayLightning()
 	lightArr[2] = 1.0;
 	lightArr[3] = 1.0f;
 	glLightfv(GL_LIGHT1, GL_AMBIENT, lightArr);
-	lightArr[0] = 0.;//0.0;
-	lightArr[1] = 35.;//350.;
-	lightArr[2] = 0.;//250.;
-	lightArr[3] = 0.;//1.0f;
+	lightArr[0] = 0.;
+	lightArr[1] = 35.;
+	lightArr[2] = 0.;
+	lightArr[3] = 0.;
 	glLightfv(GL_LIGHT1, GL_POSITION, lightArr);
 
 	lightArr[0] = 0.2;
@@ -133,15 +133,14 @@ void displayLightning()
 	lightArr[0] = 0.0;
 	lightArr[1] = 0.0;
 	lightArr[2] = 0.0;
-	lightArr[3] = 1.0f;
+	lightArr[3] = 1.f;
 	glLightfv(GL_LIGHT2, GL_AMBIENT, lightArr);
 	lightArr[0] = 250.;
 	lightArr[1] = 350.;
 	lightArr[2] = 100.;
 	lightArr[3] = 1.0f; // The position is a point now so the light has position
 	glLightfv(GL_LIGHT2, GL_POSITION, lightArr);
-
-}
+}*/
 
 void displayText(const char* message, GLfloat x, GLfloat y, int fontSize, GLfloat color[]) {
 	glColor3f(color[0], color[1], color[2]);
@@ -194,8 +193,7 @@ void pop2D()
 	glEnable(GL_LIGHTING);
 	glEnable(GL_TEXTURE_2D);
 
-}
-	
+}	
 
 // sér um að kalla á og birta objectana
 void display()
@@ -213,7 +211,7 @@ void display()
 		pop2D();
 	}
 	else {
-		displayLightning();
+		//displayLightning();
 		maze.displayMaze();
 		push2D();
 		
@@ -349,9 +347,9 @@ void init()
 	glLoadIdentity();
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_LIGHTING);
-	glEnable(GL_LIGHT0);
-	//glEnable(GL_LIGHT1);
-	//glEnable(GL_LIGHT2);
+	// turning off global ambient light.
+	GLfloat amb[] = {0, 0, 0, 0};
+	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, amb);
 	glEnable(GL_NORMALIZE); //Automatically normalize normals
 	glShadeModel(GL_FLAT);
 	glEnable(GL_TEXTURE_2D);
@@ -375,7 +373,7 @@ void init()
 		z = -10.;
 	}
 	player.set(Point3(x, y, z), Point3(0., y, 0.), Vector3(0., 1., 0.));
-	player.yaw(50); 
+	player.yaw(50);
 }
 
 // main fallið

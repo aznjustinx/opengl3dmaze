@@ -74,6 +74,40 @@ public:
 		glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, shininess);
 	}
 
+	static void changeLightning(int lightNr, float amb0, float amb1, float amb2, float amb3
+						, float dif0, float dif1, float dif2, float dif3
+						, float spec0, float spec1, float spec2, float spec3
+						, float pos0, float pos1, float pos2, float pos3)
+	{
+		/*switch (lightNr)
+		{
+		case 0 :*/
+
+
+		float lightArr[4];
+		lightArr[0] = amb0;
+		lightArr[1] = amb1;
+		lightArr[2] = amb2;
+		lightArr[3] = amb3;
+		glLightfv(GL_LIGHT0, GL_AMBIENT, lightArr);
+		lightArr[0] = dif0;
+		lightArr[1] = dif1;
+		lightArr[2] = dif2;
+		lightArr[3] = dif3;
+		glLightfv(GL_LIGHT0, GL_DIFFUSE, lightArr);
+		lightArr[0] = spec0;
+		lightArr[1] = spec1;
+		lightArr[2] = spec2;
+		lightArr[3] = spec3;
+		glLightfv(GL_LIGHT0, GL_SPECULAR, lightArr);
+		lightArr[0] = pos0;
+		lightArr[1] = pos1;
+		lightArr[2] = pos2;
+		lightArr[3] = pos3;
+		glLightfv(GL_LIGHT0, GL_POSITION, lightArr);
+	}
+						 
+
 		// loadImage
 	// Create a new texture object and bind it to a valid textureID
 	// Load the image data from the given file
