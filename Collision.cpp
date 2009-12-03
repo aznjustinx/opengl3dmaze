@@ -26,6 +26,7 @@ void Collision::init(Player* pl, Maze* ma)
 	maze = ma;	
 }
 
+// check if player is on goodie tile
 void Collision::goodies()
 {
 	Point3* pos = player->getPosition();
@@ -33,7 +34,6 @@ void Collision::goodies()
 	int y = pos->getY()/TILE_SIZE;
 	int z = floor(0.5+(fabs(pos->getZ())/TILE_SIZE));
 	int x = floor(0.5+(fabs(pos->getX())/TILE_SIZE));
-	//z = round(z);
 
 	// collision with goodie pieces
 		if (maze->pieces[y][z][x] != NULL)
