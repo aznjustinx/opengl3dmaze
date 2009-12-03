@@ -25,4 +25,5 @@ public:
 	void Collision::topRightCorner(int y,int z, int x, Point3* pos,Vector3* n,Point3 ma[MAP_SIZE_Y][MAP_SIZE_Z][MAP_SIZE_X]);
 	void Collision::checkFinish(Point3* pos);
 	bool Collision::won();
+	void Collision::goodies();
 };

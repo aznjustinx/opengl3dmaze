@@ -1,6 +1,8 @@
 #include <iostream>
 #include "Collision.h"
 #include "math.h"
+#include <stdio.h>
+
 
 using namespace std;
 
@@ -24,6 +26,23 @@ void Collision::init(Player* pl, Maze* ma)
 	maze = ma;	
 }
 
+void Collision::goodies()
+{
+	Point3* pos = player->getPosition();
+
+	int y = pos->getY()/TILE_SIZE;
+	int z = floor(0.5+(fabs(pos->getZ())/TILE_SIZE));
+	int x = floor(0.5+(fabs(pos->getX())/TILE_SIZE));
+	//z = round(z);
+
+	// collision with goodie pieces
+		if (maze->pieces[y][z][x] != NULL)
+		{
+			player->addToScore(maze->pieces[y][z][x]->scoreValue);
+			maze->pieces[y][z][x] = NULL;
+		}
+}
+
 // checks if floor is right below player. If not then "falls"
 bool Collision::gravity()
 {
@@ -35,20 +54,8 @@ bool Collision::gravity()
 
 	// lower the value of 0.1 to get closer to floor
 	if(y-0.1<maze->getFloorPos(int(y),z,x).getY())
-	{
-		//Piece* piece = maze->pieces[int(y)][z][x];
-		if (maze->pieces[int(y)][z][x] != NULL)
-		{
-			player->addToScore(maze->pieces[int(y)][z][x]->scoreValue);
-			maze->pieces[int(y)][z][x] = NULL;
-		}
-		
+	{	
 		return true;
-
-		/*if(maze->getPiece(int(y),z,x) == true)
-			player->setScore(points);
-		maze->deletePiece(int(y),z,x);		
-		return true;*/
 	}
 	else
 	{
