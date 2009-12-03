@@ -1,5 +1,6 @@
 #pragma once
 #include "camera.h"
+#include "main.h"
 
 class Player :
 	public Camera
